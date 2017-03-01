@@ -1,3 +1,4 @@
 #!/bin/bash
 cd /tmp/
-xclip -o | curl --remote-name
+IMG=$(xclip -selection o -o)
+curl --remote-name $IMG
