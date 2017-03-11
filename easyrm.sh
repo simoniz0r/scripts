@@ -17,76 +17,81 @@ help () {
     echo "-p : executes the default 'rm' command and will permanently remove files"
     echo "-f : executes the 'rm' command with '-f' to forcefully and permanetly remove files and directories."
 }
-ARG=$1
-if [[ "$ARG" == /* ]]; then
-    echo "Moving $1 to '~/.tmp'"
-    mv $1 ~/.tmp/
-elif [[ "$ARG" == ./* ]]; then
-    echo "Moving $1 to '~/.tmp'"
-    mv $1 ~/.tmp/
-elif [[ "$ARG" == ~/* ]]; then
-    echo "Moving $1 to '~/.tmp'"
-    mv $1 ~/.tmp/
-elif [[ "$ARG" == -* ]]; then
-    while getopts ":ihpcdf" opt; do
-        case "$opt" in
-        i)
-            echo "Creating '~/.tmp' directory for temporary storage of removed files/directories..."
-            mkdir ~/.tmp
-            echo "Finished!"
-            ;;
-        h|\?|help)
-            help
-            exit 0
-            ;;
-        p)
-            echo "$2 will be permanently deleted!"
-            read -p "Continue? Y/N" -n 1 -r
-            echo
-            if [[ $REPLY =~ ^[Yy]$ ]]; then
-                if [ "${2: -1}" = "/" ]; then
-                    rm -r $2
+
+if [ -f ~/.config/easyrm/easyrm.conf ]; then
+    ARG=$1
+    if [[ "$ARG" == /* ]]; then
+        echo "Moving $1 to '~/.tmp'"
+        mv $1 ~/.tmp/
+    elif [[ "$ARG" == ./* ]]; then
+        echo "Moving $1 to '~/.tmp'"
+        mv $1 ~/.tmp/
+    elif [[ "$ARG" == ~/* ]]; then
+        echo "Moving $1 to '~/.tmp'"
+        mv $1 ~/.tmp/
+    elif [[ "$ARG" == -* ]]; then
+        while getopts ":hpcdf" opt; do
+            case "$opt" in
+            h|\?|help)
+                help
+                exit 0
+                ;;
+            p)
+                echo "$2 will be permanently deleted!"
+                read -p "Continue? Y/N" -n 1 -r
+                echo
+                if [[ $REPLY =~ ^[Yy]$ ]]; then
+                    if [ "${2: -1}" = "/" ]; then
+                        rm -r $2
+                    else
+                        rm $2
+                    fi
                 else
-                    rm $2
+                    echo "$2 was not deleted!"
                 fi
-            else
-                echo "$2 was not deleted!"
-            fi
-            ;;
-        c)
-            echo "All files in '~/.tmp' will be permanently deleted!"
-            read -p "Continue? Y/N" -n 1 -r
-            echo
-            if [[ $REPLY =~ ^[Yy]$ ]]; then
-                rm -r ~/.tmp/*
-                echo "Finished!"
-            else
-                echo "'~/.tmp' was not deleted!"
-            fi
-            ;;
-        f)
-            echo "$2 will be permanently deleted by force!"
-            read -p "Continue? Y/N" -n 1 -r
-            echo
-            if [[ $REPLY =~ ^[Yy]$ ]]; then
-                if [ "${2: -1}" = "/" ]; then
-                    rm -rf $2
+                ;;
+            c)
+                echo "All files in '~/.tmp' will be permanently deleted!"
+                read -p "Continue? Y/N" -n 1 -r
+                echo
+                if [[ $REPLY =~ ^[Yy]$ ]]; then
+                    rm -r ~/.tmp/*
+                    echo "Finished!"
                 else
-                    rm -f $2
+                    echo "'~/.tmp' was not deleted!"
                 fi
-            else
-                echo "$2 was not deleted!"
-            fi
-        esac
-    done
+                ;;
+            f)
+                echo "$2 will be permanently deleted by force!"
+                read -p "Continue? Y/N" -n 1 -r
+                echo
+                if [[ $REPLY =~ ^[Yy]$ ]]; then
+                    if [ "${2: -1}" = "/" ]; then
+                        rm -rf $2
+                    else
+                        rm -f $2
+                    fi
+                else
+                    echo "$2 was not deleted!"
+                fi
+            esac
+        done
+    else
+        echo "Invalid arguments passed."
+        help
+        exit 1
+    fi
+
+    shift $((OPTIND-1))
+
+    [ "$1" = "--" ] && shift
 else
-    echo "Invalid arguments passed."
-    help
-    exit 1
+    mkdir ~/.config/easyrm/
+    echo "'~/.tmp' has been created." > ~/.config/easyrm/easyrm.conf
+    echo "Directory '~/.tmp' does not exist..."
+    echo "Creating '~/.tmp' directory for temporary storage of removed files/directories..."
+    mkdir ~/.tmp
+    echo "Please run the command again"
 fi
-
-shift $((OPTIND-1))
-
-[ "$1" = "--" ] && shift
 
 # End of file
