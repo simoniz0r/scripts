@@ -43,22 +43,24 @@ if [ -f ~/.config/easyrm/easyrm.conf ]; then
                 if [[ $REPLY =~ ^[Yy]$ ]]; then
                     if [ "${2: -1}" = "/" ]; then
                         rm -r $2
+                        echo "$2 was deleted permanently!"
                     else
                         rm $2
+                        echo "$2 was deleted permanently!"
                     fi
                 else
                     echo "$2 was not deleted!"
                 fi
                 ;;
             c)
-                echo "All files in '~/.easyrmtmp' will be permanently deleted!"
+                echo "All files and directories in '~/.easyrmtmp' will be permanently deleted!"
                 read -p "Continue? Y/N" -n 1 -r
                 echo
                 if [[ $REPLY =~ ^[Yy]$ ]]; then
                     rm -r ~/.easyrmtmp/*
-                    echo "Finished!"
+                    echo "'~/.easyrmtmp' has been cleared; all files and directories in '~/.easyrmtmp' have been permanently deleted!"
                 else
-                    echo "'~/.easyrmtmp' was not deleted!"
+                    echo "Files and directories in '~/.easyrmtmp' were not deleted!"
                 fi
                 ;;
             u)
@@ -80,8 +82,10 @@ if [ -f ~/.config/easyrm/easyrm.conf ]; then
                 if [[ $REPLY =~ ^[Yy]$ ]]; then
                     if [ "${2: -1}" = "/" ]; then
                         rm -rf $2
+                        echo "$2 was deleted permanently!"
                     else
                         rm -f $2
+                        echo "$2 was deleted permanently!"
                     fi
                 else
                     echo "$2 was not deleted!"
