@@ -13,7 +13,7 @@ help () {
     echo "Arguments:"
     echo "-h : Shows this help output"
     echo "-c : Removes all files and directories from '~/.easyrmtmp'"
-    echo "-p : executes the default 'rm' command and will permanently remove files"
+    echo "-p : executes the default 'rm' command and will permanently remove files and directories."
     echo "-f : executes the 'rm' command with '-f' to forcefully and permanetly remove files and directories."
     echo "-u : Removes '~/.easyrmtmp' directory and config file."
 }
