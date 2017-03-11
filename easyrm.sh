@@ -12,10 +12,10 @@ help () {
     echo "Note: Directories must have the trailing '/' or you will receive an error."
     echo "Arguments:"
     echo "-h/help : Shows this help output"
-    echo "-i : Creates '~/.tmp' directory for storage of removed files/directories."
     echo "-c : Removes all files and directories from '~/.tmp'"
     echo "-p : executes the default 'rm' command and will permanently remove files"
     echo "-f : executes the 'rm' command with '-f' to forcefully and permanetly remove files and directories."
+    echo "-u : Removes '~/.tmp' directory and config file."
 }
 
 if [ -f ~/.config/easyrm/easyrm.conf ]; then
@@ -30,7 +30,7 @@ if [ -f ~/.config/easyrm/easyrm.conf ]; then
         echo "Moving $1 to '~/.tmp'"
         mv $1 ~/.tmp/
     elif [[ "$ARG" == -* ]]; then
-        while getopts ":hpcdf" opt; do
+        while getopts ":hpcdfu" opt; do
             case "$opt" in
             h|\?|help)
                 help
@@ -59,6 +59,18 @@ if [ -f ~/.config/easyrm/easyrm.conf ]; then
                     echo "Finished!"
                 else
                     echo "'~/.tmp' was not deleted!"
+                fi
+                ;;
+            u)
+                echo "All files in '~/.tmp' will be permanently deleted and config file will be removed!"
+                read -p "Continue? Y/N" -n 1 -r
+                echo
+                if [[ $REPLY =~ ^[Yy]$ ]]; then
+                    rm -r ~/.config/easyrm/
+                    rm -r ~/.tmp/
+                    echo "Finished!"
+                else
+                    echo "'~/.tmp' was not deleted and config file remains!"
                 fi
                 ;;
             f)
