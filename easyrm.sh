@@ -57,6 +57,7 @@ elif [[ "$ARG" == -* ]]; then
             echo
             if [[ $REPLY =~ ^[Yy]$ ]]; then
                 rm -r ~/.tmp/*
+                echo "Finished!"
             else
                 echo "'~/.tmp' was not deleted!"
             fi
