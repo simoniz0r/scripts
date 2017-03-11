@@ -1,34 +1,34 @@
 #!/bin/bash
-# A bash script that attempts to make 'rm' easier to use by moving files to '~/.tmp' by default.
+# A bash script that attempts to make 'rm' easier to use by moving files to '~/.easyrmtmp' by default.
 # Created by simonizor 3/11/2017
 
 # A POSIX variable
 OPTIND=1         # Reset in case getopts has been used previously in the shell.
 
 help () {
-    echo "Tool that uses 'mv' and 'rm' to move files to '~/.tmp' instead of deleting them by default."
+    echo "Tool that uses 'mv' and 'rm' to move files to '~/.easyrmtmp' instead of deleting them by default."
     echo "Usage: 'rm /path/to/file' or 'rm /path/to/directory/'"
     echo "Note: Files and directories must start with either '/' './' or '~/' for the command to function."
     echo "Note: Directories must have the trailing '/' or you will receive an error."
     echo "Arguments:"
-    echo "-h/help : Shows this help output"
-    echo "-c : Removes all files and directories from '~/.tmp'"
+    echo "-h : Shows this help output"
+    echo "-c : Removes all files and directories from '~/.easyrmtmp'"
     echo "-p : executes the default 'rm' command and will permanently remove files"
     echo "-f : executes the 'rm' command with '-f' to forcefully and permanetly remove files and directories."
-    echo "-u : Removes '~/.tmp' directory and config file."
+    echo "-u : Removes '~/.easyrmtmp' directory and config file."
 }
 
 if [ -f ~/.config/easyrm/easyrm.conf ]; then
     ARG=$1
     if [[ "$ARG" == /* ]]; then
-        echo "Moving $1 to '~/.tmp'"
-        mv $1 ~/.tmp/
+        echo "Moving $1 to '~/.easyrmtmp'"
+        mv $1 ~/.easyrmtmp/
     elif [[ "$ARG" == ./* ]]; then
-        echo "Moving $1 to '~/.tmp'"
-        mv $1 ~/.tmp/
+        echo "Moving $1 to '~/.easyrmtmp'"
+        mv $1 ~/.easyrmtmp/
     elif [[ "$ARG" == ~/* ]]; then
-        echo "Moving $1 to '~/.tmp'"
-        mv $1 ~/.tmp/
+        echo "Moving $1 to '~/.easyrmtmp'"
+        mv $1 ~/.easyrmtmp/
     elif [[ "$ARG" == -* ]]; then
         while getopts ":hpcdfu" opt; do
             case "$opt" in
@@ -51,26 +51,26 @@ if [ -f ~/.config/easyrm/easyrm.conf ]; then
                 fi
                 ;;
             c)
-                echo "All files in '~/.tmp' will be permanently deleted!"
+                echo "All files in '~/.easyrmtmp' will be permanently deleted!"
                 read -p "Continue? Y/N" -n 1 -r
                 echo
                 if [[ $REPLY =~ ^[Yy]$ ]]; then
-                    rm -r ~/.tmp/*
+                    rm -r ~/.easyrmtmp/*
                     echo "Finished!"
                 else
-                    echo "'~/.tmp' was not deleted!"
+                    echo "'~/.easyrmtmp' was not deleted!"
                 fi
                 ;;
             u)
-                echo "All files in '~/.tmp' will be permanently deleted and config file will be removed!"
+                echo "All files in '~/.easyrmtmp' will be permanently deleted and config file will be removed!"
                 read -p "Continue? Y/N" -n 1 -r
                 echo
                 if [[ $REPLY =~ ^[Yy]$ ]]; then
                     rm -r ~/.config/easyrm/
-                    rm -r ~/.tmp/
+                    rm -r ~/.easyrmtmp/
                     echo "Finished!"
                 else
-                    echo "'~/.tmp' was not deleted and config file remains!"
+                    echo "'~/.easyrmtmp' was not deleted and config file remains!"
                 fi
                 ;;
             f)
@@ -99,10 +99,10 @@ if [ -f ~/.config/easyrm/easyrm.conf ]; then
     [ "$1" = "--" ] && shift
 else
     mkdir ~/.config/easyrm/
-    echo "'~/.tmp' has been created." > ~/.config/easyrm/easyrm.conf
-    echo "Directory '~/.tmp' does not exist..."
-    echo "Creating '~/.tmp' directory for temporary storage of removed files/directories..."
-    mkdir ~/.tmp
+    echo "'~/.easyrmtmp' has been created." > ~/.config/easyrm/easyrm.conf
+    echo "Directory '~/.easyrmtmp' does not exist..."
+    echo "Creating '~/.easyrmtmp' directory for temporary storage of removed files/directories..."
+    mkdir ~/.easyrmtmp
     echo "Please run the command again"
 fi
 
