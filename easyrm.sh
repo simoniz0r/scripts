@@ -11,6 +11,7 @@ help () {
     echo "Arguments:"
     echo "-h/help : Shows this help output"
     echo "-i/install : Creates '~/.tmp' directory for storage of removed files/directories."
+    echo "-c/clear/clean : Removes all files and directories from '~/.tmp'"
     echo "-p/perm/permanent : executes the default 'rm' command and will permanently remove files"
     echo "-f/force : executes the 'rm' command with '-f' to forcefully and permanetly remove files and directories."
 }
