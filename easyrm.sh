@@ -7,7 +7,7 @@ OPTIND=1         # Reset in case getopts has been used previously in the shell.
 
 help () {
     echo "Tool that uses 'mv' and 'rm' to move files to '~/.easyrmtmp' instead of deleting them by default."
-    echo "Usage: 'rm /path/to/file' or 'rm /path/to/directory/'"
+    echo "Usage: 'easyrm.sh /path/to/file' or 'easyrm/sh /path/to/directory/'"
     echo "Note: Files and directories must start with either '/' './' or '~/' for the command to function."
     echo "Note: Directories must have the trailing '/' or you will receive an error."
     echo "Arguments:"
