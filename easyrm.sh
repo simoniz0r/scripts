@@ -12,7 +12,7 @@ help () {
     echo "-h/help/? : Shows this help output"
     echo "-i/install : Creates '~/.tmp' directory for storage of removed files/directories."
     echo "-p/perm/permanent : executes the default 'rm' command and will permanently remove files"
-    echo "-f/force : executes the 'rm' command with '-f' to forcefully and perminatly remove files and directories."
+    echo "-f/force : executes the 'rm' command with '-f' to forcefully and permanetly remove files and directories."
 }
 ARG=$1
 if [[ "$ARG" == /* ]]; then
