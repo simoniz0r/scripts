@@ -9,7 +9,7 @@ help () {
     echo "Tool that uses 'mv' and 'rm' to move files to '~/.tmp' instead of deleting them by default."
     echo "Usage: 'rm /path/to/fileordirectory"
     echo "Arguments:"
-    echo "-h/help/? : Shows this help output"
+    echo "-h/help : Shows this help output"
     echo "-i/install : Creates '~/.tmp' directory for storage of removed files/directories."
     echo "-p/perm/permanent : executes the default 'rm' command and will permanently remove files"
     echo "-f/force : executes the 'rm' command with '-f' to forcefully and permanetly remove files and directories."
