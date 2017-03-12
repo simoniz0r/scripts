@@ -30,7 +30,7 @@ if [ -f ~/.config/easyrm/easyrm.conf ]; then
         echo "Moving $1 to '~/.easyrmtmp'"
         mv $1 ~/.easyrmtmp/
     elif [[ "$ARG" == -* ]]; then
-        while getopts ":hpcdfu" opt; do
+        while getopts ":hpcfu" opt; do
             case "$opt" in
             h|\?|help)
                 help
