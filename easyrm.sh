@@ -8,7 +8,6 @@ OPTIND=1         # Reset in case getopts has been used previously in the shell.
 help () {
     echo "Tool that uses 'mv' and 'rm' to move files to '~/.easyrmtmp' instead of deleting them by default."
     echo "Usage: 'easyrm.sh /path/to/file' or 'easyrm.sh /path/to/directory/'"
-    echo "Note: Files and directories must start with either '/' './' or '~/' for the command to function."
     echo "Note: Directories must have the trailing '/' or you will receive an error."
     echo "Arguments:"
     echo "-h : Shows this help output"
@@ -114,9 +113,16 @@ if [ -f ~/.config/easyrm/easyrm.conf ]; then
             esac
         done
     else
-        echo "Invalid arguments passed."
-        help
-        exit 1
+        ARG="${ARG::-z}./$1"
+        echo "$ARG will be moved to '~/.easyrmtmp'..."
+        read -p "Continue? Y/N" -n 1 -r
+        echo
+        if [[ $REPLY =~ ^[Yy]$ ]]; then
+            mv $1 ~/.easyrmtmp/
+            echo "$1 has been moved to '~/.easyrmtmp'!"
+        else
+            echo "$1 was not moved!"
+        fi
     fi
 
     shift $((OPTIND-1))
