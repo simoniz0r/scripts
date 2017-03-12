@@ -5,5 +5,5 @@ read -p "Color#" COLOR
 GETDIR="$(readlink -f $(which code))"
 DIR="${GETDIR::-9}"
     echo ".monaco-workbench>.part.statusbar{background-color:#$COLOR;}" | sudo tee -a "$DIR"/resources/app/out/vs/workbench/electron-browser/workbench.main.css
-    echo "Status bar color changed to $COLOR!"
+    echo "Status bar color changed to #$COLOR!"
     exit 1
