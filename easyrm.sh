@@ -21,14 +21,35 @@ help () {
 if [ -f ~/.config/easyrm/easyrm.conf ]; then
     ARG=$1
     if [[ "$ARG" == /* ]]; then
-        echo "Moving $1 to '~/.easyrmtmp'"
-        mv $1 ~/.easyrmtmp/
+        echo "$1 will be moved to '~/.easyrmtmp'..."
+        read -p "Continue? Y/N" -n 1 -r
+        echo
+        if [[ $REPLY =~ ^[Yy]$ ]]; then
+            mv $1 ~/.easyrmtmp/
+            echo "$1 has been moved to '~/.easyrmtmp'!"
+        else
+            echo "$1 was not moved!"
+        fi
     elif [[ "$ARG" == ./* ]]; then
-        echo "Moving $1 to '~/.easyrmtmp'"
-        mv $1 ~/.easyrmtmp/
+        echo "$1 will be moved to '~/.easyrmtmp'..."
+        read -p "Continue? Y/N" -n 1 -r
+        echo
+        if [[ $REPLY =~ ^[Yy]$ ]]; then
+            mv $1 ~/.easyrmtmp/
+            echo "$1 has been moved to '~/.easyrmtmp'!"
+        else
+            echo "$1 was not moved!"
+        fi
     elif [[ "$ARG" == ~/* ]]; then
-        echo "Moving $1 to '~/.easyrmtmp'"
-        mv $1 ~/.easyrmtmp/
+        echo "$1 will be moved to '~/.easyrmtmp'..."
+        read -p "Continue? Y/N" -n 1 -r
+        echo
+        if [[ $REPLY =~ ^[Yy]$ ]]; then
+            mv $1 ~/.easyrmtmp/
+            echo "$1 has been moved to '~/.easyrmtmp'!"
+        else
+            echo "$1 was not moved!"
+        fi
     elif [[ "$ARG" == -* ]]; then
         while getopts ":hpcfu" opt; do
             case "$opt" in
