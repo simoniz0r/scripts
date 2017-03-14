@@ -59,6 +59,7 @@ if [ -f ~/.config/easyrm/easyrm.conf ]; then
                 ;;
             l)
                 dir ~/.easyrmtmp
+                ;;
             p)
                 echo "$2 will be permanently deleted!"
                 read -p "Continue? Y/N" -n 1 -r
