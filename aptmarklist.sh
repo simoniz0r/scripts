@@ -11,7 +11,7 @@ help () {
     echo "Arguments:"
     echo "-h : Shows this help dialog."
     echo "-w : Writes the output to ~/.packagelist.txt"
-    echo "-c : Write output to custom file. Ex: 'aptmark.sh -c ~/mypackages.txt'"
+    echo "-c : Write output to custom file. Ex: 'aptmarklist.sh -c ~/mypackages.txt'"
     echo "-n : Outputs the number of user installed packages."
 }
 
