@@ -3,13 +3,13 @@
 
 main () {
     echo "What would you like to do?"
-    echo "1 - run apt update"
-    echo "2 - run apt upgrade"
-    echo "3 - run apt install"
-    echo "4 - run apt remove"
-    echo "5 - run apt autoremove"
-    echo "6 - list user installed packages"
-    echo "7 - exit"
+    echo "1 - Run apt update."
+    echo "2 - Run apt upgrade."
+    echo "3 - Run apt install."
+    echo "4 - Run apt remove."
+    echo "5 - Run apt autoremove."
+    echo "6 - List user installed packages."
+    echo "7 - Exit."
     read -p "Choice?" -n 1 -r
     echo
     if [[ $REPLY =~ ^[1]$ ]]; then
