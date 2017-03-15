@@ -13,11 +13,12 @@ help () {
     echo "-w : Writes the output to ~/.packagelist.txt"
     echo "-c : Write output to custom file. Ex: 'aptmarklist.sh -c ~/mypackages.txt'"
     echo "-n : Outputs the number of user installed packages."
+    echo "-i : Installs packages from package list file. EXPERIMENTAL"
 }
 
 ARG=$1
 if [[ "$ARG" == -* ]]; then
-    while getopts ":hwcn" opt; do
+    while getopts ":hwcni" opt; do
         case "$opt" in
         h|\?|help)
             help
@@ -32,6 +33,10 @@ if [[ "$ARG" == -* ]]; then
             ;;
         n)
             aptmarklist | wc -l
+            ;;
+        i)
+            read -p "Input the location of your package list file: " PACKAGELIST
+            xargs -a <(awk '/^\s*[^#]/' "$PACKAGELIST") -r -- sudo apt install
         esac
     done
 else
