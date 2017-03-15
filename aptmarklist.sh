@@ -1,5 +1,7 @@
 #!/bin/bash
-# A script that outputs the results of apt-mark in alphabetical order.  Provides arguments to write the output to a file and list number of installed packages.
+# A script that outputs the results of apt-mark in alphabetical order.
+# Provides arguments to write the output to a file and list number of installed packages.
+# Can also install packages from the outputted file.
 # Base command found here: http://askubuntu.com/questions/2389/generating-list-of-manually-installed-packages-and-querying-individual-packages
 
 aptmarklist () {
