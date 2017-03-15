@@ -14,7 +14,7 @@ help () {
     echo "-l : Shows list of files in '~/.easyrmtmp'"
     echo "-c : Removes all files and directories from '~/.easyrmtmp'"
     echo "-p : executes the default 'rm' command and will permanently remove files and directories."
-    echo "-f : executes the 'rm' command with '-f' to forcefully and permanetly remove files and directories."
+    echo "-f : executes the 'rm' command with '-f' to forcefully and permanently remove files and directories."
     echo "-u : Removes '~/.easyrmtmp' directory and config file."
 }
 
@@ -77,13 +77,14 @@ if [ -f ~/.config/easyrm/easyrm.conf ]; then
                 fi
                 ;;
             c)
+                NUMBER=$(dir ~/.easyrmtmp |wc -l)
                 echo "The following files and/or directories in '~/.easyrmtmp' will be permanently deleted:"
                 dir ~/.easyrmtmp
                 read -p "Continue? Y/N" -n 1 -r
                 echo
                 if [[ $REPLY =~ ^[Yy]$ ]]; then
                     rm -r ~/.easyrmtmp/*
-                    echo "'~/.easyrmtmp' has been cleared; all files and directories in '~/.easyrmtmp' have been permanently deleted!"
+                    echo "$NUMBER files and/or directories have been permanently deleted!"
                 else
                     echo "Files and directories in '~/.easyrmtmp' were not deleted!"
                 fi
