@@ -77,14 +77,15 @@ if [ -f ~/.config/easyrm/easyrm.conf ]; then
                 fi
                 ;;
             c)
-                NUMBER=$(dir ~/.easyrmtmp |wc -l)
+                NUMBER=$(ls -l ~/.easyrmtmp | wc -l)
+                REALNUM=$(($NUMBER-1))
                 echo "The following files and/or directories in '~/.easyrmtmp' will be permanently deleted:"
                 dir ~/.easyrmtmp
                 read -p "Continue? Y/N" -n 1 -r
                 echo
                 if [[ $REPLY =~ ^[Yy]$ ]]; then
                     rm -r ~/.easyrmtmp/*
-                    echo "$NUMBER files and/or directories have been permanently deleted!"
+                    echo "$REALNUM files and/or directories have been permanently deleted!"
                 else
                     echo "Files and directories in '~/.easyrmtmp' were not deleted!"
                 fi
