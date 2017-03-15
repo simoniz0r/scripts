@@ -1,6 +1,6 @@
 #!/bin/bash
 # A script that outputs the results of apt-mark in alphabetical order.  Provides arguments to write the output to a file and list number of installed packages.
-# Found here: http://askubuntu.com/questions/2389/generating-list-of-manually-installed-packages-and-querying-individual-packages
+# Base command found here: http://askubuntu.com/questions/2389/generating-list-of-manually-installed-packages-and-querying-individual-packages
 
 aptmarklist () {
     comm -23 <(apt-mark showmanual | sort -u) <(gzip -dc /var/log/installer/initial-status.gz | sed -n 's/^Package: //p' | sort -u)
