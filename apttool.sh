@@ -6,11 +6,12 @@ main () {
     echo "1 - Run apt update."
     echo "2 - Run apt upgrade."
     echo "3 - Run apt-cache search."
-    echo "4 - Run apt install."
-    echo "5 - Run apt remove."
-    echo "6 - Run apt autoremove."
-    echo "7 - List user installed packages."
-    echo "8 - Exit."
+    echo "4 - Run apt show."
+    echo "5 - Run apt install."
+    echo "6 - Run apt remove."
+    echo "7 - Run apt autoremove."
+    echo "8 - List user installed packages."
+    echo "9 - Exit."
     read -p "Choice? " -n 1 -r
     echo
     if [[ $REPLY =~ ^[1]$ ]]; then
@@ -28,22 +29,28 @@ main () {
         echo "--Finshed--"
         main
     elif [[ $REPLY =~ ^[4]$ ]]; then
+        read -p "What package would you like to show info for? " SHOW
+        echo
+        apt show $SHOW
+        echo "--Finshed--"
+        main
+    elif [[ $REPLY =~ ^[5]$ ]]; then
         read -p "What package would you like to install? " INSTALL
         echo
         sudo apt install "$INSTALL"
         echo "--Finshed--"
         main
-    elif [[ $REPLY =~ ^[5]$ ]]; then
+    elif [[ $REPLY =~ ^[6]$ ]]; then
         read -p "What package would you like to remove? " REMOVE
         echo
         sudo apt remove $REMOVE
         echo "--Finshed--"
         main
-    elif [[ $REPLY =~ ^[6]$ ]]; then
+    elif [[ $REPLY =~ ^[7]$ ]]; then
         sudo apt autoremove
         echo "--Finshed--"
         main
-    elif [[ $REPLY =~ ^[7]$ ]]; then
+    elif [[ $REPLY =~ ^[8]$ ]]; then
         echo "Packages:"
         comm -23 <(apt-mark showmanual | sort -u) <(gzip -dc /var/log/installer/initial-status.gz | sed -n 's/^Package: //p' | sort -u)
         echo "--Finshed--"
