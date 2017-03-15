@@ -18,38 +18,26 @@ help () {
     echo "-u : Removes '~/.easyrmtmp' directory and config file."
 }
 
+easyrm () {
+    echo "$ARG will be moved to '~/.easyrmtmp'..."
+    read -p "Continue? Y/N" -n 1 -r
+    echo
+    if [[ $REPLY =~ ^[Yy]$ ]]; then
+        mv $ARG ~/.easyrmtmp/
+        echo "$ARG has been moved to '~/.easyrmtmp'!"
+    else
+        echo "$ARG was not moved!"
+    fi
+}
+
 if [ -f ~/.config/easyrm/easyrm.conf ]; then
     ARG=$1
     if [[ "$ARG" == /* ]]; then
-        echo "$1 will be moved to '~/.easyrmtmp'..."
-        read -p "Continue? Y/N" -n 1 -r
-        echo
-        if [[ $REPLY =~ ^[Yy]$ ]]; then
-            mv $1 ~/.easyrmtmp/
-            echo "$1 has been moved to '~/.easyrmtmp'!"
-        else
-            echo "$1 was not moved!"
-        fi
+        easyrm
     elif [[ "$ARG" == ./* ]]; then
-        echo "$1 will be moved to '~/.easyrmtmp'..."
-        read -p "Continue? Y/N" -n 1 -r
-        echo
-        if [[ $REPLY =~ ^[Yy]$ ]]; then
-            mv $1 ~/.easyrmtmp/
-            echo "$1 has been moved to '~/.easyrmtmp'!"
-        else
-            echo "$1 was not moved!"
-        fi
+        easyrm
     elif [[ "$ARG" == ~/* ]]; then
-        echo "$1 will be moved to '~/.easyrmtmp'..."
-        read -p "Continue? Y/N" -n 1 -r
-        echo
-        if [[ $REPLY =~ ^[Yy]$ ]]; then
-            mv $1 ~/.easyrmtmp/
-            echo "$1 has been moved to '~/.easyrmtmp'!"
-        else
-            echo "$1 was not moved!"
-        fi
+        easyrm
     elif [[ "$ARG" == -* ]]; then
         while getopts ":hpcful" opt; do
             case "$opt" in
