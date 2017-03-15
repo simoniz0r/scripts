@@ -77,7 +77,7 @@ if [ -f ~/.config/easyrm/easyrm.conf ]; then
                 fi
                 ;;
             c)
-                echo "The following files and directories in '~/.easyrmtmp' will be permanently deleted!"
+                echo "The following files and/or directories in '~/.easyrmtmp' will be permanently deleted:"
                 dir ~/.easyrmtmp
                 read -p "Continue? Y/N" -n 1 -r
                 echo
