@@ -10,7 +10,7 @@ main () {
     echo "5 - Run apt autoremove."
     echo "6 - List user installed packages."
     echo "7 - Exit."
-    read -p "Choice?" -n 1 -r
+    read -p "Choice? " -n 1 -r
     echo
     if [[ $REPLY =~ ^[1]$ ]]; then
         sudo apt update
