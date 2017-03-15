@@ -2,7 +2,6 @@
 # A simple script that can run apt options to save keystrokes.
 
 main () {
-    echo "Welcome to apt tool."
     echo "What would you like to do?"
     echo "1 - run apt update"
     echo "2 - run apt upgrade"
@@ -47,4 +46,5 @@ main () {
     fi
 }
 
+echo "Welcome to apt tool."
 main
