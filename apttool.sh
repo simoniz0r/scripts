@@ -15,38 +15,38 @@ main () {
     echo
     if [[ $REPLY =~ ^[1]$ ]]; then
         sudo apt update
-        echo "Finshed"
+        echo "--Finshed--"
         main
     elif [[ $REPLY =~ ^[2]$ ]]; then
         sudo apt upgrade
-        echo "Finshed"
+        echo "--Finshed--"
         main
     elif [[ $REPLY =~ ^[3]$ ]]; then
         read -p "What package would you like to search for? " SEARCH
         echo
         apt-cache search "$SEARCH"
-        echo "Finshed"
+        echo "--Finshed--"
         main
     elif [[ $REPLY =~ ^[4]$ ]]; then
         read -p "What package would you like to install? " INSTALL
         echo
         sudo apt install "$INSTALL"
-        echo "Finshed"
+        echo "--Finshed--"
         main
     elif [[ $REPLY =~ ^[5]$ ]]; then
         read -p "What package would you like to remove? " REMOVE
         echo
         sudo apt remove $REMOVE
-        echo "Finshed"
+        echo "--Finshed--"
         main
     elif [[ $REPLY =~ ^[6]$ ]]; then
         sudo apt autoremove
-        echo "Finshed"
+        echo "--Finshed--"
         main
     elif [[ $REPLY =~ ^[7]$ ]]; then
         echo "Packages:"
         comm -23 <(apt-mark showmanual | sort -u) <(gzip -dc /var/log/installer/initial-status.gz | sed -n 's/^Package: //p' | sort -u)
-        echo "Finshed"
+        echo "--Finshed--"
         main
     else
         exit 1
