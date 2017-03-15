@@ -109,15 +109,7 @@ if [ -f ~/.config/easyrm/easyrm.conf ]; then
         done
     else
         ARG="${ARG::-z}./$1"
-        echo "$ARG will be moved to '~/.easyrmtmp'..."
-        read -p "Continue? Y/N" -n 1 -r
-        echo
-        if [[ $REPLY =~ ^[Yy]$ ]]; then
-            mv $1 ~/.easyrmtmp/
-            echo "$1 has been moved to '~/.easyrmtmp'!"
-        else
-            echo "$1 was not moved!"
-        fi
+        easyrm
     fi
 
     shift $((OPTIND-1))
