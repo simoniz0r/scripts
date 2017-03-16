@@ -25,7 +25,7 @@ main () {
     elif [[ $REPLY =~ ^[3]$ ]]; then
         read -p "What package would you like to search for? " SEARCH
         echo
-        apt-cache search "$SEARCH"
+        apt-cache search $SEARCH
         echo "--Finshed--"
         main
     elif [[ $REPLY =~ ^[4]$ ]]; then
@@ -37,7 +37,7 @@ main () {
     elif [[ $REPLY =~ ^[5]$ ]]; then
         read -p "What package would you like to install? " INSTALL
         echo
-        sudo apt install "$INSTALL"
+        sudo apt install $INSTALL
         echo "--Finshed--"
         main
     elif [[ $REPLY =~ ^[6]$ ]]; then
