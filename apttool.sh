@@ -8,9 +8,9 @@ main () {
     echo "3 - Run apt-cache search."
     echo "4 - Run apt show."
     echo "5 - Run apt install."
-    echo "6 - Run apt remove."
-    echo "7 - Run apt autoremove."
-    echo "8 - List user installed packages."
+    echo "6 - List user installed packages."
+    echo "7 - Run apt remove."
+    echo "8 - Run apt autoremove."
     echo "9 - Exit."
     read -p "Choice? " -n 1 -r
     echo
@@ -51,6 +51,15 @@ main () {
         echo
         main
     elif [[ $REPLY =~ ^[6]$ ]]; then
+        NUM=$(packagelist | wc -l)
+        echo "Packages:"
+        packagelist
+        echo "Total number of user installed packages: $NUM"
+        echo
+        echo "--Finshed--"
+        echo
+        main
+    elif [[ $REPLY =~ ^[7]$ ]]; then
         read -p "What package would you like to remove? " REMOVE
         echo
         sudo apt remove $REMOVE
@@ -58,7 +67,7 @@ main () {
         echo "--Finshed--"
         echo
         main
-    elif [[ $REPLY =~ ^[7]$ ]]; then
+    elif [[ $REPLY =~ ^[8]$ ]]; then
         echo
         echo
         echo "Use with caution! Be sure to read through the packages"
@@ -66,15 +75,6 @@ main () {
         echo
         echo
         sudo apt autoremove
-        echo
-        echo "--Finshed--"
-        echo
-        main
-    elif [[ $REPLY =~ ^[8]$ ]]; then
-        NUM=$(packagelist | wc -l)
-        echo "Packages:"
-        packagelist
-        echo "Total number of user installed packages: $NUM"
         echo
         echo "--Finshed--"
         echo
