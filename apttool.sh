@@ -47,6 +47,12 @@ main () {
         echo "--Finshed--"
         main
     elif [[ $REPLY =~ ^[7]$ ]]; then
+        echo
+        echo
+        echo "Use with caution! Be sure to read through the packages"
+        echo "listed to make sure you do not need them!"
+        echo
+        echo
         sudo apt autoremove
         echo "--Finshed--"
         main
