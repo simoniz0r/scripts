@@ -16,35 +16,47 @@ main () {
     echo
     if [[ $REPLY =~ ^[1]$ ]]; then
         sudo apt update
+        echo
         echo "--Finshed--"
+        echo
         main
     elif [[ $REPLY =~ ^[2]$ ]]; then
         sudo apt upgrade
+        echo
         echo "--Finshed--"
+        echo
         main
     elif [[ $REPLY =~ ^[3]$ ]]; then
         read -p "What package would you like to search for? " SEARCH
         echo
         apt-cache search $SEARCH
+        echo
         echo "--Finshed--"
+        echo
         main
     elif [[ $REPLY =~ ^[4]$ ]]; then
         read -p "What package would you like to show info for? " SHOW
         echo
         apt show $SHOW
+        echo
         echo "--Finshed--"
+        echo
         main
     elif [[ $REPLY =~ ^[5]$ ]]; then
         read -p "What package would you like to install? " INSTALL
         echo
         sudo apt install $INSTALL
+        echo
         echo "--Finshed--"
+        echo
         main
     elif [[ $REPLY =~ ^[6]$ ]]; then
         read -p "What package would you like to remove? " REMOVE
         echo
         sudo apt remove $REMOVE
+        echo
         echo "--Finshed--"
+        echo
         main
     elif [[ $REPLY =~ ^[7]$ ]]; then
         echo
@@ -54,14 +66,18 @@ main () {
         echo
         echo
         sudo apt autoremove
+        echo
         echo "--Finshed--"
+        echo
         main
     elif [[ $REPLY =~ ^[8]$ ]]; then
         NUM=$(packagelist | wc -l)
         echo "Packages:"
         packagelist
         echo "Total number of user installed packages: $NUM"
+        echo
         echo "--Finshed--"
+        echo
         main
     else
         exit 1
