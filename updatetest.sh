@@ -1,39 +1,24 @@
-#!/bin/sh
- 
-SCRIPT_NAME="$0"
-ARGS="$@"
-NEW_FILE="https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/updatetest.sh"
-VERSION="1.1"
- 
-check_upgrade () {
- 
-  # check if there is a new version of this file
-  # here, hypothetically we check if a file exists in the disk.
-  # it could be an apt/yum check or whatever...
-  [ -f "$NEW_FILE" ] && {
- 
-    # install a new version of this file or package
-    # again, in this example, this is done by just copying the new file
-    echo "Found a new version of me, updating myself..."
-    cp "$NEW_FILE" "$SCRIPT_NAME"
-    rm -f "$NEW_FILE"
- 
-    # note that at this point this file was overwritten in the disk
-    # now run this very own file, in its new version!
-    echo "Running the new version..."
-    $SCRIPT_NAME $ARGS
- 
-    # now exit this old instance
-    exit 0
-  }
- 
-  echo "I'm VERSION $VERSION, already the latest version."
+#!/bin/bash
+# Add this to discorddownloader with a method to update
+# Figure out how to use 'grep' or something similar to get version directly from script instead of needing separate file!
+
+DDVER="1.3.3"
+
+updatecheck () {
+    VERTEST=$(curl -v --silent https://raw.githubusercontent.com/simoniz0r/discorddownloader/master/discorddownloader.sh 2>&1 | grep DDVER= | tr -d 'DDVER="')
+    if [[ $DDVER != $VERTEST ]]; then
+        echo "outdated!"
+        wget -o urltoupdatescript ./updatescript
+        exec ./updatescript # contains find -name to find old version, rm to remove it, wget -o to download new version, chmod +x new version, deletes self after update, and runs new version
+        exit 0
+    else
+        echo "up to date!"
+    fi
 }
- 
+
 main () {
-  # main script stuff
-  echo "Hello World! I'm the version $VERSION of the script"
+    echo "discorddownloader stuff"
 }
- 
-check_upgrade
+
+updatecheck
 main
