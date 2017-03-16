@@ -51,13 +51,19 @@ main () {
         echo "--Finshed--"
         main
     elif [[ $REPLY =~ ^[8]$ ]]; then
+        NUM=$(packagelist | wc -l)
         echo "Packages:"
-        comm -23 <(apt-mark showmanual | sort -u) <(gzip -dc /var/log/installer/initial-status.gz | sed -n 's/^Package: //p' | sort -u)
+        packagelist
+        echo "Total number of user installed packages: $NUM"
         echo "--Finshed--"
         main
     else
         exit 1
     fi
+}
+
+packagelist () {
+    comm -23 <(apt-mark showmanual | sort -u) <(gzip -dc /var/log/installer/initial-status.gz | sed -n 's/^Package: //p' | sort -u)
 }
 
 echo "Welcome to apt tool."
