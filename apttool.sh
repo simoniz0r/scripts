@@ -6,7 +6,7 @@ main () {
     echo "1 - Run apt update."
     echo "2 - Run apt upgrade."
     echo "3 - Run apt show."
-    echo "4 - Run apt-cache search."
+    echo "4 - Run apt search."
     echo "5 - Run apt install."
     echo "6 - List user installed packages."
     echo "7 - Run apt remove."
@@ -37,7 +37,7 @@ main () {
     elif [[ $REPLY =~ ^[4]$ ]]; then
         read -p "What package would you like to search for? " SEARCH
         echo
-        apt-cache search $SEARCH
+        apt search $SEARCH
         echo
         echo "--Finshed--"
         echo
