@@ -9,7 +9,7 @@ updatecheck () {
     if [[ $DDVER != $VERTEST ]]; then
         echo "outdated!"
         wget -o urltoupdatescript ./updatescript
-        exec ./updatescript # contains find -name to find old version, rm to remove it, wget -o to download new version, chmod +x new version, deletes self after update, and runs new version
+        exec ./updatescript # contains SCRIPTNAME="$0" to find old version, rm to remove it, wget -o to download new version, chmod +x new version, deletes self after update, and runs new version
         exit 0
     else
         echo "up to date!"
@@ -17,7 +17,7 @@ updatecheck () {
 }
 
 main () {
-    echo "discorddownloader stuff"
+    echo $0
 }
 
 updatecheck
