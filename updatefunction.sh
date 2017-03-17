@@ -1,5 +1,5 @@
 #!/bin/bash
-# Sample function that easily updates scripts basedon remote text file containing version and change notes.
+# Sample function that easily updates scripts based on remote text file containing version and change notes.
 
 DDVER="1.3.3"
 SCRIPTNAME="$0"
