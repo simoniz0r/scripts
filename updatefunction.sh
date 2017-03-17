@@ -10,6 +10,7 @@ rm -f $SCRIPTNAME
 wget -O $SCRIPTNAME "https://raw.githubusercontent.com/simoniz0r/discorddownloader/master/discorddownloader.sh"
 chmod +x $SCRIPTNAME
 rm -f /tmp/updatescript.sh
+echo "Update finished!"
 exec $SCRIPTNAME
 exit 0
 EOL
