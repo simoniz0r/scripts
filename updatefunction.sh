@@ -1,6 +1,5 @@
 #!/bin/bash
-# Add this to discorddownloader with a method to update
-# Figure out how to use 'grep' or something similar to get version directly from script instead of needing separate file!
+# Sample function that easily updates scripts basedon remote text file containing version and change notes.
 
 DDVER="1.3.3"
 SCRIPTNAME="$0"
