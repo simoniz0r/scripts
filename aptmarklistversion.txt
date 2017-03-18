@@ -1,2 +1,2 @@
-AMVER="1.0.4"
-X="v1.0.4 - Cleaned up outputs and added number of packages to all outputs."
+AMVER="1.0.5"
+X="v1.0.5 - Added confirmation that file was written."
