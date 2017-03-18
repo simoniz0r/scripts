@@ -1,2 +1,2 @@
-APTTVER="1.0.0"
-X="v1.0.0 - Added self updating functions."
+APTTVER="1.0.1"
+X="v1.0.1 - Cleaned up package list output."

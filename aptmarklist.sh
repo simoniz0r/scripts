@@ -4,8 +4,8 @@
 # Can also install packages from the outputted file.
 # Base command found here: http://askubuntu.com/questions/2389/generating-list-of-manually-installed-packages-and-querying-individual-packages
 
-AMVER="1.0.3"
-X="v1.0.3 - Removed exec SCRIPTNAME from updatescript."
+AMVER="1.0.4"
+X="v1.0.4 - Cleaned up outputs and added number of packages to all outputs."
 # ^^ Remember to update these and aptmarklistversion.txt every release!
 SCRIPTNAME="$0"
 
@@ -84,14 +84,22 @@ if [[ "$ARG" == -* ]]; then
             exit 0
             ;;
         w)
+            NUM=$(aptmarklist | wc -l)
+            echo "-- Packages --"
             aptmarklist | tee ~/packagelist.txt
+            echo "-- Total number of user installed packages: $NUM --"
             ;;
         c)
+            NUM=$(aptmarklist | wc -l)
+            echo "-- Packages --"
             OUTPUT=$2
             aptmarklist | tee $OUTPUT
+            echo "-- Total number of user installed packages: $NUM --"
+
             ;;
         n)
-            aptmarklist | wc -l
+            NUM=$(aptmarklist | wc -l)
+            echo "-- Total number of user installed packages: $NUM --"
             ;;
         i)
             PACKAGELIST=$2
@@ -102,5 +110,8 @@ if [[ "$ARG" == -* ]]; then
         esac
     done
 else
+    NUM=$(aptmarklist | wc -l)
+    echo "-- Packages --"
     aptmarklist
+    echo "-- Total number of user installed packages: $NUM --"
 fi

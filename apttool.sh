@@ -1,8 +1,8 @@
 #!/bin/bash
 # A simple script that can run apt options to save keystrokes.
 
-APTTVER="1.0.0"
-X="v1.0.0 - Added self updating functions."
+APTTVER="1.0.1"
+X="v1.0.1 - Cleaned up package list output."
 SCRIPTNAME="$0"
 
 main () {
@@ -56,9 +56,9 @@ main () {
         main
     elif [[ $REPLY =~ ^[6]$ ]]; then
         NUM=$(packagelist | wc -l)
-        echo "Packages:"
+        echo "-- Packages --"
         packagelist
-        echo "Total number of user installed packages: $NUM"
+        echo "-- Total number of user installed packages: $NUM --"
         echo
         echo "--Finshed--"
         echo

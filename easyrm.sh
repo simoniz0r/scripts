@@ -5,8 +5,8 @@
 # A POSIX variable
 OPTIND=1         # Reset in case getopts has been used previously in the shell.
 
-ERMVER="1.0.3"
-X="v1.0.3 - Removed exec SCRIPTNAME from updatescript."
+ERMVER="1.0.4"
+X="v1.0.4 - Moved -n in help."
 SCRIPTNAME="$0"
 
 help () {
@@ -15,12 +15,12 @@ help () {
     echo "Note: Directories must have the trailing '/' or you will receive an error."
     echo "Arguments:"
     echo "-h : Shows this help output"
+    echo "-n : Check for new version of easyrm.sh."
     echo "-l : Shows list of files in '~/.easyrmtmp'"
     echo "-c : Removes all files and directories from '~/.easyrmtmp'"
     echo "-p : executes the default 'rm' command and will permanently remove files and directories."
     echo "-f : executes the 'rm' command with '-f' to forcefully and permanently remove files and directories."
     echo "-u : Removes '~/.easyrmtmp' directory and config file."
-    echo "-n : Check for new version of easyrm.sh."
 }
 
 easyrm () {
