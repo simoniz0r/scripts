@@ -90,9 +90,9 @@ if [[ "$ARG" == -* ]]; then
             aptmarklist | tee ~/packagelist.txt
             echo "-- Total number of user installed packages: $NUM --"
             if [ -f ~/packagelist.txt ]; then
-                echo "Package list written to ~/packagelist.txt"
+                echo "-- Package list written to ~/packagelist.txt --"
             else
-                echo "Failed to write file!"
+                echo "-- Failed to write file! --"
             fi
             ;;
         c)
@@ -102,9 +102,9 @@ if [[ "$ARG" == -* ]]; then
             aptmarklist | tee $OUTPUT
             echo "-- Total number of user installed packages: $NUM --"
             if [ -f $OUTPUT ]; then
-                echo "Package list written to $OUTPUT"
+                echo "-- Package list written to $OUTPUT --"
             else
-                echo "Failed to write file!"
+                echo "-- Failed to write file! --"
             fi
             ;;
         n)
