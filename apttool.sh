@@ -1,6 +1,10 @@
 #!/bin/bash
 # A simple script that can run apt options to save keystrokes.
 
+APTTVER="1.0.0"
+X="v1.0.0 - Added self updating functions."
+SCRIPTNAME="$0"
+
 main () {
     echo "What would you like to do?"
     echo "1 - Run apt update."
@@ -88,5 +92,83 @@ packagelist () {
     comm -23 <(apt-mark showmanual | sort -u) <(gzip -dc /var/log/installer/initial-status.gz | sed -n 's/^Package: //p' | sort -u)
 }
 
-echo "Welcome to apt tool."
-main
+programisinstalled () {
+  # set to 1 initially
+  return=1
+  # set to 0 if not found
+  type $PROGRAM >/dev/null 2>&1 || { return=0; }
+  # return value
+}
+
+updatescript () {
+cat >/tmp/updatescript.sh <<EOL
+runupdate () {
+    rm -f $SCRIPTNAME
+    wget -O $SCRIPTNAME "https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/apttool.sh"
+    chmod +x $SCRIPTNAME
+    if [ -f $SCRIPTNAME ]; then
+        echo "Update finished!"
+        rm -f /tmp/updatescript.sh
+        exec $SCRIPTNAME
+        exit 0
+    else
+        read -p "Update Failed! Try again? Y/N " -n 1 -r
+        if [[ $REPLY =~ ^[Yy]$ ]]; then
+            runupdate
+        else
+            echo "apttool.sh was not updated!"
+            exit 0
+        fi
+    fi
+}
+runupdate
+EOL
+}
+
+updatecheck () {
+    echo "Checking for new version..."
+    UPNOTES=$(curl -v --silent https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/apttversion.txt 2>&1 | grep X= | tr -d 'X="')
+    VERTEST=$(curl -v --silent https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/apttversion.txt 2>&1 | grep APTTVER= | tr -d 'APTTVER="')
+    if [[ $APTTVER != $VERTEST ]]; then
+        echo "Installed version: $APTTVER -- Current version: $VERTEST"
+        echo "A new version is available!"
+        echo $UPNOTES
+        read -p "Would you like to update? Y/N " -n 1 -r
+        if [[ $REPLY =~ ^[Yy]$ ]]; then
+            echo
+            echo "Creating update script..."
+            updatescript
+            chmod +x /tmp/updatescript.sh
+            echo "Running update script..."
+            exec /tmp/updatescript.sh
+            exit 0
+        else
+            echo
+            main
+        fi
+    else
+        echo "Installed version: $APTTVER -- Current version: $VERTEST"
+        echo "apttool.sh is up to date."
+        echo
+        main
+    fi
+}
+
+
+
+PROGRAM="curl"
+programisinstalled
+if [ "$return" = "1" ]; then
+    updatecheck
+else
+    read -p "curl is not installed; run script without checking for new version? Y/N " -n 1 -r
+    if [[ $REPLY =~ ^[Yy]$ ]]; then
+        echo
+        echo "Welcome to apt tool."
+        main
+    else
+        echo
+        echo "Exiting."
+        exit 0
+    fi
+fi
