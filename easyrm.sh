@@ -5,8 +5,8 @@
 # A POSIX variable
 OPTIND=1         # Reset in case getopts has been used previously in the shell.
 
-ERMVER="1.0.2"
-X="v1.0.2 - Fixed update arguments."
+ERMVER="1.0.3"
+X="v1.0.3 - Removed exec SCRIPTNAME from updatescript."
 SCRIPTNAME="$0"
 
 help () {
