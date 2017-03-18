@@ -20,6 +20,7 @@ help () {
     echo "-p : executes the default 'rm' command and will permanently remove files and directories."
     echo "-f : executes the 'rm' command with '-f' to forcefully and permanently remove files and directories."
     echo "-u : Removes '~/.easyrmtmp' directory and config file."
+    echo "-n : Check for new version of easyrm.sh."
 }
 
 easyrm () {
@@ -44,7 +45,7 @@ main () {
         elif [[ "$ARG" == ~/* ]]; then
             easyrm
         elif [[ "$ARG" == -* ]]; then
-            while getopts ":hpcful" opt; do
+            while getopts ":hpcfuln" opt; do
                 case "$opt" in
                 h|\?|help)
                     help
@@ -109,6 +110,14 @@ main () {
                         fi
                     else
                         echo "$2 was not deleted!"
+                    fi
+                n)
+                    PROGRAM="curl"
+                    programisinstalled
+                    if [ "$return" = "1" ]; then
+                        updatecheck
+                    else
+                        echo "curl is not installed; could not check for updates."
                     fi
                 esac
             done

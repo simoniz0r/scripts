@@ -21,12 +21,13 @@ help () {
     echo "-c : Write output to custom file. Ex: 'aptmarklist.sh -c ~/mypackages.txt'"
     echo "-n : Outputs the number of user installed packages."
     echo "-i : Installs packages from package list file. Use full path name.  Ex: aptmarklist.sh -i /home/simonizor/packagelist.txt"
+    echo "-u : Check for updated version of aptmarklist.sh."
 }
 
 main () {
     ARG=$1
     if [[ "$ARG" == -* ]]; then
-        while getopts ":hwcni" opt; do
+        while getopts ":hwcniu" opt; do
             case "$opt" in
             h|\?|help)
                 help
@@ -45,6 +46,15 @@ main () {
             i)
                 PACKAGELIST=$2
                 xargs -a <(awk '/^\s*[^#]/' "$PACKAGELIST") -r -- sudo apt install
+                ;;
+            u)
+                PROGRAM="curl"
+                programisinstalled
+                if [ "$return" = "1" ]; then
+                    updatecheck
+                else
+                    echo "curl is not installed; could not check for updates."
+                fi
             esac
         done
     else
@@ -114,20 +124,3 @@ updatecheck () {
     fi
 }
 
-
-
-PROGRAM="curl"
-programisinstalled
-if [ "$return" = "1" ]; then
-    updatecheck
-else
-    read -p "curl is not installed; run script without checking for new version? Y/N " -n 1 -r
-    if [[ $REPLY =~ ^[Yy]$ ]]; then
-        echo
-        main
-    else
-        echo
-        echo "Exiting."
-        exit 0
-    fi
-fi
