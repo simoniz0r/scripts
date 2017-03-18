@@ -1,2 +1,2 @@
-ERMVER="1.0.2"
-X="v1.0.2 - Fixed update arguments."
+ERMVER="1.0.3"
+X="v1.0.3 - Removed exec SCRIPTNAME from updatescript."

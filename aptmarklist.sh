@@ -4,8 +4,8 @@
 # Can also install packages from the outputted file.
 # Base command found here: http://askubuntu.com/questions/2389/generating-list-of-manually-installed-packages-and-querying-individual-packages
 
-AMVER="1.0.2"
-X="v1.0.2 - Fixed update argument."
+AMVER="1.0.3"
+X="v1.0.3 - Removed exec SCRIPTNAME from updatescript."
 # ^^ Remember to update these and aptmarklistversion.txt every release!
 SCRIPTNAME="$0"
 
@@ -33,7 +33,6 @@ runupdate () {
     if [ -f $SCRIPTNAME ]; then
         echo "Update finished!"
         rm -f /tmp/updatescript.sh
-        exec $SCRIPTNAME
         exit 0
     else
         read -p "Update Failed! Try again? Y/N " -n 1 -r

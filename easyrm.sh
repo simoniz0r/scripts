@@ -44,7 +44,6 @@ runupdate () {
     if [ -f $SCRIPTNAME ]; then
         echo "Update finished!"
         rm -f /tmp/updatescript.sh
-        exec $SCRIPTNAME
         exit 0
     else
         read -p "Update Failed! Try again? Y/N " -n 1 -r
