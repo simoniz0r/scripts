@@ -1,2 +1,2 @@
-AMVER="1.0.1"
-X="v1.0.1 - Changed update to argument -u."
+AMVER="1.0.2"
+X="v1.0.2 - Fixed update argument."

@@ -5,8 +5,8 @@
 # A POSIX variable
 OPTIND=1         # Reset in case getopts has been used previously in the shell.
 
-ERMVER="1.0.1"
-X="v1.0.1 - Changed update to argument -n."
+ERMVER="1.0.2"
+X="v1.0.2 - Fixed update arguments."
 SCRIPTNAME="$0"
 
 help () {
@@ -33,118 +33,6 @@ easyrm () {
     else
         echo "$ARG was not moved!"
     fi
-}
-
-main () {
-    if [ -f ~/.config/easyrm/easyrm.conf ]; then
-        ARG=$1
-        if [[ "$ARG" == /* ]]; then
-            easyrm
-        elif [[ "$ARG" == ./* ]]; then
-            easyrm
-        elif [[ "$ARG" == ~/* ]]; then
-            easyrm
-        elif [[ "$ARG" == -* ]]; then
-            while getopts ":hpcfuln" opt; do
-                case "$opt" in
-                h|\?|help)
-                    help
-                    exit 0
-                    ;;
-                l)
-                    dir ~/.easyrmtmp
-                    ;;
-                p)
-                    echo "$2 will be permanently deleted!"
-                    read -p "Continue? Y/N" -n 1 -r
-                    echo
-                    if [[ $REPLY =~ ^[Yy]$ ]]; then
-                        if [ "${2: -1}" = "/" ]; then
-                            rm -r $2
-                            echo "$2 was deleted permanently!"
-                        else
-                            rm $2
-                            echo "$2 was deleted permanently!"
-                        fi
-                    else
-                        echo "$2 was not deleted!"
-                    fi
-                    ;;
-                c)
-                    NUMBER=$(ls -l ~/.easyrmtmp | wc -l)
-                    REALNUM=$(($NUMBER-1))
-                    echo "The following files and/or directories in '~/.easyrmtmp' will be permanently deleted:"
-                    dir ~/.easyrmtmp
-                    read -p "Continue? Y/N" -n 1 -r
-                    echo
-                    if [[ $REPLY =~ ^[Yy]$ ]]; then
-                        rm -r ~/.easyrmtmp/*
-                        echo "$REALNUM files and/or directories have been permanently deleted!"
-                    else
-                        echo "Files and directories in '~/.easyrmtmp' were not deleted!"
-                    fi
-                    ;;
-                u)
-                    echo "All files in '~/.easyrmtmp' will be permanently deleted and config file will be removed!"
-                    read -p "Continue? Y/N" -n 1 -r
-                    echo
-                    if [[ $REPLY =~ ^[Yy]$ ]]; then
-                        rm -r ~/.config/easyrm/
-                        rm -r ~/.easyrmtmp/
-                        echo "Finished!"
-                    else
-                        echo "'~/.easyrmtmp' was not deleted and config file remains!"
-                    fi
-                    ;;
-                f)
-                    echo "$2 will be permanently deleted by force!"
-                    read -p "Continue? Y/N" -n 1 -r
-                    echo
-                    if [[ $REPLY =~ ^[Yy]$ ]]; then
-                        if [ "${2: -1}" = "/" ]; then
-                            rm -rf $2
-                            echo "$2 was deleted permanently!"
-                        else
-                            rm -f $2
-                            echo "$2 was deleted permanently!"
-                        fi
-                    else
-                        echo "$2 was not deleted!"
-                    fi
-                n)
-                    PROGRAM="curl"
-                    programisinstalled
-                    if [ "$return" = "1" ]; then
-                        updatecheck
-                    else
-                        echo "curl is not installed; could not check for updates."
-                    fi
-                esac
-            done
-        else
-            ARG="${ARG::-z}./$1"
-            easyrm
-        fi
-
-        shift $((OPTIND-1))
-
-        [ "$1" = "--" ] && shift
-    else
-        mkdir ~/.config/easyrm/
-        echo "'~/.easyrmtmp' has been created." > ~/.config/easyrm/easyrm.conf
-        echo "Directory '~/.easyrmtmp' does not exist..."
-        echo "Creating '~/.easyrmtmp' directory for temporary storage of removed files/directories..."
-        mkdir ~/.easyrmtmp
-        echo "Please run the command again"
-    fi
-}
-
-programisinstalled () {
-  # set to 1 initially
-  return=1
-  # set to 0 if not found
-  type $PROGRAM >/dev/null 2>&1 || { return=0; }
-  # return value
 }
 
 updatescript () {
@@ -190,31 +78,107 @@ updatecheck () {
             exec /tmp/updatescript.sh
             exit 0
         else
-            echo
-            main
+            echo "easyrm.sh was not updated."
         fi
     else
         echo "Installed version: $ERMVER -- Current version: $VERTEST"
         echo "easyrm.sh is up to date."
-        echo
-        main
     fi
 }
 
-
-
-PROGRAM="curl"
-programisinstalled
-if [ "$return" = "1" ]; then
-    updatecheck
-else
-    read -p "curl is not installed; run script without checking for new version? Y/N " -n 1 -r
-    if [[ $REPLY =~ ^[Yy]$ ]]; then
-        echo
-        main
+if [ -f ~/.config/easyrm/easyrm.conf ]; then
+    ARG=$1
+    if [[ "$ARG" == /* ]]; then
+        easyrm
+    elif [[ "$ARG" == ./* ]]; then
+        easyrm
+    elif [[ "$ARG" == ~/* ]]; then
+        easyrm
+    elif [[ "$ARG" == -* ]]; then
+        while getopts ":hpcfuln" opt; do
+            case "$opt" in
+            h|\?|help)
+                help
+                exit 0
+                ;;
+            l)
+                dir ~/.easyrmtmp
+                ;;
+            p)
+                echo "$2 will be permanently deleted!"
+                read -p "Continue? Y/N" -n 1 -r
+                echo
+                if [[ $REPLY =~ ^[Yy]$ ]]; then
+                    if [ "${2: -1}" = "/" ]; then
+                        rm -r $2
+                        echo "$2 was deleted permanently!"
+                    else
+                        rm $2
+                        echo "$2 was deleted permanently!"
+                    fi
+                else
+                    echo "$2 was not deleted!"
+                fi
+                ;;
+            c)
+                NUMBER=$(ls -l ~/.easyrmtmp | wc -l)
+                REALNUM=$(($NUMBER-1))
+                echo "The following files and/or directories in '~/.easyrmtmp' will be permanently deleted:"
+                dir ~/.easyrmtmp
+                read -p "Continue? Y/N" -n 1 -r
+                echo
+                if [[ $REPLY =~ ^[Yy]$ ]]; then
+                    rm -r ~/.easyrmtmp/*
+                    echo "$REALNUM files and/or directories have been permanently deleted!"
+                else
+                    echo "Files and directories in '~/.easyrmtmp' were not deleted!"
+                fi
+                ;;
+            u)
+                echo "All files in '~/.easyrmtmp' will be permanently deleted and config file will be removed!"
+                read -p "Continue? Y/N" -n 1 -r
+                echo
+                if [[ $REPLY =~ ^[Yy]$ ]]; then
+                    rm -r ~/.config/easyrm/
+                    rm -r ~/.easyrmtmp/
+                    echo "Finished!"
+                else
+                    echo "'~/.easyrmtmp' was not deleted and config file remains!"
+                fi
+                ;;
+            f)
+                echo "$2 will be permanently deleted by force!"
+                read -p "Continue? Y/N" -n 1 -r
+                echo
+                if [[ $REPLY =~ ^[Yy]$ ]]; then
+                    if [ "${2: -1}" = "/" ]; then
+                        rm -rf $2
+                        echo "$2 was deleted permanently!"
+                    else
+                        rm -f $2
+                        echo "$2 was deleted permanently!"
+                    fi
+                else
+                    echo "$2 was not deleted!"
+                fi
+                ;;
+            n)
+                updatecheck
+            esac
+        done
     else
-        echo
-        echo "Exiting."
-        exit 0
+        ARG="${ARG::-z}./$1"
+        easyrm
     fi
+
+    shift $((OPTIND-1))
+
+    [ "$1" = "--" ] && shift
+else
+    mkdir ~/.config/easyrm/
+    echo "'~/.easyrmtmp' has been created." > ~/.config/easyrm/easyrm.conf
+    echo "Directory '~/.easyrmtmp' does not exist..."
+    echo "Creating '~/.easyrmtmp' directory for temporary storage of removed files/directories..."
+    mkdir ~/.easyrmtmp
+    echo "Please run the command again"
 fi

@@ -4,8 +4,8 @@
 # Can also install packages from the outputted file.
 # Base command found here: http://askubuntu.com/questions/2389/generating-list-of-manually-installed-packages-and-querying-individual-packages
 
-AMVER="1.0.1"
-X="v1.0.1 - Changed update to argument -u."
+AMVER="1.0.2"
+X="v1.0.2 - Fixed update argument."
 # ^^ Remember to update these and aptmarklistversion.txt every release!
 SCRIPTNAME="$0"
 
@@ -22,52 +22,6 @@ help () {
     echo "-n : Outputs the number of user installed packages."
     echo "-i : Installs packages from package list file. Use full path name.  Ex: aptmarklist.sh -i /home/simonizor/packagelist.txt"
     echo "-u : Check for updated version of aptmarklist.sh."
-}
-
-main () {
-    ARG=$1
-    if [[ "$ARG" == -* ]]; then
-        while getopts ":hwcniu" opt; do
-            case "$opt" in
-            h|\?|help)
-                help
-                exit 0
-                ;;
-            w)
-                aptmarklist | tee ~/packagelist.txt
-                ;;
-            c)
-                OUTPUT=$2
-                aptmarklist | tee $OUTPUT
-                ;;
-            n)
-                aptmarklist | wc -l
-                ;;
-            i)
-                PACKAGELIST=$2
-                xargs -a <(awk '/^\s*[^#]/' "$PACKAGELIST") -r -- sudo apt install
-                ;;
-            u)
-                PROGRAM="curl"
-                programisinstalled
-                if [ "$return" = "1" ]; then
-                    updatecheck
-                else
-                    echo "curl is not installed; could not check for updates."
-                fi
-            esac
-        done
-    else
-        aptmarklist
-    fi
-}
-
-programisinstalled () {
-  # set to 1 initially
-  return=1
-  # set to 0 if not found
-  type $PROGRAM >/dev/null 2>&1 || { return=0; }
-  # return value
 }
 
 updatescript () {
@@ -114,13 +68,40 @@ updatecheck () {
             exit 0
         else
             echo
-            main
+            echo "aptmarklist.sh was not updated."
         fi
     else
         echo "Installed version: $AMVER -- Current version: $VERTEST"
         echo "aptmarklist.sh is up to date."
-        echo
-        main
     fi
 }
 
+ARG=$1
+if [[ "$ARG" == -* ]]; then
+    while getopts ":hwcniu" opt; do
+        case "$opt" in
+        h|\?|help)
+            help
+            exit 0
+            ;;
+        w)
+            aptmarklist | tee ~/packagelist.txt
+            ;;
+        c)
+            OUTPUT=$2
+            aptmarklist | tee $OUTPUT
+            ;;
+        n)
+            aptmarklist | wc -l
+            ;;
+        i)
+            PACKAGELIST=$2
+            xargs -a <(awk '/^\s*[^#]/' "$PACKAGELIST") -r -- sudo apt install
+            ;;
+        u)
+            updatecheck
+        esac
+    done
+else
+    aptmarklist
+fi
