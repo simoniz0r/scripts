@@ -7,6 +7,7 @@ OPTIND=1         # Reset in case getopts has been used previously in the shell.
 
 ERMVER="1.0.4"
 X="v1.0.4 - Moved -n in help."
+# ^^ Remember to update these and ermversion.txt every release!
 SCRIPTNAME="$0"
 
 help () {

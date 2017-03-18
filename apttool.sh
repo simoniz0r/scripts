@@ -3,6 +3,7 @@
 
 APTTVER="1.0.1"
 X="v1.0.1 - Cleaned up package list output."
+# ^^ Remember to update these and apttversion.txt every release!
 SCRIPTNAME="$0"
 
 main () {
