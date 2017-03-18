@@ -166,7 +166,6 @@ else
     read -p "curl is not installed; run script without checking for new version? Y/N " -n 1 -r
     if [[ $REPLY =~ ^[Yy]$ ]]; then
         echo
-        echo "Welcome to apt tool."
         main
     else
         echo
