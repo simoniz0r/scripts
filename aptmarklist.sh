@@ -71,6 +71,7 @@ updatecheck () {
         fi
     else
         echo "Installed version: $AMVER -- Current version: $VERTEST"
+        echo $UPNOTES
         echo "aptmarklist.sh is up to date."
     fi
 }

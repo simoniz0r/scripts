@@ -82,6 +82,7 @@ updatecheck () {
         fi
     else
         echo "Installed version: $ERMVER -- Current version: $VERTEST"
+        echo $UPNOTES
         echo "easyrm.sh is up to date."
     fi
 }

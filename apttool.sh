@@ -149,6 +149,7 @@ updatecheck () {
         fi
     else
         echo "Installed version: $APTTVER -- Current version: $VERTEST"
+        echo $UPNOTES
         echo "apttool.sh is up to date."
         echo
         main
