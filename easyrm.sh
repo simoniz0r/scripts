@@ -5,8 +5,8 @@
 # A POSIX variable
 OPTIND=1         # Reset in case getopts has been used previously in the shell.
 
-ERMVER="1.0.0"
-X="v1.0.0 - Added self updating functions."
+ERMVER="1.0.1"
+X="v1.0.1 - Changed update to argument -n."
 SCRIPTNAME="$0"
 
 help () {

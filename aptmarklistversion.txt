@@ -1,2 +1,2 @@
-AMVER="1.0.0"
-X="v1.0.0 - Added self updating functions."
+AMVER="1.0.1"
+X="v1.0.1 - Changed update to argument -u."
