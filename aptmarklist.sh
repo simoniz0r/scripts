@@ -4,8 +4,8 @@
 # Can also install packages from the outputted file.
 # Base command found here: http://askubuntu.com/questions/2389/generating-list-of-manually-installed-packages-and-querying-individual-packages
 
-AMVER="1.0.6"
-X="v1.0.6 - Changed to output number of user installed packages without any arguments.  Argument '-l' outputs list of user installed packages without writing to file."
+AMVER="1.0.7"
+X="v1.0.7 - Made it more clear that write succeeded."
 # ^^ Remember to update these and aptmarklistversion.txt every release!
 SCRIPTNAME="$0"
 
