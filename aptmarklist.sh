@@ -4,8 +4,8 @@
 # Can also install packages from the outputted file.
 # Base command found here: http://askubuntu.com/questions/2389/generating-list-of-manually-installed-packages-and-querying-individual-packages
 
-AMVER="1.1.1"
-X="v1.1.1 - Added check for 'curl' install before running updatecheck."
+AMVER="1.1.2"
+X="v1.1.2 - Made it clear that 'curl' is needed for updates."
 # ^^ Remember to update these and aptmarklistversion.txt every release!
 SCRIPTNAME="$0"
 
@@ -123,7 +123,7 @@ if [[ "$ARG" == -* ]]; then
             if [ "$return" = "1" ]; then
                 updatecheck
             else
-                echo "$PROGRAM is not installed!"
+                echo "$PROGRAM is not installed; cannot check for updates!"
                 exit 1
             fi
         esac

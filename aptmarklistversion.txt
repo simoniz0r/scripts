@@ -1,2 +1,2 @@
-AMVER="1.1.1"
-X="v1.1.1 - Added check for 'curl' install before running updatecheck."
+AMVER="1.1.2"
+X="v1.1.2 - Made it clear that 'curl' is needed for updates."
