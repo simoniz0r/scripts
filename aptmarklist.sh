@@ -4,8 +4,8 @@
 # Can also install packages from the outputted file.
 # Base command found here: http://askubuntu.com/questions/2389/generating-list-of-manually-installed-packages-and-querying-individual-packages
 
-AMVER="1.0.7"
-X="v1.0.7 - Made it more clear that write succeeded."
+AMVER="1.0.8"
+X="v1.0.8 - Removed sudo from '-i'; run aptmarklist.sh as sudo for the '-i' argument to succeed. Ex: ./aptmarklist.sh -i ./packagelist.txt to."
 # ^^ Remember to update these and aptmarklistversion.txt every release!
 SCRIPTNAME="$0"
 
@@ -20,7 +20,7 @@ help () {
     echo "-l : Outputs list of packages installed and number without writing to file."
     echo "-w : Writes the output to ~/.packagelist.txt"
     echo "-c : Write output to custom file. Ex: 'aptmarklist.sh -c ~/mypackages.txt'"
-    echo "-i : Installs packages from package list file. Use full path name.  Ex: aptmarklist.sh -i /home/simonizor/packagelist.txt"
+    echo "-i : Installs packages from package list file. Ex: sudo ./aptmarklist.sh -i /home/simonizor/packagelist.txt"
     echo "-u : Check for updated version of aptmarklist.sh."
 }
 
@@ -117,7 +117,7 @@ if [[ "$ARG" == -* ]]; then
             ;;
         i)
             PACKAGELIST=$2
-            xargs -a <(awk '/^\s*[^#]/' "$PACKAGELIST") -r -- sudo apt install
+            xargs -a <(awk '/^\s*[^#]/' "$PACKAGELIST") -r -- apt install
             ;;
         u)
             updatecheck
