@@ -1,2 +1,2 @@
-ERMVER="1.0.5"
-X="v1.0.5 - Changed remove directory and config to '-r'; changed check for update to '-u'."
+ERMVER="1.0.6"
+X="v1.0.6 - Added check for 'curl' before updatecheck."

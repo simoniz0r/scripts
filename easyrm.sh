@@ -5,8 +5,8 @@
 # A POSIX variable
 OPTIND=1         # Reset in case getopts has been used previously in the shell.
 
-ERMVER="1.0.5"
-X="v1.0.5 - Changed remove directory and config to '-r'; changed check for update to '-u'."
+ERMVER="1.0.6"
+X="v1.0.6 - Added check for 'curl' before updatecheck."
 # ^^ Remember to update these and ermversion.txt every release!
 SCRIPTNAME="$0"
 
@@ -87,6 +87,14 @@ updatecheck () {
     fi
 }
 
+programisinstalled () {
+  # set to 1 initially
+  return=1
+  # set to 0 if not found
+  type $PROGRAM >/dev/null 2>&1 || { return=0; }
+  # return value
+}
+
 if [ -f ~/.config/easyrm/easyrm.conf ]; then
     ARG=$1
     if [[ "$ARG" == /* ]]; then
@@ -164,7 +172,14 @@ if [ -f ~/.config/easyrm/easyrm.conf ]; then
                 fi
                 ;;
             u)
-                updatecheck
+                PROGRAM="curl"
+                programisinstalled
+                if [ "$return" = "1" ]; then
+                    updatecheck
+                else
+                    echo "$PROGRAM is not installed!"
+                    exit 1
+                fi
             esac
         done
     else
