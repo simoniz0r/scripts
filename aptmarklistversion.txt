@@ -1,2 +1,2 @@
-AMVER="1.0.9"
-X="v1.0.9 - Removed '-c' argument; '-w' will now either write to '~/packagelist.txt' or a different file if specified."
+AMVER="1.1.0"
+X="v1.1.0 - Removed '$ Packages' from '-w' output."

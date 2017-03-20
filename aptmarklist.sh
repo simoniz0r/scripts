@@ -4,8 +4,8 @@
 # Can also install packages from the outputted file.
 # Base command found here: http://askubuntu.com/questions/2389/generating-list-of-manually-installed-packages-and-querying-individual-packages
 
-AMVER="1.0.9"
-X="v1.0.9 - Removed '-c' argument; '-w' will now either write to '~/packagelist.txt' or a different file if specified."
+AMVER="1.1.0"
+X="v1.1.0 - Removed '$ Packages' from '-w' output."
 # ^^ Remember to update these and aptmarklistversion.txt every release!
 SCRIPTNAME="$0"
 
@@ -85,7 +85,6 @@ if [[ "$ARG" == -* ]]; then
             ;;
         w)
             NUM=$(aptmarklist | wc -l)
-            echo "$ Packages"
             if [ -z "$2" ]; then
                 OUTPUT=~/packagelist.txt
             else
