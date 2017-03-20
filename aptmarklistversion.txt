@@ -1,2 +1,2 @@
-AMVER="1.0.5"
-X="v1.0.5 - Added confirmation that file was written."
+AMVER="1.0.6"
+X="v1.0.6 - Changed to output number of user installed packages without any arguments.  Argument '-l' outputs list of user installed packages without writing to file."
