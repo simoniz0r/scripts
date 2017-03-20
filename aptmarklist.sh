@@ -4,8 +4,8 @@
 # Can also install packages from the outputted file.
 # Base command found here: http://askubuntu.com/questions/2389/generating-list-of-manually-installed-packages-and-querying-individual-packages
 
-AMVER="1.1.0"
-X="v1.1.0 - Removed '$ Packages' from '-w' output."
+AMVER="1.1.1"
+X="v1.1.1 - Added check for 'curl' install before running updatecheck."
 # ^^ Remember to update these and aptmarklistversion.txt every release!
 SCRIPTNAME="$0"
 
@@ -75,6 +75,14 @@ updatecheck () {
     fi
 }
 
+programisinstalled () {
+  # set to 1 initially
+  return=1
+  # set to 0 if not found
+  type $PROGRAM >/dev/null 2>&1 || { return=0; }
+  # return value
+}
+
 ARG=$1
 if [[ "$ARG" == -* ]]; then
     while getopts ":hwliu" opt; do
@@ -110,7 +118,14 @@ if [[ "$ARG" == -* ]]; then
             xargs -a <(awk '/^\s*[^#]/' "$PACKAGELIST") -r -- apt install
             ;;
         u)
-            updatecheck
+            PROGRAM="curl"
+            programisinstalled
+            if [ "$return" = "1" ]; then
+                updatecheck
+            else
+                echo "$PROGRAM is not installed!"
+                exit 1
+            fi
         esac
     done
 else
