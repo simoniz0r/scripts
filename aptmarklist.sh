@@ -4,8 +4,8 @@
 # Can also install packages from the outputted file.
 # Base command found here: http://askubuntu.com/questions/2389/generating-list-of-manually-installed-packages-and-querying-individual-packages
 
-AMVER="1.0.8"
-X="v1.0.8 - Removed sudo from '-i'; run aptmarklist.sh as sudo for the '-i' argument to succeed. Ex: ./aptmarklist.sh -i ./packagelist.txt to."
+AMVER="1.0.9"
+X="v1.0.9 - Removed '-c' argument; '-w' will now either write to '~/packagelist.txt' or a different file if specified."
 # ^^ Remember to update these and aptmarklistversion.txt every release!
 SCRIPTNAME="$0"
 
@@ -18,8 +18,7 @@ help () {
     echo "Arguments:"
     echo "-h : Shows this help dialog."
     echo "-l : Outputs list of packages installed and number without writing to file."
-    echo "-w : Writes the output to ~/.packagelist.txt"
-    echo "-c : Write output to custom file. Ex: 'aptmarklist.sh -c ~/mypackages.txt'"
+    echo "-w : Writes the output to ~/.packagelist.txt or different file  if specified. Ex: 'aptm -w' or 'aptm -w ./mypackages.txt'"
     echo "-i : Installs packages from package list file. Ex: sudo ./aptmarklist.sh -i /home/simonizor/packagelist.txt"
     echo "-u : Check for updated version of aptmarklist.sh."
 }
@@ -78,7 +77,7 @@ updatecheck () {
 
 ARG=$1
 if [[ "$ARG" == -* ]]; then
-    while getopts ":hwcliu" opt; do
+    while getopts ":hwliu" opt; do
         case "$opt" in
         h|\?|help)
             help
@@ -87,26 +86,18 @@ if [[ "$ARG" == -* ]]; then
         w)
             NUM=$(aptmarklist | wc -l)
             echo "$ Packages"
-            aptmarklist | tee ~/packagelist.txt &>/dev/null
-            echo "$ Total number of user installed packages: $NUM"
-            if [ -f ~/packagelist.txt ]; then
-                echo "$ ~/packages.txt"
-                cat ~/packagelist.txt
+            if [ -z "$2" ]; then
+                OUTPUT=~/packagelist.txt
             else
-                echo "$ Failed to write file!"
+                OUTPUT=$2
             fi
-            ;;
-        c)
-            NUM=$(aptmarklist | wc -l)
-            echo "$ Packages"
-            OUTPUT=$2
             aptmarklist | tee $OUTPUT &>/dev/null
             echo "$ Total number of user installed packages: $NUM"
             if [ -f $OUTPUT ]; then
                 echo "$ $OUTPUT"
                 cat $OUTPUT
             else
-                echo "$ Failed to write file!"
+                echo "$ Failed to write file $OUTPUT !"
             fi
             ;;
         l)

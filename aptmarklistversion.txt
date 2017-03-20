@@ -1,2 +1,2 @@
-AMVER="1.0.8"
-X="v1.0.8 - Removed sudo from '-i'; run aptmarklist.sh as sudo for the '-i' argument to succeed. Ex: ./aptmarklist.sh -i ./packagelist.txt to."
+AMVER="1.0.9"
+X="v1.0.9 - Removed '-c' argument; '-w' will now either write to '~/packagelist.txt' or a different file if specified."
