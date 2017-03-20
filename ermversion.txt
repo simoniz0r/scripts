@@ -1,2 +1,2 @@
-ERMVER="1.0.4"
-X="v1.0.4 - Moved -n in help."
+ERMVER="1.0.5"
+X="v1.0.5 - Changed remove directory and config to '-r'; changed check for update to '-u'."
