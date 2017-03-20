@@ -5,8 +5,8 @@
 # A POSIX variable
 OPTIND=1         # Reset in case getopts has been used previously in the shell.
 
-ERMVER="1.0.6"
-X="v1.0.6 - Added check for 'curl' before updatecheck."
+ERMVER="1.0.7"
+X="v1.0.7 - Made it clear that 'curl' is needed for updating."
 # ^^ Remember to update these and ermversion.txt every release!
 SCRIPTNAME="$0"
 
@@ -178,7 +178,7 @@ if [ -f ~/.config/easyrm/easyrm.conf ]; then
                 if [ "$return" = "1" ]; then
                     updatecheck
                 else
-                    echo "$PROGRAM is not installed!"
+                    echo "$PROGRAM is not installed; cannot check for update!"
                     exit 1
                 fi
             esac

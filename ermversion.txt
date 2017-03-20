@@ -1,2 +1,2 @@
-ERMVER="1.0.6"
-X="v1.0.6 - Added check for 'curl' before updatecheck."
+ERMVER="1.0.7"
+X="v1.0.7 - Made it clear that 'curl' is needed for updating."
