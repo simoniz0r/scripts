@@ -86,32 +86,34 @@ if [[ "$ARG" == -* ]]; then
             ;;
         w)
             NUM=$(aptmarklist | wc -l)
-            echo "-- Packages --"
+            echo "$ Packages"
             aptmarklist | tee ~/packagelist.txt &>/dev/null
-            echo "-- Total number of user installed packages: $NUM --"
+            echo "$ Total number of user installed packages: $NUM"
             if [ -f ~/packagelist.txt ]; then
+                echo "$ ~/packages.txt"
                 cat ~/packagelist.txt
             else
-                echo "-- Failed to write file! --"
+                echo "$ Failed to write file!"
             fi
             ;;
         c)
             NUM=$(aptmarklist | wc -l)
-            echo "-- Packages --"
+            echo "$ Packages"
             OUTPUT=$2
             aptmarklist | tee $OUTPUT &>/dev/null
-            echo "-- Total number of user installed packages: $NUM --"
+            echo "$ Total number of user installed packages: $NUM"
             if [ -f $OUTPUT ]; then
+                echo "$ $OUTPUT"
                 cat $OUTPUT
             else
-                echo "-- Failed to write file! --"
+                echo "$ Failed to write file!"
             fi
             ;;
         l)
             NUM=$(aptmarklist | wc -l)
-            echo "-- Packages --"
+            echo "$ Packages"
             aptmarklist
-            echo "-- Total number of user installed packages: $NUM --"
+            echo "$ Total number of user installed packages: $NUM"
             ;;
         i)
             PACKAGELIST=$2
@@ -123,5 +125,5 @@ if [[ "$ARG" == -* ]]; then
     done
 else
     NUM=$(aptmarklist | wc -l)
-    echo "-- Total number of user installed packages: $NUM --"
+    echo "$ Total number of user installed packages: $NUM"
 fi
