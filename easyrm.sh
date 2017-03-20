@@ -78,6 +78,7 @@ updatecheck () {
             exec /tmp/updatescript.sh
             exit 0
         else
+            echo
             echo "easyrm.sh was not updated."
         fi
     else
