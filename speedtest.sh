@@ -87,7 +87,7 @@ main () {
                 10|10m*|10M*)
                     wget -O /dev/null http://cachefly.cachefly.net/10mb.test
                     ;;
-                100|100m*|100MB)
+                100|100m*|100M*)
                     wget -O /dev/null http://cachefly.cachefly.net/100mb.test
                     ;;
                 200|200m*|200M*)
@@ -102,7 +102,7 @@ main () {
                 g*|G*)
                     wget -O /dev/null https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
                     ;;
-                all|All)
+                a*|A*)
                     echo "5MB"
                     wget -O /dev/null http://cachefly.cachefly.net/5mb.test
                     echo "10MB"
