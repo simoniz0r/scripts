@@ -112,8 +112,6 @@ if [ $return = "1" ]; then
                     updatecheck
                 fi
     esac
-            
-
 else
     echo "wget is not installed!"
 fi
