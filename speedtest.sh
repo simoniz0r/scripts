@@ -105,7 +105,11 @@ if [ $return = "1" ]; then
                 ;;
             *)
                 helpfunc
-                updatecheck
+                PROGRAM="curl"
+                programisinstalled
+                if [ $return = "1" ]; then
+                    updatecheck
+                fi
     esac
             
 
