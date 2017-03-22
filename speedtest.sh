@@ -2,8 +2,8 @@
 # A simple script that uses 'wget -O' to download files to '/dev/null' to test download speeds.
 # Written by simonizor 3/21/2017
 
-STVER="1.0.1"
-X="v1.0.1 - Changed download links to cachefly for more reliable speed tests.  Also added a file from Twitch, Steam, and Google."
+STVER="1.0.2"
+X="v1.0.2 - Changed help output to match new file sizes."
 # ^^Remember to update this and speedtestversion.txt every release!
 SCRIPTNAME="$0"
 
@@ -69,7 +69,7 @@ programisinstalled () {
 
 helpfunc () {
     echo "A simple script that uses 'wget' to download files to  '/dev/null' to test download speeds."
-    echo "File sizes available for testing are 5MB, 10MB, 20MB, 50MB, 100MB, and 200MB."
+    echo "File sizes available for testing are 5MB, 10MB, 50MB, 100MB, and 200MB."
     echo "Also included is a file from Twitch, Steam, and Google."
     echo "Specify the file size by adding the size after the script name when executing."
     echo "Ex: './speedtest.sh 200' './speedtest.sh google'"

@@ -1,2 +1,2 @@
-STVER="1.0.1"
-X="v1.0.1 - Changed download links to cachefly for more reliable speed tests.  Also added a file from Twitch, Steam, and Google."
+STVER="1.0.2"
+X="v1.0.2 - Changed help output to match new file sizes."
