@@ -2,8 +2,8 @@
 # A simple script that uses 'wget -O' to download files to '/dev/null' to test download speeds.
 # Written by simonizor 3/21/2017
 
-STVER="1.0.2"
-X="v1.0.2 - Changed help output to match new file sizes."
+STVER="1.0.3"
+X="v1.0.3 - Can now run more than one speedtest at a time.  Ex: './speedtest.sh 5 10 100 200'.  Removed 50 because it redirected to 100."
 # ^^Remember to update this and speedtestversion.txt every release!
 SCRIPTNAME="$0"
 
@@ -69,49 +69,75 @@ programisinstalled () {
 
 helpfunc () {
     echo "A simple script that uses 'wget' to download files to  '/dev/null' to test download speeds."
-    echo "File sizes available for testing are 5MB, 10MB, 50MB, 100MB, and 200MB."
+    echo "File sizes available for testing are 5MB, 10MB, 100MB, and 200MB."
     echo "Also included is a file from Twitch, Steam, and Google."
     echo "Specify the file size by adding the size after the script name when executing."
-    echo "Ex: './speedtest.sh 200' './speedtest.sh google'"
+    echo "Ex: './speedtest.sh 200' './speedtest.sh google' './speedtest.sh 5 10 100 200 twitch steam google'"
 
 }
 
-PROGRAM="wget"
-programisinstalled
-if [ $return = "1" ]; then
-    case $1 in
-            5|5mb|5MB)
-                wget -O /dev/null http://cachefly.cachefly.net/5mb.test
-                ;;
-            10|10mb|10MB)
-                wget -O /dev/null http://cachefly.cachefly.net/10mb.test
-                ;;
-            50|50mb|50MB)
-                wget -O /dev/null http://cachefly.cachefly.net/50mb.test
-                ;;
-            100|100mb|100MB)
-                wget -O /dev/null http://cachefly.cachefly.net/100mb.test
-                ;;
-            200|200mb|200MB)
-                wget -O /dev/null http://cachefly.cachefly.net/200mb.test
-                ;;
-            twitch|Twitch)
-                wget -O /dev/null https://launcher.twitch.tv/TwitchLauncherInstaller.exe
-                ;;
-            steam|Steam)
-                wget -O /dev/null https://steamcdn-a.akamaihd.net/client/installer/steam.dmg
-                ;;
-            google|Google)
-                wget -O /dev/null https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-                ;;
-            *)
-                helpfunc
-                PROGRAM="curl"
-                programisinstalled
-                if [ $return = "1" ]; then
-                    updatecheck
-                fi
-    esac
-else
-    echo "wget is not installed!"
+main () {
+    PROGRAM="wget"
+    programisinstalled
+    if [ $return = "1" ]; then
+        case $ARG in
+                5|5mb|5MB)
+                    wget -O /dev/null http://cachefly.cachefly.net/5mb.test
+                    ;;
+                10|10mb|10MB)
+                    wget -O /dev/null http://cachefly.cachefly.net/10mb.test
+                    ;;
+                100|100mb|100MB)
+                    wget -O /dev/null http://cachefly.cachefly.net/100mb.test
+                    ;;
+                200|200mb|200MB)
+                    wget -O /dev/null http://cachefly.cachefly.net/200mb.test
+                    ;;
+                twitch|Twitch)
+                    wget -O /dev/null https://launcher.twitch.tv/TwitchLauncherInstaller.exe
+                    ;;
+                steam|Steam)
+                    wget -O /dev/null https://steamcdn-a.akamaihd.net/client/installer/steam.dmg
+                    ;;
+                google|Google)
+                    wget -O /dev/null https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+                    ;;
+                *)
+                    helpfunc
+                    PROGRAM="curl"
+                    programisinstalled
+                    if [ $return = "1" ]; then
+                        updatecheck
+                    fi
+        esac
+    else
+        echo "wget is not installed!"
+    fi
+}
+
+ARG="$1"
+main
+if [ ! -z $2 ]; then
+    ARG="$2"
+    main
+fi
+if [ ! -z $3 ]; then
+    ARG="$3"
+    main
+fi
+if [ ! -z $4 ]; then
+    ARG="$4"
+    main
+fi
+if [ ! -z $5 ]; then
+    ARG="$5"
+    main
+fi
+if [ ! -z $6 ]; then
+    ARG="$6"
+    main
+fi
+if [ ! -z $7 ]; then
+    ARG="$7"
+    main
 fi
