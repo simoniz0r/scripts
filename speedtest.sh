@@ -93,13 +93,13 @@ main () {
                 200|200m*|200M*)
                     wget -O /dev/null http://cachefly.cachefly.net/200mb.test
                     ;;
-                twitch|Twitch)
+                t*|T*)
                     wget -O /dev/null https://launcher.twitch.tv/TwitchLauncherInstaller.exe
                     ;;
-                steam|Steam)
+                s*|S*)
                     wget -O /dev/null https://steamcdn-a.akamaihd.net/client/installer/steam.dmg
                     ;;
-                google|Google)
+                g*|G*)
                     wget -O /dev/null https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
                     ;;
                 all|All)
