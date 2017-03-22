@@ -81,16 +81,16 @@ main () {
     programisinstalled
     if [ $return = "1" ]; then
         case $1 in
-                5|5mb|5MB)
+                5|5m*|5M*)
                     wget -O /dev/null http://cachefly.cachefly.net/5mb.test
                     ;;
-                10|10mb|10MB)
+                10|10m*|10M*)
                     wget -O /dev/null http://cachefly.cachefly.net/10mb.test
                     ;;
-                100|100mb|100MB)
+                100|100m*|100MB)
                     wget -O /dev/null http://cachefly.cachefly.net/100mb.test
                     ;;
-                200|200mb|200MB)
+                200|200m*|200M*)
                     wget -O /dev/null http://cachefly.cachefly.net/200mb.test
                     ;;
                 twitch|Twitch)
