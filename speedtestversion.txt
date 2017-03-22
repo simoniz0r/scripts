@@ -1,2 +1,2 @@
-STVER="1.0.3"
-X="v1.0.3 - Can now run more than one speedtest at a time.  Ex: './speedtest.sh 5 10 100 200'.  Removed 50 because it redirected to 100."
+STVER="1.0.4"
+X="v1.0.4 - Added option to run all tests './speedtest.sh all'."

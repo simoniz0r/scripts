@@ -2,8 +2,8 @@
 # A simple script that uses 'wget -O' to download files to '/dev/null' to test download speeds.
 # Written by simonizor 3/21/2017
 
-STVER="1.0.3"
-X="v1.0.3 - Can now run more than one speedtest at a time.  Ex: './speedtest.sh 5 10 100 200'.  Removed 50 because it redirected to 100."
+STVER="1.0.4"
+X="v1.0.4 - Added option to run all tests './speedtest.sh all'."
 # ^^Remember to update this and speedtestversion.txt every release!
 SCRIPTNAME="$0"
 
@@ -72,7 +72,7 @@ helpfunc () {
     echo "File sizes available for testing are 5MB, 10MB, 100MB, and 200MB."
     echo "Also included is a file from Twitch, Steam, and Google."
     echo "Specify the file size by adding the size after the script name when executing."
-    echo "Ex: './speedtest.sh 200' './speedtest.sh google' './speedtest.sh 5 10 100 200 twitch steam google'"
+    echo "Ex: './speedtest.sh all' './speedtest.sh 200' './speedtest.sh google' './speedtest.sh 5 10 steam google'"
 
 }
 
@@ -101,6 +101,22 @@ main () {
                     ;;
                 google|Google)
                     wget -O /dev/null https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+                    ;;
+                all|All)
+                    echo "5MB"
+                    wget -O /dev/null http://cachefly.cachefly.net/5mb.test
+                    echo "10MB"
+                    wget -O /dev/null http://cachefly.cachefly.net/10mb.test
+                    echo "100MB"
+                    wget -O /dev/null http://cachefly.cachefly.net/100mb.test
+                    echo "200MB"
+                    wget -O /dev/null http://cachefly.cachefly.net/200mb.test
+                    echo "Steam"
+                    wget -O /dev/null https://steamcdn-a.akamaihd.net/client/installer/steam.dmg
+                    echo "Google"
+                    wget -O /dev/null https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+                    echo "Twitch"
+                    wget -O /dev/null https://launcher.twitch.tv/TwitchLauncherInstaller.exe
                     ;;
                 *)
                     helpfunc
