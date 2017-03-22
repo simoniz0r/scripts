@@ -1,0 +1,2 @@
+STVER="1.0.0"
+X="First release; a simple script that uses wget to download files to /dev/null to test download speeds"
