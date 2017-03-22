@@ -72,7 +72,7 @@ helpfunc () {
     echo "File sizes available for testing are 5MB, 10MB, 20MB, 50MB, 100MB, and 200MB."
     echo "Also included is a file from Twitch, Steam, and Google."
     echo "Specify the file size by adding the size after the script name when executing."
-    echo "Ex: './speedtest.sh 512' './speedtest.sh google'"
+    echo "Ex: './speedtest.sh 200' './speedtest.sh google'"
 
 }
 
