@@ -80,7 +80,7 @@ main () {
     PROGRAM="wget"
     programisinstalled
     if [ $return = "1" ]; then
-        case $ARG in
+        case $1 in
                 5|5mb|5MB)
                     wget -O /dev/null http://cachefly.cachefly.net/5mb.test
                     ;;
@@ -131,29 +131,22 @@ main () {
     fi
 }
 
-ARG="$1"
-main
+main "$1"
 if [ ! -z $2 ]; then
-    ARG="$2"
-    main
+    main "$2"
 fi
 if [ ! -z $3 ]; then
-    ARG="$3"
-    main
+    main "$3"
 fi
 if [ ! -z $4 ]; then
-    ARG="$4"
-    main
+    main "$4"
 fi
 if [ ! -z $5 ]; then
-    ARG="$5"
-    main
+    main "$5"
 fi
 if [ ! -z $6 ]; then
-    ARG="$6"
-    main
+    main "$6"
 fi
 if [ ! -z $7 ]; then
-    ARG="$7"
-    main
+    main "$7"
 fi
