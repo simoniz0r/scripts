@@ -2,8 +2,8 @@
 # A simple script that uses 'wget -O' to download files to '/dev/null' to test download speeds.
 # Written by simonizor 3/21/2017
 
-STVER="1.0.0"
-X="First release; a simple script that uses wget to download files to /dev/null to test download speeds"
+STVER="1.0.1"
+X="v1.0.1 - Changed download links to cachefly for more reliable speed tests.  Also added a file from Twitch, Steam, and Google."
 # ^^Remember to update this and speedtestversion.txt every release!
 SCRIPTNAME="$0"
 
@@ -69,9 +69,10 @@ programisinstalled () {
 
 helpfunc () {
     echo "A simple script that uses 'wget' to download files to  '/dev/null' to test download speeds."
-    echo "File sizes available for testing are 5MB, 10MB, 20MB, 50MB, 100MB, 200MB, 512MB, and 1GB."
+    echo "File sizes available for testing are 5MB, 10MB, 20MB, 50MB, 100MB, and 200MB."
+    echo "Also included is a file from Twitch, Steam, and Google."
     echo "Specify the file size by adding the size after the script name when executing."
-    echo "Ex: './speedtest.sh 512'"
+    echo "Ex: './speedtest.sh 512' './speedtest.sh google'"
 
 }
 
@@ -80,28 +81,28 @@ programisinstalled
 if [ $return = "1" ]; then
     case $1 in
             5|5mb|5MB)
-                wget -O /dev/null http://download.thinkbroadband.com/5MB.zip
+                wget -O /dev/null http://cachefly.cachefly.net/5mb.test
                 ;;
             10|10mb|10MB)
-                wget -O /dev/null http://download.thinkbroadband.com/10MB.zip
-                ;;
-            20|20mb|20MB)
-                wget -O /dev/null http://download.thinkbroadband.com/20MB.zip
+                wget -O /dev/null http://cachefly.cachefly.net/10mb.test
                 ;;
             50|50mb|50MB)
-                wget -O /dev/null http://download.thinkbroadband.com/50MB.zip
+                wget -O /dev/null http://cachefly.cachefly.net/50mb.test
                 ;;
             100|100mb|100MB)
-                wget -O /dev/null http://download.thinkbroadband.com/100MB.zip
+                wget -O /dev/null http://cachefly.cachefly.net/100mb.test
                 ;;
             200|200mb|200MB)
-                wget -O /dev/null http://download.thinkbroadband.com/200MB.zip
+                wget -O /dev/null http://cachefly.cachefly.net/200mb.test
                 ;;
-            512|512mb|512MB)
-                wget -O /dev/null http://download.thinkbroadband.com/512MB.zip
+            twitch|Twitch)
+                wget -O /dev/null https://launcher.twitch.tv/TwitchLauncherInstaller.exe
                 ;;
-            1|1gb|1GB)
-                wget -O /dev/null http://download.thinkbroadband.com/1GB.zip
+            steam|Steam)
+                wget -O /dev/null https://steamcdn-a.akamaihd.net/client/installer/steam.dmg
+                ;;
+            google|Google)
+                wget -O /dev/null https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
                 ;;
             *)
                 helpfunc

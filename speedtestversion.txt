@@ -1,2 +1,2 @@
-STVER="1.0.0"
-X="First release; a simple script that uses wget to download files to /dev/null to test download speeds"
+STVER="1.0.1"
+X="v1.0.1 - Changed download links to cachefly for more reliable speed tests.  Also added a file from Twitch, Steam, and Google."
