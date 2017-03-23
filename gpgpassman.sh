@@ -3,11 +3,12 @@
 # Dependencies: 'gpg', 'xclip', 'curl' (optional; for auto-updating gpgpassman.sh)
 # Written by simonizor 3/22/2017
 
-GPMVER="1.0.2"
-X="v1.0.2 - Added ability to define custom password storage directory with './gpgpassman.sh dir /path/to/directory'.  Note: gpgpassman.sh will not be able to see passwords stored in more than one main directory at a time."
+GPMVER="1.0.3"
+X="v1.0.3 - Fix creating dir on first run."
 # ^^Remember to update this and gpmversion.txt every release!
 SCRIPTNAME="$0"
 GPMDIR="$(< ~/.config/gpgpassman/gpgpassman.conf)"
+GPMINITDIR=~/.gpgpassman
 GPMCONFDIR=~/.config/gpgpassman
 SERVNAME="$2"
 
@@ -91,7 +92,7 @@ main () {
         add)
             if [ ! -d "$GPMCONFDIR" ]; then
                 mkdir $GPMCONFDIR
-                echo "$GPMDIR" > $GPMCONFDIR/gpgpassman.conf
+                echo "$GPMINITDIR" > $GPMCONFDIR/gpgpassman.conf
             fi
             if [ -z $SERVNAME ]; then
                 helpfunc
@@ -197,7 +198,7 @@ main () {
 
 if [ ! -d "$GPMCONFDIR" ]; then
     mkdir $GPMCONFDIR
-    echo "$GPMDIR" > $GPMCONFDIR/gpgpassman.conf
+    echo "$GPMINITDIR" > $GPMCONFDIR/gpgpassman.conf
 fi
 programisinstalled "gpg"
 if [ $return = "1" ]; then
