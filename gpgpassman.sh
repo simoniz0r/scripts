@@ -3,14 +3,16 @@
 # Dependencies: 'gpg', 'xclip', 'curl' (optional; for auto-updating gpgpassman.sh)
 # Written by simonizor 3/22/2017
 
-GPMVER="1.0.4"
-X="v1.0.4 - Detect wrong password or gpg closed on decryption."
+GPMVER="1.0.5"
+X="v1.0.5 - Fixed up helpfunc for a cleaner output."
 # ^^Remember to update this and gpmversion.txt every release!
 SCRIPTNAME="$0"
 GPMDIR="$(< ~/.config/gpgpassman/gpgpassman.conf)"
 GPMINITDIR=~/.gpgpassman
 GPMCONFDIR=~/.config/gpgpassman
 SERVNAME="$2"
+bold=$(tput bold)
+normal=$(tput sgr0)
 
 updatescript () {
 cat >/tmp/updatescript.sh <<EOL
@@ -76,14 +78,14 @@ helpfunc () {
     echo "Currently managed services: $(dir $GPMDIR)"
     echo "Current password storage directory: $GPMDIR"
     echo
-    echo "A script that uses 'gpg' to encrypt and decrypt passwords stored in '~/.gpgpassman'"
-    echo "add - Add encrypted password file."
+    echo "${bold}Usage:"
+    echo "${bold}add${normal} - Add encrypted password file."
     echo "- Ex: './gpgpassman.sh add servicename'"
-    echo "dec - Decrypt a stored password file using the service name and copy to clipboard for 45 seconds."
+    echo "${bold}dec${normal} - Decrypt a stored password file using the service name and copy to clipboard for 45 seconds."
     echo "- Ex: './gpgpassman.sh dec servicename'"
-    echo "rem - Remove a stored password file using the service name."
+    echo "${bold}rem${normal} - Remove a stored password file using the service name."
     echo "- Ex: './gpgpassman.sh rem servicename'"
-    echo "dir - Change default directory used by gpgpassman.sh. Only passwords in the currently configured directory will be able to be managed."
+    echo "${bold}dir${normal} - Change default directory used by gpgpassman.sh. Only passwords in the currently configured directory will be able to be managed."
     echo "- Ex: './gpgpassman.sh dir /path/to/directory'."
 }
 
@@ -187,6 +189,7 @@ main () {
             fi
             ;;
         *)
+            echo "gpgpassman.sh - a script that uses 'gpg' to encrypt and decrypt passwords."
             helpfunc
             echo
             programisinstalled "curl"
