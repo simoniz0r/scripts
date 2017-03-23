@@ -184,7 +184,10 @@ main () {
             fi
             ;;
         *)
+            echo "Currently managed services: $(dir $GPMDIR)"
+            echo
             helpfunc
+            echo
             programisinstalled "curl"
             if [ $return = "1" ]; then
                 updatecheck
