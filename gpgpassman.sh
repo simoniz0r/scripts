@@ -90,13 +90,6 @@ helpfunc () {
 main () {
     case $1 in
         add)
-            if [ ! -f "$GPMCONFDIR/gpgpassman.conf" ]; then
-                echo "$GPMCONFDIR does not exist; creating..."
-                mkdir $GPMCONFDIR
-                echo "$GPMINITDIR" > $GPMCONFDIR/gpgpassman.conf
-                echo "$GPMCONFDIR created and config file written; run gpgpassman.sh again."
-                exit 0
-            fi
             if [ -z $SERVNAME ]; then
                 helpfunc
                 exit 0
@@ -170,13 +163,6 @@ main () {
             fi
             ;;
         dir*)
-            if [ ! -f "$GPMCONFDIR/gpgpassman.conf" ]; then
-                echo "$GPMCONFDIR does not exist; creating..."
-                mkdir $GPMCONFDIR
-                echo "$GPMINITDIR" > $GPMCONFDIR/gpgpassman.conf
-                echo "$GPMCONFDIR created and config file written; run gpgpassman.sh again."
-                exit 0
-            fi
             if [ -z $SERVNAME ]; then
                 helpfunc
                 exit 0
@@ -197,13 +183,6 @@ main () {
             fi
             ;;
         *)
-            if [ ! -f "$GPMCONFDIR/gpgpassman.conf" ]; then
-                echo "$GPMCONFDIR does not exist; creating..."
-                mkdir $GPMCONFDIR
-                echo "$GPMINITDIR" > $GPMCONFDIR/gpgpassman.conf
-                echo "$GPMCONFDIR created and config file written; run gpgpassman.sh again."
-                exit 0
-            fi
             helpfunc
             echo
             programisinstalled "curl"
@@ -213,6 +192,13 @@ main () {
     esac
 }
 
+if [ ! -f "$GPMCONFDIR/gpgpassman.conf" ]; then
+    echo "$GPMCONFDIR does not exist; creating..."
+    mkdir $GPMCONFDIR
+    echo "$GPMINITDIR" > $GPMCONFDIR/gpgpassman.conf
+    echo "$GPMCONFDIR created and config file written; run gpgpassman.sh again."
+    exit 0
+fi
 programisinstalled "gpg"
 if [ $return = "1" ]; then
     programisinstalled "xclip"
