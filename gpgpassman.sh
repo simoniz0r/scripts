@@ -127,6 +127,7 @@ main () {
                     rm $GPMDIR/$SERVNAME/$SERVNAME
                     sleep 45
                     echo -n "Password cleared from clipboard" | xclip -selection c -i
+                    echo "Password cleard from clipboard."
                 else
                     echo "No password found for $SERVNAME"
                 fi
