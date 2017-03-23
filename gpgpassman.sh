@@ -74,13 +74,13 @@ programisinstalled () {
 helpfunc () {
     echo "A script that uses 'gpg' to encrypt and decrypt passwords stored in '~/.gpgpassman'"
     echo "add - Add encrypted password file."
-    echo "Ex: './gpgpassman.sh add servicename'"
+    echo "- Ex: './gpgpassman.sh add servicename'"
     echo "dec - Decrypt a stored password file using the service name."
-    echo "Ex: './gpgpassman.sh dec servicename'"
+    echo "- Ex: './gpgpassman.sh dec servicename'"
     echo "rem - Remove a stored password file using the service name."
-    echo "Ex: './gpgpassman.sh rem servicename'"
+    echo "- Ex: './gpgpassman.sh rem servicename'"
     echo "dir - Change default directory used by gpgpassman.sh. Only passwords in the currently configured directory will be able to be managed."
-    echo "Ex: './gpgpassman.sh dir /path/to/directory'."
+    echo "- Ex: './gpgpassman.sh dir /path/to/directory'."
 }
 
 main () {
