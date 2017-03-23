@@ -164,6 +164,7 @@ main () {
             ;;
         dir*)
             if [ -z $SERVNAME ]; then
+                echo "Current password storage directory: $GPMDIR"
                 helpfunc
                 exit 0
             fi
