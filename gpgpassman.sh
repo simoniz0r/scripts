@@ -3,8 +3,8 @@
 # Dependencies: 'gpg', 'xclip', 'curl' (optional; for auto-updating gpgpassman.sh)
 # Written by simonizor 3/22/2017
 
-GPMVER="1.0.3"
-X="v1.0.3 - Fix creating dir on first run."
+GPMVER="1.0.4"
+X="v1.0.4 - Detect wrong password or gpg closed on decryption."
 # ^^Remember to update this and gpmversion.txt every release!
 SCRIPTNAME="$0"
 GPMDIR="$(< ~/.config/gpgpassman/gpgpassman.conf)"
@@ -134,12 +134,16 @@ main () {
             if [ -f "$GPMDIR/$SERVNAME/$SERVNAME.gpg" ];then 
                 echo "Decrypting password for $SERVNAME"
                 gpg $GPMDIR/$SERVNAME/$SERVNAME.gpg
-                echo "Copying password to clipboard for 45 seconds..."
-                echo -n "$(cat $GPMDIR/$SERVNAME/$SERVNAME)" | xclip -selection c -i &>/dev/null
-                rm $GPMDIR/$SERVNAME/$SERVNAME
-                sleep 45
-                echo -n "Password cleared from clipboard" | xclip -selection c -i
-                echo "Password cleard from clipboard."
+                if [ -f "$GPMDIR/$SERVNAME/$SERVNAME" ];then 
+                    echo "Copying password to clipboard for 45 seconds..."
+                    echo -n "$(cat $GPMDIR/$SERVNAME/$SERVNAME)" | xclip -selection c -i &>/dev/null
+                    rm $GPMDIR/$SERVNAME/$SERVNAME
+                    sleep 45
+                    echo -n "Password cleared from clipboard" | xclip -selection c -i
+                    echo "Password cleard from clipboard."
+                else
+                    echo "Wrong password or gpg closed before decryption finished!"
+                fi
             else
                 echo "No password found for $SERVNAME"
             fi

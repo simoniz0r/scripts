@@ -1,2 +1,2 @@
-GPMVER="1.0.3"
-X="v1.0.3 - Fix creating dir on first run."
+GPMVER="1.0.4"
+X="v1.0.4 - Detect wrong password or gpg closed on decryption."
