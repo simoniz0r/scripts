@@ -1,2 +1,2 @@
-GPMVER="1.0.0"
-X="v1.0.0 - First release.  A script that uses gpg to encrypt and decrypt passwords stored in '~/.gpgpassman'"
+GPMVER="1.0.1"
+X="v1.0.1 - Added check to make sure service name was inputted when adding new password."

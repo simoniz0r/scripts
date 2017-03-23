@@ -2,8 +2,8 @@
 # A script that uses 'gpg' to encrypt and decrypt passwords stored in '~/.gpgpassman'.
 # Written by simonizor 3/22/2017
 
-GPMVER="1.0.0"
-X="v1.0.0 - First release.  A script that uses gpg to encrypt and decrypt passwords stored in '~/.gpgpassman'"
+GPMVER="1.0.1"
+X="v1.0.1 - Added check to make sure service name was inputted when adding new password."
 # ^^Remember to update this and gpmversion.txt every release!
 SCRIPTNAME="$0"
 GPMDIR=~/.gpgpassman
@@ -79,6 +79,10 @@ helpfunc () {
 main () {
     case $1 in
         add)
+            if [ -z $SERVNAME ]; then
+                helpfunc
+                exit 0
+            fi
             if [ -f "$GPMDIR/$SERVNAME/$SERVNAME.gpg" ];then
                 read -p "Password for $SERVNAME is already stored; overwrite?"
                 if [[ $REPLY =~ ^[Nn]$ ]]; then
