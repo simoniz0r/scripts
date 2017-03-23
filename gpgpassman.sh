@@ -75,7 +75,7 @@ helpfunc () {
     echo "A script that uses 'gpg' to encrypt and decrypt passwords stored in '~/.gpgpassman'"
     echo "add - Add encrypted password file."
     echo "- Ex: './gpgpassman.sh add servicename'"
-    echo "dec - Decrypt a stored password file using the service name."
+    echo "dec - Decrypt a stored password file using the service name and copy to clipboard for 45 seconds."
     echo "- Ex: './gpgpassman.sh dec servicename'"
     echo "rem - Remove a stored password file using the service name."
     echo "- Ex: './gpgpassman.sh rem servicename'"
