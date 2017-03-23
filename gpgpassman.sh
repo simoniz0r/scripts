@@ -1,5 +1,6 @@
 #!/bin/bash
 # A script that uses 'gpg' to encrypt and decrypt passwords stored in '~/.gpgpassman'.
+# Dependencies: 'gpg', 'xclip', 'curl' (optional; for auto-updating gpgpassman.sh)
 # Written by simonizor 3/22/2017
 
 GPMVER="1.0.1"
