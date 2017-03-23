@@ -72,6 +72,9 @@ programisinstalled () {
 }
 
 helpfunc () {
+    echo "Currently managed services: $(dir $GPMDIR)"
+    echo "Current password storage directory: $GPMDIR"
+    echo
     echo "A script that uses 'gpg' to encrypt and decrypt passwords stored in '~/.gpgpassman'"
     echo "add - Add encrypted password file."
     echo "- Ex: './gpgpassman.sh add servicename'"
@@ -164,9 +167,6 @@ main () {
             ;;
         dir*)
             if [ -z $SERVNAME ]; then
-                echo "Currently managed services: $(dir $GPMDIR)"
-                echo "Current password storage directory: $GPMDIR"
-                echo
                 helpfunc
                 exit 0
             fi
@@ -186,9 +186,6 @@ main () {
             fi
             ;;
         *)
-            echo "Currently managed services: $(dir $GPMDIR)"
-            echo "Current password storage directory: $GPMDIR"
-            echo
             helpfunc
             echo
             programisinstalled "curl"
