@@ -90,7 +90,7 @@ helpfunc () {
 main () {
     case $1 in
         add)
-            if [ ! -d "$GPMCONFDIR" ]; then
+            if [ ! -f "$GPMCONFDIR/gpgpassman.conf" ]; then
                 mkdir $GPMCONFDIR
                 echo "$GPMINITDIR" > $GPMCONFDIR/gpgpassman.conf
             fi
@@ -167,6 +167,10 @@ main () {
             fi
             ;;
         dir*)
+            if [ ! -f "$GPMCONFDIR/gpgpassman.conf" ]; then
+                mkdir $GPMCONFDIR
+                echo "$GPMINITDIR" > $GPMCONFDIR/gpgpassman.conf
+            fi
             if [ -z $SERVNAME ]; then
                 helpfunc
                 exit 0
@@ -187,6 +191,10 @@ main () {
             fi
             ;;
         *)
+            if [ ! -f "$GPMCONFDIR/gpgpassman.conf" ]; then
+                mkdir $GPMCONFDIR
+                echo "$GPMINITDIR" > $GPMCONFDIR/gpgpassman.conf
+            fi
             helpfunc
             echo
             programisinstalled "curl"
@@ -196,10 +204,6 @@ main () {
     esac
 }
 
-if [ ! -d "$GPMCONFDIR" ]; then
-    mkdir $GPMCONFDIR
-    echo "$GPMINITDIR" > $GPMCONFDIR/gpgpassman.conf
-fi
 programisinstalled "gpg"
 if [ $return = "1" ]; then
     programisinstalled "xclip"
