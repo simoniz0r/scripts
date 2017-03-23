@@ -161,3 +161,9 @@ if [ $return = "1" ]; then
 else
     echo "gpg is not installed!"
 fi
+programisinstalled "xclip"
+if [ $return = "1" ]; then
+    main "$1"
+else
+    echo "xclip is not installed!"
+fi
