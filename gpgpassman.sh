@@ -187,6 +187,7 @@ main () {
             ;;
         *)
             echo "Currently managed services: $(dir $GPMDIR)"
+            echo "Current password storage directory: $GPMDIR"
             echo
             helpfunc
             echo
