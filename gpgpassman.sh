@@ -129,37 +129,37 @@ main () {
         dec*)
             if [ -z "$SERVNAME" ]; then
                 helpfunc
+                exit 0
+            fi
+            if [ -f "$GPMDIR/$SERVNAME/$SERVNAME.gpg" ];then 
+                echo "Decrypting password for $SERVNAME"
+                gpg $GPMDIR/$SERVNAME/$SERVNAME.gpg
+                echo "Copying password to clipboard for 45 seconds..."
+                echo -n "$(cat $GPMDIR/$SERVNAME/$SERVNAME)" | xclip -selection c -i &>/dev/null
+                rm $GPMDIR/$SERVNAME/$SERVNAME
+                sleep 45
+                echo -n "Password cleared from clipboard" | xclip -selection c -i
+                echo "Password cleard from clipboard."
             else
-                if [ -f "$GPMDIR/$SERVNAME/$SERVNAME.gpg" ];then 
-                    echo "Decrypting password for $SERVNAME"
-                    gpg $GPMDIR/$SERVNAME/$SERVNAME.gpg
-                    echo "Copying password to clipboard for 45 seconds..."
-                    echo -n "$(cat $GPMDIR/$SERVNAME/$SERVNAME)" | xclip -selection c -i &>/dev/null
-                    rm $GPMDIR/$SERVNAME/$SERVNAME
-                    sleep 45
-                    echo -n "Password cleared from clipboard" | xclip -selection c -i
-                    echo "Password cleard from clipboard."
-                else
-                    echo "No password found for $SERVNAME"
-                fi
+                echo "No password found for $SERVNAME"
             fi
             ;;
         rem*)
             if [ -z "$SERVNAME" ]; then
                 helpfunc
-            else
-                if [ -f "$GPMDIR/$SERVNAME/$SERVNAME.gpg" ];then
-                    read -p "Are you sure you want to remove the encrypted password for $SERVNAME? Y/N " -n 1 -r
-                    echo
-                    if [[ $REPLY =~ ^[Yy]$ ]]; then
-                        rm -rf $GPMDIR/$SERVNAME
-                        echo "Password for $SERVNAME removed!"
-                    else
-                        echo "Password for $SERVNAME was not removed."
-                    fi
+                exit 0
+            fi
+            if [ -f "$GPMDIR/$SERVNAME/$SERVNAME.gpg" ];then
+                read -p "Are you sure you want to remove the encrypted password for $SERVNAME? Y/N " -n 1 -r
+                echo
+                if [[ $REPLY =~ ^[Yy]$ ]]; then
+                    rm -rf $GPMDIR/$SERVNAME
+                    echo "Password for $SERVNAME removed!"
                 else
-                    echo "No password stored for $SERVNAME"
+                    echo "Password for $SERVNAME was not removed."
                 fi
+            else
+                echo "No password stored for $SERVNAME"
             fi
             ;;
         dir*)
