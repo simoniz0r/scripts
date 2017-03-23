@@ -64,7 +64,7 @@ updatecheck () {
     echo "Checking for new version..."
     UPNOTES=$(curl -v --silent https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/ermversion.txt 2>&1 | grep X= | tr -d 'X="')
     VERTEST=$(curl -v --silent https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/ermversion.txt 2>&1 | grep ERMVER= | tr -d 'ERMVER="')
-    if [[ $ERMVER != $VERTEST ]]; then
+    if [[ $ERMVER < $VERTEST ]]; then
         echo "Installed version: $ERMVER -- Current version: $VERTEST"
         echo "A new version is available!"
         echo $UPNOTES

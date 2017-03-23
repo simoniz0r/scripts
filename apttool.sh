@@ -130,7 +130,7 @@ updatecheck () {
     echo "Checking for new version..."
     UPNOTES=$(curl -v --silent https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/apttversion.txt 2>&1 | grep X= | tr -d 'X="')
     VERTEST=$(curl -v --silent https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/apttversion.txt 2>&1 | grep APTTVER= | tr -d 'APTTVER="')
-    if [[ $APTTVER != $VERTEST ]]; then
+    if [[ $APTTVER < $VERTEST ]]; then
         echo "Installed version: $APTTVER -- Current version: $VERTEST"
         echo "A new version is available!"
         echo $UPNOTES

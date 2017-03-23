@@ -35,7 +35,7 @@ updatecheck () {
     echo "Checking for new version..."
     UPNOTES=$(curl -v --silent https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/speedtestversion.txt 2>&1 | grep X= | tr -d 'X="')
     VERTEST=$(curl -v --silent https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/speedtestversion.txt 2>&1 | grep STVER= | tr -d 'STVER="')
-    if [[ $STVER != $VERTEST ]]; then
+    if [[ $STVER < $VERTEST ]]; then
         echo "Installed version: $STVER -- Current version: $VERTEST"
         echo "A new version is available!"
         echo $UPNOTES
