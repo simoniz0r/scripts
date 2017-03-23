@@ -3,11 +3,12 @@
 # Dependencies: 'gpg', 'xclip', 'curl' (optional; for auto-updating gpgpassman.sh)
 # Written by simonizor 3/22/2017
 
-GPMVER="1.0.1"
-X="v1.0.1 - Added check to make sure service name was inputted when adding new password."
+GPMVER="1.0.2"
+X="v1.0.2 - Added ability to define custom password storage directory with './gpgpassman.sh dir /path/to/directory'.  Note: gpgpassman.sh will not be able to see passwords stored in more than one main directory at a time."
 # ^^Remember to update this and gpmversion.txt every release!
 SCRIPTNAME="$0"
-GPMDIR=~/.gpgpassman
+GPMDIR="$(< ~/.config/gpgpassman/gpgpassman.conf)"
+GPMCONFDIR=~/.config/gpgpassman
 SERVNAME="$2"
 
 updatescript () {
@@ -72,14 +73,23 @@ programisinstalled () {
 
 helpfunc () {
     echo "A script that uses 'gpg' to encrypt and decrypt passwords stored in '~/.gpgpassman'"
-    echo "add - Add encrypted password file. Ex: './gpgpassman.sh add servicename'"
-    echo "dec - Decrypt a stored password file using the service name. Ex: './gpgpassman dec servicename'"
-    echo "rem - Remove a stored password file using the service name. Ex: './gpgpassman rem servicename'"
+    echo "add - Add encrypted password file."
+    echo "Ex: './gpgpassman.sh add servicename'"
+    echo "dec - Decrypt a stored password file using the service name."
+    echo "Ex: './gpgpassman.sh dec servicename'"
+    echo "rem - Remove a stored password file using the service name."
+    echo "Ex: './gpgpassman.sh rem servicename'"
+    echo "dir - Change default directory used by gpgpassman.sh. Only passwords in the currently configured directory will be able to be managed."
+    echo "Ex: './gpgpassman.sh dir /path/to/directory'."
 }
 
 main () {
     case $1 in
         add)
+            if [ ! -d "$GPMCONFDIR" ]; then
+                mkdir $GPMCONFDIR
+                echo "$GPMDIR" > $GPMCONFDIR/gpgpassman.conf
+            fi
             if [ -z $SERVNAME ]; then
                 helpfunc
                 exit 0
@@ -152,6 +162,26 @@ main () {
                 fi
             fi
             ;;
+        dir*)
+            if [ -z $SERVNAME ]; then
+                helpfunc
+                exit 0
+            fi
+            if [ "${SERVNAME: -1}" = "/" ]; then
+                SERVNAME="${SERVNAME::-1}"
+            fi
+            if [[ "$SERVNAME" == /* ]]; then
+                echo "$SERVNAME" > $GPMCONFDIR/gpgpassman.conf
+                echo "gpgpassman storage directory changed to $(< ~/.config/gpgpassman/gpgpassman.conf)"
+                if [ ! -d $SERVNAME ]; then
+                    mkdir $SERVNAME
+                    echo "$SERVNAME directory created for gpgpassman storage."
+                fi
+            else
+                echo "$SERVNAME is not a valid directory; use full directory path. Ex: './gpgpassman.sh dir /home/simonizor/mypasswords'"
+                helpfunc
+            fi
+            ;;
         *)
             helpfunc
             programisinstalled "curl"
@@ -161,6 +191,10 @@ main () {
     esac
 }
 
+if [ ! -d "$GPMCONFDIR" ]; then
+    mkdir $GPMCONFDIR
+    echo "$GPMDIR" > $GPMCONFDIR/gpgpassman.conf
+fi
 programisinstalled "gpg"
 if [ $return = "1" ]; then
     programisinstalled "xclip"

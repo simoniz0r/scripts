@@ -1,2 +1,2 @@
-GPMVER="1.0.1"
-X="v1.0.1 - Added check to make sure service name was inputted when adding new password."
+GPMVER="1.0.2"
+X="v1.0.2 - Added ability to define custom password storage directory with './gpgpassman.sh dir /path/to/directory'.  Note: gpgpassman.sh will not be able to see passwords stored in more than one main directory at a time."
