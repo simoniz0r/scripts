@@ -91,8 +91,11 @@ main () {
     case $1 in
         add)
             if [ ! -f "$GPMCONFDIR/gpgpassman.conf" ]; then
+                echo "$GPMCONFDIR does not exist; creating..."
                 mkdir $GPMCONFDIR
                 echo "$GPMINITDIR" > $GPMCONFDIR/gpgpassman.conf
+                echo "$GPMCONFDIR created and config file written; run gpgpassman.sh again."
+                exit 0
             fi
             if [ -z $SERVNAME ]; then
                 helpfunc
@@ -168,8 +171,11 @@ main () {
             ;;
         dir*)
             if [ ! -f "$GPMCONFDIR/gpgpassman.conf" ]; then
+                echo "$GPMCONFDIR does not exist; creating..."
                 mkdir $GPMCONFDIR
                 echo "$GPMINITDIR" > $GPMCONFDIR/gpgpassman.conf
+                echo "$GPMCONFDIR created and config file written; run gpgpassman.sh again."
+                exit 0
             fi
             if [ -z $SERVNAME ]; then
                 helpfunc
@@ -192,8 +198,11 @@ main () {
             ;;
         *)
             if [ ! -f "$GPMCONFDIR/gpgpassman.conf" ]; then
+                echo "$GPMCONFDIR does not exist; creating..."
                 mkdir $GPMCONFDIR
                 echo "$GPMINITDIR" > $GPMCONFDIR/gpgpassman.conf
+                echo "$GPMCONFDIR created and config file written; run gpgpassman.sh again."
+                exit 0
             fi
             helpfunc
             echo
