@@ -1,7 +1,7 @@
 #!/bin/bash
 # A script that uses 'gpg' to encrypt and decrypt passwords stored in '~/.gpgpassman'.
 # Dependencies: 'gpg', 'xclip', 'curl' (optional; for auto-updating gpgpassman.sh)
-# Written by simonizor 3/22/2017
+# Written by simonizor 3/22/2017 - http://www.simonizor.gq/scripts
 
 GPMVER="1.0.5"
 X="v1.0.5 - Fixed up helpfunc for a cleaner output."
@@ -189,7 +189,8 @@ main () {
             fi
             ;;
         *)
-            echo "gpgpassman.sh - a script that uses 'gpg' to encrypt and decrypt passwords."
+            echo "gpgpassman.sh - http://www.simonizor.gq/scripts"
+            echo "A script that uses 'gpg' to encrypt and decrypt passwords."
             helpfunc
             echo
             programisinstalled "curl"
