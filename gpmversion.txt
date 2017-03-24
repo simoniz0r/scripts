@@ -1,2 +1,2 @@
-GPMVER="1.0.6"
-X="v1.0.6 - 'dec' will now ask for a service name to decrypt a password for if one is not inputted when running gpgpassman.sh.  You should be able to set a keybind to have your favorite terminal app execute '/path/to/gpgpassman.sh dec' and be prompted for a service to decrypt."
+GPMVER="1.0.7"
+X="v1.0.7 - Added zenity to decrypt passwords without launching terminal; executing './gpgpassman.sh dec' will launch a zenity window to input the service to decrypt password for."

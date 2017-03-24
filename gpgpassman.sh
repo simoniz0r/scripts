@@ -1,10 +1,10 @@
 #!/bin/bash
 # A script that uses 'gpg' to encrypt and decrypt passwords stored in '~/.gpgpassman'.
-# Dependencies: 'gpg', 'xclip', 'curl' (optional; for auto-updating gpgpassman.sh)
+# Dependencies: 'gpg', 'xclip', 'curl' (optional; for auto-updating gpgpassman.sh), 'zenity' (optional; for executing decrypt outside of terminal)
 # Written by simonizor 3/22/2017 - http://www.simonizor.gq/scripts
 
-GPMVER="1.0.6"
-X="v1.0.6 - 'dec' will now ask for a service name to decrypt a password for if one is not inputted when running gpgpassman.sh.  You should be able to set a keybind to have your favorite terminal app execute '/path/to/gpgpassman.sh dec' and be prompted for a service to decrypt."
+GPMVER="1.0.7"
+X="v1.0.7 - Added zenity to decrypt passwords without launching terminal; executing './gpgpassman.sh dec' will launch a zenity window for"
 # ^^Remember to update this and gpmversion.txt every release!
 SCRIPTNAME="$0"
 GPMDIR="$(< ~/.config/gpgpassman/gpgpassman.conf)"
@@ -130,7 +130,12 @@ main () {
             ;;
         dec*)
             if [ -z "$SERVNAME" ]; then
-                read -p "Enter the service name to decrypt password for: " SERVNAME
+                programisinstalled "zenity"
+                if [ $return = "1" ];then
+                    SERVNAME=$(zenity --entry Service)
+                else
+                    read -p "Enter the service name to decrypt password for: " SERVNAME
+                fi
             fi
             if [ -f "$GPMDIR/$SERVNAME/$SERVNAME.gpg" ];then 
                 echo "Decrypting password for $SERVNAME"
