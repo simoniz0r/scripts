@@ -3,8 +3,8 @@
 # Dependencies: 'gpg', 'xclip', 'curl' (optional; for auto-updating gpgpassman.sh)
 # Written by simonizor 3/22/2017 - http://www.simonizor.gq/scripts
 
-GPMVER="1.0.5"
-X="v1.0.5 - Fixed up helpfunc for a cleaner output."
+GPMVER="1.0.6"
+X="v1.0.6 - 'dec' will now ask for a service name to decrypt a password for if one is not inputted when running gpgpassman.sh.  You should be able to set a keybind to 'exec /path/to/gpgpassman.sh dec' and be prompted for a service to decrypt."
 # ^^Remember to update this and gpmversion.txt every release!
 SCRIPTNAME="$0"
 GPMDIR="$(< ~/.config/gpgpassman/gpgpassman.conf)"
@@ -130,8 +130,7 @@ main () {
             ;;
         dec*)
             if [ -z "$SERVNAME" ]; then
-                helpfunc
-                exit 0
+                read -p "Enter the service name to decrypt password for: " SERVNAME
             fi
             if [ -f "$GPMDIR/$SERVNAME/$SERVNAME.gpg" ];then 
                 echo "Decrypting password for $SERVNAME"
