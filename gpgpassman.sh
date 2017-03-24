@@ -132,7 +132,7 @@ main () {
             if [ -z "$SERVNAME" ]; then
                 programisinstalled "zenity"
                 if [ $return = "1" ];then
-                    SERVNAME=$(zenity --entry --title=Service)
+                    SERVNAME=$(zenity --entry --title=gpgpassman --text="Enter service name:")
                 else
                     read -p "Enter the service name to decrypt password for: " SERVNAME
                 fi
