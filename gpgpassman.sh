@@ -4,7 +4,7 @@
 # Written by simonizor 3/22/2017 - http://www.simonizor.gq/scripts
 
 GPMVER="1.0.7"
-X="v1.0.7 - Added zenity to decrypt passwords without launching terminal; executing './gpgpassman.sh dec' will launch a zenity window for"
+X="v1.0.7 - Added zenity to decrypt passwords without launching terminal; executing './gpgpassman.sh dec' will launch a zenity window to input the service to decrypt password for."
 # ^^Remember to update this and gpmversion.txt every release!
 SCRIPTNAME="$0"
 GPMDIR="$(< ~/.config/gpgpassman/gpgpassman.conf)"
