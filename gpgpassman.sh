@@ -139,8 +139,8 @@ main () {
             fi
             if [ -f "$GPMDIR/$SERVNAME/$SERVNAME.gpg" ];then 
                 echo "Decrypting password for $SERVNAME"
-                echo -n "$(gpg -d $GPMDIR/$SERVNAME/$SERVNAME.gpg)" | xclip -selection c -i && GPGKEYCORRECT=1
-                if [ "$GPGKEYCORRECT" = "1" ];then 
+                echo -n "$(gpg -d $GPMDIR/$SERVNAME/$SERVNAME.gpg)" | xclip -selection c -i && GPGRAN=1
+                if [ "$GPGRAN" = "1" ];then 
                     if [ "$ZHEADLESS" = "1" ]; then
                         zenity --warning --timeout=2 --text="Copying password to clipboard for 45 seconds..."
                     fi
