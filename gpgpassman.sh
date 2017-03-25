@@ -155,7 +155,7 @@ main () {
                     if [ "$ZHEADLESS" = "1" ]; then
                         zenity --warning --timeout=5 --text="Wrong password or gpg closed before decryption finished!"
                     fi
-                    echo "Wrong password or gpg closed before decryption finished!"
+                    echo "gpg failed!"
                 fi
             else
                 if [ "$ZHEADLESS" = "1" ]; then
