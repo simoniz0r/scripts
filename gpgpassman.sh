@@ -3,8 +3,8 @@
 # Dependencies: 'gpg', 'xclip', 'curl' (optional; for auto-updating gpgpassman.sh), 'zenity' (optional; for executing decrypt outside of terminal)
 # Written by simonizor 3/22/2017 - http://www.simonizor.gq/scripts
 
-GPMVER="1.0.8"
-X="v1.0.8 - Added zenity dialogs when running './gpgpassman dec' to let user know if password was copied or if gpg password was incorrect."
+GPMVER="1.0.9"
+X="v1.0.9 - Pipe 'gpg' encryption and decryption through stdout for better security.  Passwords are no longer written to a file and removed; instead, 'gpg' will encrypt and decrypt passwords directly."
 # ^^Remember to update this and gpmversion.txt every release!
 SCRIPTNAME="$0"
 GPMDIR="$(< ~/.config/gpgpassman/gpgpassman.conf)"
@@ -120,9 +120,7 @@ main () {
             if [ ! -d "$GPMDIR/$SERVNAME" ]; then
                 mkdir $GPMDIR/$SERVNAME
             fi
-            echo $PASSINPUT | tee $GPMDIR/$SERVNAME/$SERVNAME &>/dev/null
-            gpg -c $GPMDIR/$SERVNAME/$SERVNAME
-            rm $GPMDIR/$SERVNAME/$SERVNAME
+            echo $PASSINPUT | gpg -c -o $GPMDIR/$SERVNAME/$SERVNAME.gpg
             if [ -f "$GPMDIR/$SERVNAME/$SERVNAME.gpg" ]; then
                 echo "Password for $SERVNAME encrypted in $GPMDIR/$SERVNAME/$SERVNAME.gpg"
             else
@@ -141,14 +139,12 @@ main () {
             fi
             if [ -f "$GPMDIR/$SERVNAME/$SERVNAME.gpg" ];then 
                 echo "Decrypting password for $SERVNAME"
-                gpg $GPMDIR/$SERVNAME/$SERVNAME.gpg
-                if [ -f "$GPMDIR/$SERVNAME/$SERVNAME" ];then 
+                echo -n "$(gpg -d $GPMDIR/$SERVNAME/$SERVNAME.gpg)" | xclip -selection c -i && GPGKEYCORRECT=1
+                if [ "$GPGKEYCORRECT" = "1" ];then 
                     if [ "$ZHEADLESS" = "1" ]; then
                         zenity --warning --timeout=2 --text="Copying password to clipboard for 45 seconds..."
                     fi
                     echo "Copying password to clipboard for 45 seconds..."
-                    echo -n "$(cat $GPMDIR/$SERVNAME/$SERVNAME)" | xclip -selection c -i &>/dev/null
-                    rm $GPMDIR/$SERVNAME/$SERVNAME
                     sleep 45
                     echo -n "Password cleared from clipboard" | xclip -selection c -i
                     if [ "$ZHEADLESS" = "1" ]; then

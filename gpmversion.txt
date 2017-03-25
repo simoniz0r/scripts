@@ -1,2 +1,2 @@
-GPMVER="1.0.8"
-X="v1.0.8 - Added zenity dialogs when running './gpgpassman dec' to let user know if password was copied or if gpg password was incorrect."
+GPMVER="1.0.9"
+X="v1.0.9 - Pipe 'gpg' encryption and decryption through stdout for better security.  Passwords are no longer written to a file and removed; instead, 'gpg' will encrypt and decrypt passwords directly."
