@@ -3,8 +3,8 @@
 # Dependencies: 'gpg', 'xclip', 'curl' (optional; for auto-updating gpgpassman.sh), 'zenity' (optional; for executing decrypt outside of terminal)
 # Written by simonizor 3/22/2017 - http://www.simonizor.gq/scripts
 
-GPMVER="1.0.7"
-X="v1.0.7 - Added zenity to decrypt passwords without launching terminal; executing './gpgpassman.sh dec' will launch a zenity window to input the service to decrypt password for."
+GPMVER="1.0.8"
+X="v1.0.8 - Added zenity dialogs when running './gpgpassman dec' to let user know if password was copied or if gpg password was incorrect."
 # ^^Remember to update this and gpmversion.txt every release!
 SCRIPTNAME="$0"
 GPMDIR="$(< ~/.config/gpgpassman/gpgpassman.conf)"
@@ -134,6 +134,7 @@ main () {
                 programisinstalled "zenity"
                 if [ $return = "1" ];then
                     SERVNAME=$(zenity --entry --title=gpgpassman --text="Enter service name:")
+                    ZHEADLESS="1"
                 else
                     read -p "Enter the service name to decrypt password for: " SERVNAME
                 fi
@@ -142,16 +143,28 @@ main () {
                 echo "Decrypting password for $SERVNAME"
                 gpg $GPMDIR/$SERVNAME/$SERVNAME.gpg
                 if [ -f "$GPMDIR/$SERVNAME/$SERVNAME" ];then 
+                    if [ "$ZHEADLESS" = "1" ]; then
+                        zenity --warning --timeout=5 --text="Copying password to clipboard for 45 seconds..."
+                    fi
                     echo "Copying password to clipboard for 45 seconds..."
                     echo -n "$(cat $GPMDIR/$SERVNAME/$SERVNAME)" | xclip -selection c -i &>/dev/null
                     rm $GPMDIR/$SERVNAME/$SERVNAME
                     sleep 45
                     echo -n "Password cleared from clipboard" | xclip -selection c -i
+                    if [ "$ZHEADLESS" = "1" ]; then
+                        zenity --warning --timeout=5 --text="Password cleared from clipboard."
+                    fi
                     echo "Password cleard from clipboard."
                 else
+                    if [ "$ZHEADLESS" = "1" ]; then
+                        zenity --warning --timeout=5 --text="Wrong password or gpg closed before decryption finished!"
+                    fi
                     echo "Wrong password or gpg closed before decryption finished!"
                 fi
             else
+                if [ "$ZHEADLESS" = "1" ]; then
+                    zenity --warning --timeout=5 --text="No password found for $SERVNAME"
+                fi
                 echo "No password found for $SERVNAME"
             fi
             ;;

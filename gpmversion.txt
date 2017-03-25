@@ -1,2 +1,2 @@
-GPMVER="1.0.7"
-X="v1.0.7 - Added zenity to decrypt passwords without launching terminal; executing './gpgpassman.sh dec' will launch a zenity window to input the service to decrypt password for."
+GPMVER="1.0.8"
+X="v1.0.8 - Added zenity dialogs when running './gpgpassman dec' to let user know if password was copied or if gpg password was incorrect."
