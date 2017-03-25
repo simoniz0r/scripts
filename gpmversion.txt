@@ -1,16 +1,2 @@
 GPMVER="1.0.8"
 X="v1.0.8 - Added zenity dialogs when running './gpgpassman dec' to let user know if password was copied or if gpg password was incorrect."
-
-Plans: Add GUI using zenity if launched without cases or use read -p dialog to choose options if zenity is not installed.
-        EASY:
-        If gpgpassman is ran without arguments, run zenity and set ZHEADLESS="1", and create if statements for zenity dialogs in all cases.
-        Add 'nogui' case to run without zenity.
-        Add this to other scripts -- discorddownloader, apttool, easyrm (maybe), aptmarklist (maybe), speedtest (maybe).
-        MAYBE:
-        Make a separate function for read -p list and make functions return to read -p list so program can stay open in terminal.
-        Take all code from cases, and turn them into functions to be used when ran without case.
-        If zenity is installed and gpgpassman is ran without case, list gpgpassman options that launch zenity functions.
-        Make separate functions for each case for zenity.
-        Make zenity main list a separate function and make zenity functions return to main menu when finished so program can stay open.
-        After doing all of this, create separate repo for gpgpassman and remove '.sh' from file name.
-        Possibly create deb or PPA for gpgpassman?
