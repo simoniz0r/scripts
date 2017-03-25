@@ -144,7 +144,7 @@ main () {
                 gpg $GPMDIR/$SERVNAME/$SERVNAME.gpg
                 if [ -f "$GPMDIR/$SERVNAME/$SERVNAME" ];then 
                     if [ "$ZHEADLESS" = "1" ]; then
-                        zenity --warning --timeout=5 --text="Copying password to clipboard for 45 seconds..."
+                        zenity --warning --timeout=2 --text="Copying password to clipboard for 45 seconds..."
                     fi
                     echo "Copying password to clipboard for 45 seconds..."
                     echo -n "$(cat $GPMDIR/$SERVNAME/$SERVNAME)" | xclip -selection c -i &>/dev/null
@@ -152,7 +152,7 @@ main () {
                     sleep 45
                     echo -n "Password cleared from clipboard" | xclip -selection c -i
                     if [ "$ZHEADLESS" = "1" ]; then
-                        zenity --warning --timeout=5 --text="Password cleared from clipboard."
+                        zenity --warning --timeout=3 --text="Password cleared from clipboard."
                     fi
                     echo "Password cleard from clipboard."
                 else
