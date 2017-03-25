@@ -83,6 +83,7 @@ helpfunc () {
     echo "- Ex: './gpgpassman.sh add servicename'"
     echo "${bold}dec${normal} - Decrypt a stored password file using the service name and copy to clipboard for 45 seconds."
     echo "- Ex: './gpgpassman.sh dec servicename'"
+    echo "- Can also be executed as './gpgpassman dec' to launch a zenity window to input service or launch terminal if zenity is not installed."
     echo "${bold}rem${normal} - Remove a stored password file using the service name."
     echo "- Ex: './gpgpassman.sh rem servicename'"
     echo "${bold}dir${normal} - Change default directory used by gpgpassman.sh. Only passwords in the currently configured directory will be able to be managed."
