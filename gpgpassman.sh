@@ -217,6 +217,7 @@ main () {
 if [ ! -f "$GPMCONFDIR/gpgpassman.conf" ]; then
     echo "$GPMCONFDIR does not exist; creating..."
     mkdir $GPMCONFDIR
+    mkdir $GPMINITDIR
     echo "$GPMINITDIR" > $GPMCONFDIR/gpgpassman.conf
     echo "$GPMCONFDIR created and config file written; run gpgpassman.sh again."
     exit 0
