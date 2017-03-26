@@ -249,7 +249,6 @@ main () {
                         main
                         exit 0
                     fi
-                    sleep 45
                     echo -n "Password cleared from clipboard" | xclip -selection c -i
                 else
                     if [ "$ZHEADLESS" = "1" ]; then
