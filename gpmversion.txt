@@ -1,2 +1,2 @@
-GPMVER="1.1.2"
-X="v1.1.2 - Added placeholder update option to zenity GUI that will launch 'x-terminal-emulator -e $SCRIPTNAME help' to check for updates to 'gpgpassman'."
+GPMVER="1.1.3"
+X="v1.1.3 - Changed password decryption confirmation window to have 'Clear now' and 'Clear after 45 seconds' buttons."

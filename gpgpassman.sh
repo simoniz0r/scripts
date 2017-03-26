@@ -5,8 +5,8 @@
 # Also with 'zenity', you can execuite 'gpgpassman.sh dec' for direct access to decrypting passwords; can be used with a keybind.
 # Written by simonizor 3/22/2017 - http://www.simonizor.gq/scripts
 
-GPMVER="1.1.2"
-X="v1.1.2 - Added placeholder update option to zenity GUI that will launch 'x-terminal-emulator -e $SCRIPTNAME help' to check for updates to 'gpgpassman'."
+GPMVER="1.1.3"
+X="v1.1.3 - Changed password decryption confirmation window to have 'Clear now' and 'Clear after 45 seconds' buttons."
 # ^^Remember to update this and gpmversion.txt every release!
 SCRIPTNAME="$0"
 GPMDIR="$(< ~/.config/gpgpassman/gpgpassman.conf)"
@@ -242,14 +242,18 @@ main () {
             elif [ "$ZHEADLESS" = "1" ]; then
                 echo -n "$(gpg -d $SERVNAME)" | xclip -selection c -i && GPGRAN=1
                 if [ "$GPGRAN" = "1" ];then 
-                    zenity --forms --timeout=45 --text="Copying password to clipboard for 45 seconds..." --cancel-label=Clear --ok-label=Exit
+                    zenity --forms --text="Copying password to clipboard for 45 seconds..." --cancel-label="Clear now and return to main" --ok-label="Close and clear after 45 seconds"
                     if [[ $? -eq 1 ]]; then
                         echo -n "Password cleared from clipboard" | xclip -selection c -i
                         SERVNAME=""
                         main
                         exit 0
+                    else
+                        sleep 45
+                        echo -n "Password cleared from clipboard" | xclip -selection c -i
                     fi
                     echo -n "Password cleared from clipboard" | xclip -selection c -i
+
                 else
                     if [ "$ZHEADLESS" = "1" ]; then
                         zenity --warning --timeout=5 --text="Wrong password or gpg closed before decryption finished!"
