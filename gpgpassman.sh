@@ -207,7 +207,7 @@ main () {
             if [ -z "$SERVNAME" ]; then
                 programisinstalled "zenity"
                 if [ $return = "1" ];then
-                    SERVNAME=$(zenity --forms --title=gpgpassman --text="Managed services: $(dir $GPMDIR)" --add-entry="Enter the service name to decrypt the password for:")
+                    SERVNAME=$(zenity --entry --title=gpgpassman --text="Managed services: $(dir $GPMDIR) -- Enter service name:")
                     if [[ $? -eq 1 ]]; then
                         SERVNAME=""
                         main
