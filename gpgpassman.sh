@@ -245,42 +245,32 @@ main () {
             fi
             if [ -f "$GPMDIR/$SERVNAME/$SERVNAME.gpg" ];then 
                 echo "Decrypting password for $SERVNAME"
-                echo -n "$(gpg -d $GPMDIR/$SERVNAME/$SERVNAME.gpg)" | xclip -selection c -i && GPGRAN=1
+                sleep 0.5
+                echo -n "$(gpg -d $GPMDIR/$SERVNAME/$SERVNAME.gpg)" | xclip -selection c -i
                 if [ "$(xclip -selection c -o)" = "" ]; then
                     echo "Wrong password or gpg failure!"
                     exit 0
                 fi
-                if [ "$GPGRAN" = "1" ];then 
-                    echo "Copying password to clipboard for 45 seconds..."
-                    sleep 45
-                    echo -n "Password cleared from clipboard" | xclip -selection c -i
-                    echo "Password cleard from clipboard."
-                else
-                    echo "gpg failed!"
-                fi
+                echo "Copying password to clipboard for 45 seconds..."
+                sleep 45
+                echo -n "Password cleared from clipboard" | xclip -selection c -i
+                echo "Password cleard from clipboard."
             elif [ "$ZHEADLESS" = "1" ]; then
-                echo -n "$(gpg -d $SERVNAME)" | xclip -selection c -i && GPGRAN=1
+                echo -n "$(gpg -d $SERVNAME)" | xclip -selection c -i
                 if [ "$(xclip -selection c -o)" = "" ]; then
                     zenity --error --text="Wrong password or gpg failure!"
                     SERVNAME=""
                     main "dec"
                     exit 0
                 fi
-                if [ "$GPGRAN" = "1" ];then 
-                    zenity --forms --timeout=45 --text="Password copied to clipboard for 45 seconds..." --cancel-label="Clear now and return to main" --ok-label="Clear now and close"
-                    if [[ $? -eq 1 ]]; then
-                        echo -n "Password cleared from clipboard" | xclip -selection c -i
-                        SERVNAME=""
-                        main
-                        exit 0
-                    else
-                        echo -n "Password cleared from clipboard" | xclip -selection c -i
-                    fi
-                else
-                    zenity --error --timeout=5 --text="gpg failed to run!"
+                zenity --forms --timeout=45 --text="Password copied to clipboard for 45 seconds..." --cancel-label="Clear now and return to main" --ok-label="Clear now and close"
+                if [[ $? -eq 1 ]]; then
+                    echo -n "Password cleared from clipboard" | xclip -selection c -i
                     SERVNAME=""
-                    main "dec"
+                    main
                     exit 0
+                else
+                    echo -n "Password cleared from clipboard" | xclip -selection c -i
                 fi
             else
                 if [ "$ZHEADLESS" = "1" ]; then
