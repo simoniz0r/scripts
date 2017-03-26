@@ -1,2 +1,2 @@
-GPMVER="1.1.3"
-X="v1.1.3 - Changed password decryption confirmation window to have 'Clear now' and 'Clear after 45 seconds' buttons."
+GPMVER="1.1.4"
+X="v1.1.4 - gpgpassman will now detect if wrong password was inputted during decryption and give error."

@@ -5,8 +5,8 @@
 # Also with 'zenity', you can execuite 'gpgpassman.sh dec' for direct access to decrypting passwords; can be used with a keybind.
 # Written by simonizor 3/22/2017 - http://www.simonizor.gq/scripts
 
-GPMVER="1.1.3"
-X="v1.1.3 - Changed password decryption confirmation window to have 'Clear now' and 'Clear after 45 seconds' buttons."
+GPMVER="1.1.4"
+X="v1.1.4 - gpgpassman will now detect if wrong password was inputted during decryption and give error."
 # ^^Remember to update this and gpmversion.txt every release!
 SCRIPTNAME="$0"
 GPMDIR="$(< ~/.config/gpgpassman/gpgpassman.conf)"
@@ -231,6 +231,10 @@ main () {
             if [ -f "$GPMDIR/$SERVNAME/$SERVNAME.gpg" ];then 
                 echo "Decrypting password for $SERVNAME"
                 echo -n "$(gpg -d $GPMDIR/$SERVNAME/$SERVNAME.gpg)" | xclip -selection c -i && GPGRAN=1
+                if [ "$(xclip -selection c -o)" = "" ]; then
+                    echo "Wrong password or gpg failure!"
+                    exit 0
+                fi
                 if [ "$GPGRAN" = "1" ];then 
                     echo "Copying password to clipboard for 45 seconds..."
                     sleep 45
@@ -241,6 +245,12 @@ main () {
                 fi
             elif [ "$ZHEADLESS" = "1" ]; then
                 echo -n "$(gpg -d $SERVNAME)" | xclip -selection c -i && GPGRAN=1
+                if [ "$(xclip -selection c -o)" = "" ]; then
+                    zenity --error --text="Wrong password or gpg failure!"
+                    SERVNAME=""
+                    main "dec"
+                    exit 0
+                fi
                 if [ "$GPGRAN" = "1" ];then 
                     zenity --forms --timeout=45 --text="Password copied to clipboard for 45 seconds..." --cancel-label="Clear now and return to main" --ok-label="Clear now and close"
                     if [[ $? -eq 1 ]]; then
