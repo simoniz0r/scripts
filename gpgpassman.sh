@@ -242,7 +242,7 @@ main () {
             elif [ "$ZHEADLESS" = "1" ]; then
                 echo -n "$(gpg -d $SERVNAME)" | xclip -selection c -i && GPGRAN=1
                 if [ "$GPGRAN" = "1" ];then 
-                    zenity --forms --text="Copying password to clipboard for 45 seconds..." --cancel-label="Clear now and return to main" --ok-label="Close and clear after 45 seconds"
+                    zenity --forms --text="Password copied to clipboard..." --cancel-label="Clear now and return to main" --ok-label="Close and clear after 45 seconds"
                     if [[ $? -eq 1 ]]; then
                         echo -n "Password cleared from clipboard" | xclip -selection c -i
                         SERVNAME=""
