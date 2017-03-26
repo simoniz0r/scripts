@@ -423,8 +423,16 @@ main () {
             exit 0
             ;;
         Update*)
-            x-terminal-emulator -e $SCRIPTNAME help
-            exit 0
+            programisinstalled "curl"
+            if [ "$return" = "1" ]; then
+                x-terminal-emulator -e $SCRIPTNAME help
+                exit 0
+            else
+                zenity --error --text="'curl' is not installed; cannot check for updates!"
+                SERVNAME=""
+                main
+                exit 0
+            fi
             ;;
         *)
             programisinstalled "zenity"
