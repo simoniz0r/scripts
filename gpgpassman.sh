@@ -1,10 +1,12 @@
 #!/bin/bash
 # A script that uses 'gpg' to encrypt and decrypt passwords stored in '~/.gpgpassman'.
 # Dependencies: 'gpg', 'xclip', 'curl' (optional; for auto-updating gpgpassman.sh), 'zenity' (optional; for executing decrypt outside of terminal)
+# If you have 'zenity' installed, executing 'gpgpassman.sh' will show a full GUI for all of the scripts options.
+# Also with 'zenity', you can execuite 'gpgpassman.sh dec' for direct access to decrypting passwords; can be used with a keybind.
 # Written by simonizor 3/22/2017 - http://www.simonizor.gq/scripts
 
-GPMVER="1.0.9"
-X="v1.0.9 - Pipe 'gpg' encryption and decryption through stdout for better security.  Passwords are no longer written to a file and removed; instead, 'gpg' will encrypt and decrypt passwords directly."
+GPMVER="1.1.0"
+X="v1.1.0 - Added a full GUI via 'zenity'; if you have 'zenity' installed, executing 'gpgpassman.sh' will now show a GUI that has access to all options of the script."
 # ^^Remember to update this and gpmversion.txt every release!
 SCRIPTNAME="$0"
 GPMDIR="$(< ~/.config/gpgpassman/gpgpassman.conf)"
@@ -90,29 +92,86 @@ helpfunc () {
     echo "- Ex: './gpgpassman.sh dir /path/to/directory'."
 }
 
+zenitymain () {
+    ZMAINCASE=$(zenity --list --width=400 --height=200 --text "What would you like to do?" --radiolist --column="Pick" --column="Case" --hide-header TRUE "Add a new encrypted password" FALSE "Decrypt an existing password" FALSE "Remove an existing password" FALSE "Change the default password storage directory" FALSE "Exit")
+    if [[ $? -eq 1 ]]; then
+        exit 0
+    fi
+    ZHEADLESS="1"
+    main "$ZMAINCASE"
+}
+
 main () {
     case $1 in
-        add)
+        add|Add*)
             if [ -z $SERVNAME ]; then
-                helpfunc
-                exit 0
-            fi
-            if [ -f "$GPMDIR/$SERVNAME/$SERVNAME.gpg" ];then
-                read -p "Password for $SERVNAME is already stored; overwrite?"
-                if [[ $REPLY =~ ^[Nn]$ ]]; then
-                    echo "Password for $SERVNAME was not overwritten."
+                if [ "$ZHEADLESS" = "1" ]; then
+                    SERVNAME=$(zenity --entry --title=gpgpassman --text="Enter the name of the service you would like to encrypt a password for:")
+                    if [[ $? -eq 1 ]]; then
+                        SERVNAME=""
+                        main
+                        exit 0
+                    fi
+                else
+                    helpfunc
                     exit 0
                 fi
             fi
-            echo "Input your password for $SERVNAME:"
-            read -s PASSINPUT
-            echo
-            echo "Input password again for $SERVNAME:"
-            read -s PASSINPUT2
-            echo
+            if [ -f "$GPMDIR/$SERVNAME/$SERVNAME.gpg" ];then
+                if [ "$ZHEADLESS" = "1" ]; then
+                    zenity --question --text="Password for $SERVNAME is already stored; overwrite?" --ok-label="Yes"
+                    if [[ $? -eq 1 ]]; then
+                        zenity --warning --text="Password for $SERVNAME was not overwritten."
+                        SERVNAME=""
+                        main
+                        exit 0
+                    else
+                        rm -f $GPMDIR/$SERVNAME/$SERVNAME.gpg
+                    fi
+                else
+                    read -p "Password for $SERVNAME is already stored; overwrite?"
+                    if [[ $REPLY =~ ^[Nn]$ ]]; then
+                        echo "Password for $SERVNAME was not overwritten."
+                        exit 0
+                    fi
+                fi
+            fi
+            if [ -z $SERVNAME ]; then
+                if [ "$ZHEADLESS" = "1" ]; then
+                    zenity --warning --timeout=5 --text="No service name entered; try again."
+                    SERVNAME=""
+                    main "add"
+                    exit 0
+                else
+                    echo "No service name entered; try again."
+                    SERVNAME=""
+                    main "add"
+                    exit 0
+                fi
+            fi
+            if [ "$ZHEADLESS" = "1" ]; then
+                PASSINPUT=$(zenity --entry --hide-text --text="Enter your password for $SERVNAME:")
+                PASSINPUT2=$(zenity --entry --hide-text --text="Input password again for $SERVNAME:")
+            else
+                echo "Input your password for $SERVNAME:"
+                read -s PASSINPUT
+                echo
+                echo "Input password again for $SERVNAME:"
+                read -s PASSINPUT2
+                echo
+            fi
             if [ "$PASSINPUT" != "$PASSINPUT2" ]; then
-                echo "Passwords do not match; try again!"
-                exit 0
+                if [ "$ZHEADLESS" = "1" ]; then
+                    zenity --warning --text="Passwords to not match; try again!"
+                    SERVNAME=""
+                    main "add"
+                    exit 0
+                else
+                    echo "Passwords do not match; try again!"
+                    SERVNAME=""
+                    main "add"
+                    exit 0
+                fi
             fi
             if [ ! -d "$GPMDIR" ]; then
                 mkdir $GPMDIR
@@ -120,18 +179,40 @@ main () {
             if [ ! -d "$GPMDIR/$SERVNAME" ]; then
                 mkdir $GPMDIR/$SERVNAME
             fi
+            if [ "$ZHEADLESS" = "1" ]; then
+                zenity --warning --timeout=5 --text="Enter the password to be used for encryption/decryption:"
+            fi
             echo $PASSINPUT | gpg -c -o $GPMDIR/$SERVNAME/$SERVNAME.gpg
             if [ -f "$GPMDIR/$SERVNAME/$SERVNAME.gpg" ]; then
-                echo "Password for $SERVNAME encrypted in $GPMDIR/$SERVNAME/$SERVNAME.gpg"
+                if [ "$ZHEADLESS" = "1" ]; then
+                    zenity --warning --text="Password for $SERVNAME encrypted in $GPMDIR/$SERVNAME/$SERVNAME.gpg"
+                    SERVNAME=""
+                    main
+                    exit 0
+                else
+                    echo "Password for $SERVNAME encrypted in $GPMDIR/$SERVNAME/$SERVNAME.gpg"
+                fi
             else
-                echo "Failed to write encrypted file!"
+                if [ "$ZHEADLESS" = "1" ]; then
+                    zenity --warning --text="Failed to write encrypted file for $SERVNAME in $GPMDIR/$SERVNAME/$SERVNAME.gpg"
+                    SERVNAME=""
+                    main
+                    exit 0
+                else
+                    echo "Failed to write encrypted file for $SERVNAME in $GPMDIR/$SERVNAME/$SERVNAME.gpg"
+                fi
             fi
             ;;
-        dec*)
+        dec|Dec*)
             if [ -z "$SERVNAME" ]; then
                 programisinstalled "zenity"
                 if [ $return = "1" ];then
-                    SERVNAME=$(zenity --entry --title=gpgpassman --text="Enter service name:")
+                    SERVNAME=$(zenity --forms --title=gpgpassman --text="Managed services: $(dir $GPMDIR)" --add-entry="Enter the service name to decrypt the password for:")
+                    if [[ $? -eq 1 ]]; then
+                        SERVNAME=""
+                        main
+                        exit 0
+                    fi
                     ZHEADLESS="1"
                 else
                     read -p "Enter the service name to decrypt password for: " SERVNAME
@@ -154,55 +235,126 @@ main () {
                 else
                     if [ "$ZHEADLESS" = "1" ]; then
                         zenity --warning --timeout=5 --text="Wrong password or gpg closed before decryption finished!"
+                        SERVNAME=""
+                        main "add"
+                        exit 0
                     fi
                     echo "gpg failed!"
                 fi
             else
                 if [ "$ZHEADLESS" = "1" ]; then
                     zenity --warning --timeout=5 --text="No password found for $SERVNAME"
+                    SERVNAME=""
+                    main "add"
+                    exit 0
                 fi
                 echo "No password found for $SERVNAME"
             fi
             ;;
-        rem*)
+        rem|Rem*)
             if [ -z "$SERVNAME" ]; then
-                helpfunc
-                exit 0
+                if [ "$ZHEADLESS" = "1" ]; then
+                    SERVNAME=$(zenity --forms --title=gpgpassman --text="Managed services: $(dir $GPMDIR)" --add-entry="Enter the service name to remove:")
+                    if [[ $? -eq 1 ]]; then
+                        SERVNAME=""
+                        main
+                        exit 0
+                    fi
+                else
+                    helpfunc
+                    exit 0
+                fi
             fi
             if [ -f "$GPMDIR/$SERVNAME/$SERVNAME.gpg" ];then
-                read -p "Are you sure you want to remove the encrypted password for $SERVNAME? Y/N " -n 1 -r
-                echo
-                if [[ $REPLY =~ ^[Yy]$ ]]; then
-                    rm -rf $GPMDIR/$SERVNAME
-                    echo "Password for $SERVNAME removed!"
+                if [ "$ZHEADLESS" = "1" ]; then
+                    zenity --question --text="Passwords cannot be recovered; are you sure you want to remove password for $SERVNAME?" --ok-label="Yes"
+                    if [[ $? -eq 1 ]]; then
+                        zenity --warning --text="Password for $SERVNAME was not removed."
+                        SERVNAME=""
+                        main
+                        exit 0
+                    else
+                        rm -rf $GPMDIR/$SERVNAME
+                        zenity --warning --text="Password for $SERVNAME was removed!"
+                        SERVNAME=""
+                        main
+                        exit 0
+                    fi
                 else
-                    echo "Password for $SERVNAME was not removed."
+                    read -p "Passwords cannot be recovered; are you sure you want to remove the encrypted password for $SERVNAME? Y/N " -n 1 -r
+                    echo
+                    if [[ $REPLY =~ ^[Yy]$ ]]; then
+                        rm -rf $GPMDIR/$SERVNAME
+                        echo "Password for $SERVNAME removed!"
+                    else
+                        echo "Password for $SERVNAME was not removed."
+                    fi
                 fi
             else
-                echo "No password stored for $SERVNAME"
+                if [ "$ZHEADLESS" = "1" ]; then
+                    zenity --warning --timeout=5 --text="No password found for $SERVNAME"
+                    SERVNAME=""
+                    main
+                    exit 0
+                else
+                    echo "No password found for $SERVNAME"
+                fi
             fi
             ;;
-        dir*)
+        dir|Change*)
             if [ -z $SERVNAME ]; then
-                helpfunc
-                exit 0
+                if [ "$ZHEADLESS" = "1" ]; then
+                    SERVNAME=$(zenity --forms --title=gpgpassman --text="Current directory: $GPMDIR -- Enter the directory you would like to store passwords in:" --add-entry="Ex: /home/simonizor/mypasswords")
+                    if [[ $? -eq 1 ]]; then
+                        SERVNAME=""
+                        main
+                        exit 0
+                    fi
+                    zenity --question --text="Only one directory can be managed by gpgpassman at a time; change password storage directory to $SERVNAME?" --ok-label="Yes"
+                    if [[ $? -eq 1 ]]; then
+                        SERVNAME=""
+                        main
+                        exit 0
+                    fi
+                else
+                    helpfunc
+                    exit 0
+                fi
             fi
             if [ "${SERVNAME: -1}" = "/" ]; then
                 SERVNAME="${SERVNAME::-1}"
             fi
             if [[ "$SERVNAME" == /* ]]; then
                 echo "$SERVNAME" > $GPMCONFDIR/gpgpassman.conf
-                echo "gpgpassman storage directory changed to $(< ~/.config/gpgpassman/gpgpassman.conf)"
                 if [ ! -d $SERVNAME ]; then
                     mkdir $SERVNAME
-                    echo "$SERVNAME directory created for gpgpassman storage."
+                    if [ "$ZHEADLESS" = "1" ]; then
+                        zenity --warning --timeout=5 --text="$SERVNAME directory created for gpgpassman storage."
+                    else
+                        echo "$SERVNAME directory created for gpgpassman storage."
+                    fi
+                fi
+                if [ "$ZHEADLESS" = "1" ]; then
+                    zenity --warning --timeout=5 --text="gpgpassman storage directory changed to $(< ~/.config/gpgpassman/gpgpassman.conf)"
+                    SERVNAME=""
+                    main
+                    exit 0
+                else
+                    echo "gpgpassman storage directory changed to $(< ~/.config/gpgpassman/gpgpassman.conf)"
                 fi
             else
-                echo "$SERVNAME is not a valid directory; use full directory path. Ex: './gpgpassman.sh dir /home/simonizor/mypasswords'"
-                helpfunc
+                if [ "$ZHEADLESS" = "1" ]; then
+                    zenity --warning --timeout=5 --text="$SERVNAME is not a valid directory; use full directory path. Ex: './gpgpassman.sh dir /home/simonizor/mypasswords'"
+                    SERVNAME=""
+                    main "dir"
+                    exit 0
+                else
+                    echo "$SERVNAME is not a valid directory; use full directory path. Ex: './gpgpassman.sh dir /home/simonizor/mypasswords'"
+                    helpfunc
+                fi
             fi
             ;;
-        *)
+        h*)
             echo "gpgpassman.sh - http://www.simonizor.gq/scripts"
             echo "A script that uses 'gpg' to encrypt and decrypt passwords."
             helpfunc
@@ -210,6 +362,26 @@ main () {
             programisinstalled "curl"
             if [ $return = "1" ]; then
                 updatecheck
+            fi
+            ;;
+        Exit)
+            exit 0
+            ;;
+        *)
+            programisinstalled "zenity"
+            if [ $return = "1" ]; then
+                zenitymain
+            else
+                echo "gpgpassman.sh - http://www.simonizor.gq/scripts"
+                echo "A script that uses 'gpg' to encrypt and decrypt passwords."
+                echo "gpgpassman.sh now has a GUI; install 'zenity' to check it out!"
+                echo
+                helpfunc
+                echo
+                programisinstalled "curl"
+                if [ $return = "1" ]; then
+                    updatecheck
+                fi
             fi
     esac
 }
