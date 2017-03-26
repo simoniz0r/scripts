@@ -1,2 +1,2 @@
-GPMVER="1.1.5"
-X="v1.1.5 - gpg encryption password is now required before removing stored passwords."
+GPMVER="1.1.6"
+X="v1.1.6 - Added check for 'curl' before updating through zenity GUI."
