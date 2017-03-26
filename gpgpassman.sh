@@ -93,7 +93,7 @@ helpfunc () {
 }
 
 zenitymain () {
-    ZMAINCASE=$(zenity --list --width=400 --height=200 --title=gpgpassman --text "What would you like to do?" --radiolist --column="Pick" --column="Case" --hide-header TRUE "Add a new encrypted password" FALSE "Decrypt an existing password" FALSE "Remove an existing password" FALSE "Change the default password storage directory" FALSE "Exit")
+    ZMAINCASE=$(zenity --list --cancel-label=Exit --width=400 --height=200 --title=gpgpassman --text "What would you like to do?" --radiolist --column="Pick" --column="Case" --hide-header TRUE "Add a new encrypted password" FALSE "Decrypt an existing password" FALSE "Remove an existing password" FALSE "Change the default password storage directory" FALSE "Exit")
     if [[ $? -eq 1 ]]; then
         exit 0
     fi
@@ -106,7 +106,7 @@ main () {
         add|Add*)
             if [ -z $SERVNAME ]; then
                 if [ "$ZHEADLESS" = "1" ]; then
-                    SERVNAME=$(zenity --entry --title=gpgpassman --text="Enter the name of the service you would like to encrypt a password for:")
+                    SERVNAME=$(zenity --entry --title=gpgpassman --cancel-label=Main --text="Enter the name of the service you would like to encrypt a password for:")
                     if [[ $? -eq 1 ]]; then
                         SERVNAME=""
                         main
@@ -119,7 +119,7 @@ main () {
             fi
             if [ -f "$GPMDIR/$SERVNAME/$SERVNAME.gpg" ];then
                 if [ "$ZHEADLESS" = "1" ]; then
-                    zenity --question --text="Password for $SERVNAME is already stored; overwrite?" --ok-label="Yes"
+                    zenity --question --text="Password for $SERVNAME is already stored; overwrite?" --cancel-label=No --ok-label=Yes
                     if [[ $? -eq 1 ]]; then
                         zenity --warning --text="Password for $SERVNAME was not overwritten."
                         SERVNAME=""
@@ -151,7 +151,17 @@ main () {
             fi
             if [ "$ZHEADLESS" = "1" ]; then
                 PASSINPUT=$(zenity --entry --hide-text --text="Enter your password for $SERVNAME:")
+                if [[ $? -eq 1 ]]; then
+                    SERVNAME=""
+                    main
+                    exit 0
+                fi
                 PASSINPUT2=$(zenity --entry --hide-text --text="Input password again for $SERVNAME:")
+                if [[ $? -eq 1 ]]; then
+                    SERVNAME=""
+                    main
+                    exit 0
+                fi
             else
                 echo "Input your password for $SERVNAME:"
                 read -s PASSINPUT
@@ -262,7 +272,7 @@ main () {
         rem|Rem*)
             if [ -z "$SERVNAME" ]; then
                 if [ "$ZHEADLESS" = "1" ]; then
-                    SERVNAME=$(zenity --forms --title=gpgpassman --text="Managed services: $(dir $GPMDIR)" --add-entry="Enter the service name to remove:")
+                    SERVNAME=$(zenity --forms --cancel-label=Main --title=gpgpassman --text="Managed services: $(dir $GPMDIR)" --add-entry="Enter the service name to remove:")
                     if [[ $? -eq 1 ]]; then
                         SERVNAME=""
                         main
