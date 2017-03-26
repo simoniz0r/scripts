@@ -119,21 +119,35 @@ main () {
             fi
             if [ -f "$GPMDIR/$SERVNAME/$SERVNAME.gpg" ];then
                 if [ "$ZHEADLESS" = "1" ]; then
-                    zenity --question --text="Password for $SERVNAME is already stored; overwrite?" --cancel-label=No --ok-label=Yes
+                    zenity --question --text="Password for $SERVNAME is already stored; overwrite (clipboard will also be cleared)?" --cancel-label=No --ok-label=Yes
                     if [[ $? -eq 1 ]]; then
                         zenity --warning --text="Password for $SERVNAME was not overwritten."
                         SERVNAME=""
                         main
                         exit 0
                     else
+                        echo -n "$(gpg -d $GPMDIR/$SERVNAME/$SERVNAME.gpg)" | xclip -selection c -i
+                        if [ "$(xclip -selection c -o)" = "" ]; then
+                            zenity --error --text="Wrong password or gpg failure!"
+                            SERVNAME=""
+                            main "add"
+                            exit 0
+                        fi
                         zenity --warning --text="Stored password for $SERVNAME removed"
                         rm -f $GPMDIR/$SERVNAME/$SERVNAME.gpg
                     fi
                 else
-                    read -p "Password for $SERVNAME is already stored; overwrite?"
+                    read -p "Password for $SERVNAME is already stored; overwrite (clipboard will also be cleared)? Y/N"
                     if [[ $REPLY =~ ^[Nn]$ ]]; then
                         echo "Password for $SERVNAME was not overwritten."
                         exit 0
+                    else
+                        echo -n "$(gpg -d $GPMDIR/$SERVNAME/$SERVNAME.gpg)" | xclip -selection c -i
+                        if [ "$(xclip -selection c -o)" = "" ]; then
+                            echo "Wrong password or gpg failure!"
+                            exit 0
+                        fi
+                        echo -n "Password cleared from clipboard" | xclip -selection c -i
                     fi
                 fi
             fi
