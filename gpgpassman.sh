@@ -459,8 +459,18 @@ if [ $return = "1" ]; then
     if [ $return = "1" ]; then
         main "$1"
     else
+        programisinstalled "zenity"
+        if [ $return = "1" ]; then
+            zenity --error --text="xclip is not installed!"
+            exit 0
+        fi
         echo "xclip is not installed!"
     fi
 else
+    programisinstalled "zenity"
+    if [ $return = "1" ]; then
+        zenity --error --text="gpg is not installed!"
+        exit 0
+    fi
     echo "gpg is not installed!"
 fi
