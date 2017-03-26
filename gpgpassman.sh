@@ -301,7 +301,7 @@ main () {
                         main
                         exit 0
                     else
-                        echo -n "$(gpg -d $SERVNAME)" | xclip -selection c -i
+                        echo -n "$(gpg -d $GPMDIR/$SERVNAME/$SERVNAME.gpg)" | xclip -selection c -i
                         if [ "$(xclip -selection c -o)" = "" ]; then
                             zenity --error --text="Wrong password or gpg failure!"
                             SERVNAME=""
