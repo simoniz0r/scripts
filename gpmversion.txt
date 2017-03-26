@@ -1,2 +1,2 @@
-GPMVER="1.1.0"
-X="v1.1.0 - Added a full GUI via 'zenity'; if you have 'zenity' installed, executing 'gpgpassman.sh' will now show a GUI that has access to all options of the script."
+GPMVER="1.1.1"
+X="v1.1.1 - Fixed bug where decrypt cancel returned to add new.  Changed GUI decrypt and default directory change to use file selection UI instead of having user input directory manually."

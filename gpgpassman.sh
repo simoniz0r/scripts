@@ -5,8 +5,8 @@
 # Also with 'zenity', you can execuite 'gpgpassman.sh dec' for direct access to decrypting passwords; can be used with a keybind.
 # Written by simonizor 3/22/2017 - http://www.simonizor.gq/scripts
 
-GPMVER="1.1.0"
-X="v1.1.0 - Added a full GUI via 'zenity'; if you have 'zenity' installed, executing 'gpgpassman.sh' will now show a GUI that has access to all options of the script."
+GPMVER="1.1.1"
+X="v1.1.1 - Fixed bug where decrypt cancel returned to add new.  Changed GUI decrypt and default directory change to use file selection UI instead of having user input directory manually."
 # ^^Remember to update this and gpmversion.txt every release!
 SCRIPTNAME="$0"
 GPMDIR="$(< ~/.config/gpgpassman/gpgpassman.conf)"
@@ -207,7 +207,7 @@ main () {
             if [ -z "$SERVNAME" ]; then
                 programisinstalled "zenity"
                 if [ $return = "1" ];then
-                    SERVNAME=$(zenity --entry --title=gpgpassman --text="Managed services: $(dir $GPMDIR) -- Enter service name:")
+                    SERVNAME=$(zenity --file-selection --file-filter=*.gpg --title="gpgpassman -- Select the gpg file to decrypt" --filename=$GPMDIR/)
                     if [[ $? -eq 1 ]]; then
                         SERVNAME=""
                         main
@@ -222,30 +222,32 @@ main () {
                 echo "Decrypting password for $SERVNAME"
                 echo -n "$(gpg -d $GPMDIR/$SERVNAME/$SERVNAME.gpg)" | xclip -selection c -i && GPGRAN=1
                 if [ "$GPGRAN" = "1" ];then 
-                    if [ "$ZHEADLESS" = "1" ]; then
-                        zenity --warning --timeout=2 --text="Copying password to clipboard for 45 seconds..."
-                    fi
                     echo "Copying password to clipboard for 45 seconds..."
                     sleep 45
                     echo -n "Password cleared from clipboard" | xclip -selection c -i
-                    if [ "$ZHEADLESS" = "1" ]; then
-                        zenity --warning --timeout=3 --text="Password cleared from clipboard."
-                    fi
                     echo "Password cleard from clipboard."
+                else
+                    echo "gpg failed!"
+                fi
+            elif [ "$ZHEADLESS" = "1" ]; then
+                echo -n "$(gpg -d $SERVNAME)" | xclip -selection c -i && GPGRAN=1
+                if [ "$GPGRAN" = "1" ];then 
+                    zenity --notification --timeout=45 --text="Copying password to clipboard for 45 seconds..."
+                    sleep 45
+                    echo -n "Password cleared from clipboard" | xclip -selection c -i
                 else
                     if [ "$ZHEADLESS" = "1" ]; then
                         zenity --warning --timeout=5 --text="Wrong password or gpg closed before decryption finished!"
                         SERVNAME=""
-                        main "add"
+                        main "dec"
                         exit 0
                     fi
-                    echo "gpg failed!"
                 fi
             else
                 if [ "$ZHEADLESS" = "1" ]; then
                     zenity --warning --timeout=5 --text="No password found for $SERVNAME"
                     SERVNAME=""
-                    main "add"
+                    main "dec"
                     exit 0
                 fi
                 echo "No password found for $SERVNAME"
@@ -304,7 +306,7 @@ main () {
         dir|Change*)
             if [ -z $SERVNAME ]; then
                 if [ "$ZHEADLESS" = "1" ]; then
-                    SERVNAME=$(zenity --forms --title=gpgpassman --text="Current directory: $GPMDIR -- Enter the directory you would like to store passwords in:" --add-entry="Ex: /home/simonizor/mypasswords")
+                    SERVNAME=$(zenity --file-selection --directory --title="gpgpassman -- Select a new password storage directory")
                     if [[ $? -eq 1 ]]; then
                         SERVNAME=""
                         main
@@ -365,6 +367,12 @@ main () {
             fi
             ;;
         Exit)
+            exit 0
+            ;;
+        Update)
+            updatecheck
+            SERVNAME=""
+            main
             exit 0
             ;;
         *)
