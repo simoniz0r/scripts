@@ -344,7 +344,7 @@ main () {
                 fi
             else
                 if [ "$ZHEADLESS" = "1" ]; then
-                    zenity --warning --timeout=5 --text="$SERVNAME is not a valid directory; use full directory path. Ex: './gpgpassman.sh dir /home/simonizor/mypasswords'"
+                    zenity --warning --timeout=5 --text="$SERVNAME is not a valid directory; use full directory path. Ex: '/home/simonizor/mypasswords'"
                     SERVNAME=""
                     main "dir"
                     exit 0
