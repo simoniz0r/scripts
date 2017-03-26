@@ -5,8 +5,8 @@
 # Also with 'zenity', you can execuite 'gpgpassman.sh dec' for direct access to decrypting passwords; can be used with a keybind.
 # Written by simonizor 3/22/2017 - http://www.simonizor.gq/scripts
 
-GPMVER="1.1.1"
-X="v1.1.1 - Fixed bug where decrypt cancel returned to add new.  Changed GUI decrypt and default directory change to use file selection UI instead of having user input directory manually."
+GPMVER="1.1.2"
+X="v1.1.2 - Added placeholder update option to zenity GUI that will launch 'x-terminal-emulator -e $SCRIPTNAME help' to check for updates to 'gpgpassman'."
 # ^^Remember to update this and gpmversion.txt every release!
 SCRIPTNAME="$0"
 GPMDIR="$(< ~/.config/gpgpassman/gpgpassman.conf)"
@@ -93,7 +93,7 @@ helpfunc () {
 }
 
 zenitymain () {
-    ZMAINCASE=$(zenity --list --cancel-label=Exit --width=400 --height=200 --title=gpgpassman --text "What would you like to do?" --radiolist --column="Pick" --column="Case" --hide-header TRUE "Add a new encrypted password" FALSE "Decrypt an existing password" FALSE "Remove an existing password" FALSE "Change the default password storage directory" FALSE "Exit")
+    ZMAINCASE=$(zenity --list --cancel-label=Exit --width=400 --height=225 --title=gpgpassman --text "What would you like to do?" --radiolist --column="Pick" --column="Case" --hide-header TRUE "Add a new encrypted password" FALSE "Decrypt an existing password" FALSE "Remove an existing password" FALSE "Change the default password storage directory" FALSE "Update gpgpassman" FALSE "Exit")
     if [[ $? -eq 1 ]]; then
         exit 0
     fi
@@ -385,10 +385,8 @@ main () {
         Exit)
             exit 0
             ;;
-        Update)
-            updatecheck
-            SERVNAME=""
-            main
+        Update*)
+            x-terminal-emulator -e $SCRIPTNAME help
             exit 0
             ;;
         *)

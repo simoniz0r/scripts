@@ -1,2 +1,2 @@
-GPMVER="1.1.1"
-X="v1.1.1 - Fixed bug where decrypt cancel returned to add new.  Changed GUI decrypt and default directory change to use file selection UI instead of having user input directory manually."
+GPMVER="1.1.2"
+X="v1.1.2 - Added placeholder update option to zenity GUI that will launch 'x-terminal-emulator -e $SCRIPTNAME help' to check for updates to 'gpgpassman'."
