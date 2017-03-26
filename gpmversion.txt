@@ -1,2 +1,2 @@
-GPMVER="1.1.4"
-X="v1.1.4 - gpgpassman will now detect if wrong password was inputted during decryption and give error."
+GPMVER="1.1.5"
+X="v1.1.5 - gpg encryption password is now required before removing stored passwords."

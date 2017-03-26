@@ -5,8 +5,8 @@
 # Also with 'zenity', you can execuite 'gpgpassman.sh dec' for direct access to decrypting passwords; can be used with a keybind.
 # Written by simonizor 3/22/2017 - http://www.simonizor.gq/scripts
 
-GPMVER="1.1.4"
-X="v1.1.4 - gpgpassman will now detect if wrong password was inputted during decryption and give error."
+GPMVER="1.1.5"
+X="v1.1.5 - gpg encryption password is now required before removing stored passwords."
 # ^^Remember to update this and gpmversion.txt every release!
 SCRIPTNAME="$0"
 GPMDIR="$(< ~/.config/gpgpassman/gpgpassman.conf)"
@@ -126,6 +126,7 @@ main () {
                         main
                         exit 0
                     else
+                        zenity --warning --text="Stored password for $SERVNAME removed"
                         rm -f $GPMDIR/$SERVNAME/$SERVNAME.gpg
                     fi
                 else
@@ -138,7 +139,7 @@ main () {
             fi
             if [ -z $SERVNAME ]; then
                 if [ "$ZHEADLESS" = "1" ]; then
-                    zenity --warning --timeout=5 --text="No service name entered; try again."
+                    zenity --error --timeout=5 --text="No service name entered; try again."
                     SERVNAME=""
                     main "add"
                     exit 0
@@ -172,7 +173,7 @@ main () {
             fi
             if [ "$PASSINPUT" != "$PASSINPUT2" ]; then
                 if [ "$ZHEADLESS" = "1" ]; then
-                    zenity --warning --text="Passwords to not match; try again!"
+                    zenity --error --text="Passwords to not match; try again!"
                     SERVNAME=""
                     main "add"
                     exit 0
@@ -204,7 +205,7 @@ main () {
                 fi
             else
                 if [ "$ZHEADLESS" = "1" ]; then
-                    zenity --warning --text="Failed to write encrypted file for $SERVNAME in $GPMDIR/$SERVNAME/$SERVNAME.gpg"
+                    zenity --error --text="Failed to write encrypted file for $SERVNAME in $GPMDIR/$SERVNAME/$SERVNAME.gpg"
                     SERVNAME=""
                     main
                     exit 0
@@ -262,16 +263,14 @@ main () {
                         echo -n "Password cleared from clipboard" | xclip -selection c -i
                     fi
                 else
-                    if [ "$ZHEADLESS" = "1" ]; then
-                        zenity --warning --timeout=5 --text="Wrong password or gpg closed before decryption finished!"
-                        SERVNAME=""
-                        main "dec"
-                        exit 0
-                    fi
+                    zenity --error --timeout=5 --text="gpg failed to run!"
+                    SERVNAME=""
+                    main "dec"
+                    exit 0
                 fi
             else
                 if [ "$ZHEADLESS" = "1" ]; then
-                    zenity --warning --timeout=5 --text="No password found for $SERVNAME"
+                    zenity --error --timeout=5 --text="No password found for $SERVNAME"
                     SERVNAME=""
                     main "dec"
                     exit 0
@@ -302,6 +301,14 @@ main () {
                         main
                         exit 0
                     else
+                        echo -n "$(gpg -d $SERVNAME)" | xclip -selection c -i
+                        if [ "$(xclip -selection c -o)" = "" ]; then
+                            zenity --error --text="Wrong password or gpg failure!"
+                            SERVNAME=""
+                            main "rem"
+                            exit 0
+                        fi
+                        echo -n "Password cleared from clipboard" | xclip -selection c -i
                         rm -rf $GPMDIR/$SERVNAME
                         zenity --warning --text="Password for $SERVNAME was removed!"
                         SERVNAME=""
@@ -312,6 +319,12 @@ main () {
                     read -p "Passwords cannot be recovered; are you sure you want to remove the encrypted password for $SERVNAME? Y/N " -n 1 -r
                     echo
                     if [[ $REPLY =~ ^[Yy]$ ]]; then
+                        echo -n "$(gpg -d $GPMDIR/$SERVNAME/$SERVNAME.gpg)" | xclip -selection c -i
+                        if [ "$(xclip -selection c -o)" = "" ]; then
+                            echo "Wrong password or gpg failure!"
+                            exit 0
+                        fi
+                        echo -n "Password cleared from clipboard" | xclip -selection c -i
                         rm -rf $GPMDIR/$SERVNAME
                         echo "Password for $SERVNAME removed!"
                     else
@@ -320,7 +333,7 @@ main () {
                 fi
             else
                 if [ "$ZHEADLESS" = "1" ]; then
-                    zenity --warning --timeout=5 --text="No password found for $SERVNAME"
+                    zenity --error --timeout=5 --text="No password found for $SERVNAME"
                     SERVNAME=""
                     main
                     exit 0
@@ -372,7 +385,7 @@ main () {
                 fi
             else
                 if [ "$ZHEADLESS" = "1" ]; then
-                    zenity --warning --timeout=5 --text="$SERVNAME is not a valid directory; use full directory path. Ex: '/home/simonizor/mypasswords'"
+                    zenity --error --timeout=5 --text="$SERVNAME is not a valid directory; use full directory path. Ex: '/home/simonizor/mypasswords'"
                     SERVNAME=""
                     main "dir"
                     exit 0
