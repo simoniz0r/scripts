@@ -1,2 +1,2 @@
-APTTVER="1.0.4"
-X="v1.0.4 - Removed direct Update launch because it breaks things.  Also removed cancel buttons where they break things."
+APTTVER="1.0.5"
+X="v1.0.5 - Changed Upgrade, Install, and Remove to '-y' to avoid bugs."
