@@ -2,8 +2,8 @@
 # A simple script that can run apt options to save keystrokes.
 # Also has a semi-experimental GUI using 'zenity'; most things work well, but you won't be notified when package install/update/removal completes fully.
 
-APTTVER="1.0.2"
-X="v1.0.2 - Added a full GUI with 'zenity'.  It's still a little rough around the edges, so use with caution.'"
+APTTVER="1.0.3"
+X="v1.0.3 - Added ability to launch 'apttool.sh Update' to go skip main menu and go directly to updating package list and upgrading packages."
 # ^^ Remember to update these and apttversion.txt every release!
 SCRIPTNAME="$0"
 
@@ -37,7 +37,8 @@ zenitystart () {
 main () {
     case $1 in
         1|Update*)
-            if [ "$ZHEADLESS" = "1" ]; then
+            programisinstalled "zenity"
+            if [ "$return" = "1" ]; then
                 PASSWORD="$(zenity --password --title=apttool)\n"; echo -e $PASSWORD | sudo -S apt update | zenity --text-info --cancel-label="Main menu" --ok-label="Upgrade packages" --width=800 --height=600
                 if [[ $? -eq 1 ]]; then
                     zenitystart

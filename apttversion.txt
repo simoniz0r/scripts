@@ -1,2 +1,2 @@
-APTTVER="1.0.2"
-X="v1.0.2 - Added a full GUI with 'zenity'.  It's still a little rough around the edges, so use with caution.'"
+APTTVER="1.0.3"
+X="v1.0.3 - Added ability to launch 'apttool.sh Update' to go skip main menu and go directly to updating package list and upgrading packages."
