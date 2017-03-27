@@ -46,7 +46,7 @@ main () {
                     ZHEADLESS="1"
                     main "Upgrade"
                 fi
-                PASSWORD=""
+            PASSWORD=""
             else
                 sudo apt update
                 echo
@@ -65,7 +65,7 @@ main () {
                 else
                     exit 0
                 fi
-                PASSWORD=""
+            PASSWORD=""
             else
                 sudo apt upgrade
                 echo
@@ -143,8 +143,7 @@ main () {
                 else
                     exit 0
                 fi
-            fi
-                PASSWORD=""
+            PASSWORD=""
             else
                 read -p "What package would you like to install? " APTINSTALL
                 echo
@@ -199,8 +198,7 @@ main () {
                 else
                     exit 0
                 fi
-            fi
-                PASSWORD=""
+            PASSWORD=""
             else
                 read -p "What package would you like to remove? " APTREMOVE
                 echo
