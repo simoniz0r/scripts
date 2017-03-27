@@ -2,8 +2,8 @@
 # A simple script that can run apt options to save keystrokes.
 # Also has a semi-experimental GUI using 'zenity'; most things work well, but you won't be notified when package install/update/removal completes fully.
 
-APTTVER="1.0.5"
-X="v1.0.5 - Changed Upgrade, Install, and Remove to '-y' to avoid bugs."
+APTTVER="1.0.6"
+X="v1.0.6 - Disabled 'Remove' in GUI due to being not user friendly.  Fixed bugs with launching 'Update' directly through zenity and added it back in."
 # ^^ Remember to update these and apttversion.txt every release!
 SCRIPTNAME="$0"
 
@@ -25,7 +25,7 @@ noguistart () {
 }
 
 zenitystart () {
-    ZCASENUM=$(zenity --list --cancel-label=Exit --width=450 --height=310 --title=apttool --text="Welcome to apttool\n\nNote: Make sure all apt processes have completed before closing!\n\nWhat would you like to do?" --column="Cases" --hide-header "Update package list and upgrade installed packages" "Show information for a package" "Search for packages in the repos" "Install a new package" "List packages installed by user" "Remove an installed package")
+    ZCASENUM=$(zenity --list --cancel-label=Exit --width=450 --height=305 --title=apttool --text="Welcome to apttool\n\nNote: Make sure all apt processes have completed before closing!\n\nWhat would you like to do?" --column="Cases" --hide-header "Update package list and upgrade installed packages" "Show information for a package" "Search for packages in the repos" "Install a new package" "List packages installed by user" "Check for updated version of apttool")
     if [[ $? -eq 1 ]]; then
         exit 0
     fi
@@ -37,7 +37,8 @@ zenitystart () {
 main () {
     case $1 in
         1|Update*)
-            if [ "$ZHEADLESS" = "1" ]; then
+            programisinstalled "zenity"
+            if [ "$return" = "1" ]; then
                 PASSWORD="$(zenity --password --title=apttool)\n"; echo -e $PASSWORD | sudo -S apt update | zenity --text-info --cancel-label="Main menu" --ok-label="Upgrade packages" --width=800 --height=600
                 if [[ $? -eq 1 ]]; then
                     zenitystart
@@ -246,6 +247,10 @@ main () {
             ;;
         9)
             exit 1
+            ;;
+        Check*)
+            x-terminal-emulator -e $SCRIPTNAME noguistart
+            exit 0
             ;;
         *)
             programisinstalled "zenity"
