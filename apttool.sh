@@ -2,8 +2,8 @@
 # A simple script that can run apt options to save keystrokes.
 # Also has a semi-experimental GUI using 'zenity'; most things work well, but you won't be notified when package install/update/removal completes fully.
 
-APTTVER="1.0.3"
-X="v1.0.3 - Added ability to launch 'apttool.sh Update' to go skip main menu and go directly to updating package list and upgrading packages."
+APTTVER="1.0.4"
+X="v1.0.4 - Removed direct Update launch because it breaks things.  Also removed cancel buttons where they break things."
 # ^^ Remember to update these and apttversion.txt every release!
 SCRIPTNAME="$0"
 
@@ -37,8 +37,7 @@ zenitystart () {
 main () {
     case $1 in
         1|Update*)
-            programisinstalled "zenity"
-            if [ "$return" = "1" ]; then
+            if [ "$ZHEADLESS" = "1" ]; then
                 PASSWORD="$(zenity --password --title=apttool)\n"; echo -e $PASSWORD | sudo -S apt update | zenity --text-info --cancel-label="Main menu" --ok-label="Upgrade packages" --width=800 --height=600
                 if [[ $? -eq 1 ]]; then
                     zenitystart
@@ -58,7 +57,7 @@ main () {
             ;;
         2|Upgrade*)
             if [ "$ZHEADLESS" = "1" ]; then
-                sudo apt upgrade | zenity --text-info --cancel-label="Main menu" --ok-label="Upgrade packages" --width=800 --height=600
+                sudo apt upgrade | zenity --text-info --no-cancel --ok-label="Upgrade packages" --width=800 --height=600
                 if [[ $? -eq 1 ]]; then
                     zenitystart
                     exit 0
@@ -138,7 +137,7 @@ main () {
                     zenitystart
                     exit 0
                 fi
-                PASSWORD="$(zenity --password --title=apttool)\n"; echo -e $PASSWORD | sudo -S apt install $APTINSTALL | zenity --text-info --cancel-label="Main menu" --ok-label="Install packages" --width=800 --height=600
+                PASSWORD="$(zenity --password --title=apttool)\n"; echo -e $PASSWORD | sudo -S apt install $APTINSTALL | zenity --text-info --no-cancel --ok-label="Install packages" --width=800 --height=600
                 if [[ $? -eq 1 ]]; then
                     zenitystart
                     exit 0
@@ -199,7 +198,7 @@ main () {
                     zenitystart
                     exit 0
                 fi
-                PASSWORD="$(zenity --password --title=apttool)\n"; echo -e $PASSWORD | sudo -S apt remove $APTREMOVE | zenity --text-info --cancel-label="Main menu" --ok-label="Remove package" --width=800 --height=600
+                PASSWORD="$(zenity --password --title=apttool)\n"; echo -e $PASSWORD | sudo -S apt remove $APTREMOVE | zenity --text-info --no-cancel --ok-label="Remove package" --width=800 --height=600
                 if [[ $? -eq 1 ]]; then
                     zenitystart
                     exit 0

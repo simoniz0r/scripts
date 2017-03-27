@@ -1,2 +1,2 @@
-APTTVER="1.0.3"
-X="v1.0.3 - Added ability to launch 'apttool.sh Update' to go skip main menu and go directly to updating package list and upgrading packages."
+APTTVER="1.0.4"
+X="v1.0.4 - Removed direct Update launch because it breaks things.  Also removed cancel buttons where they break things."
