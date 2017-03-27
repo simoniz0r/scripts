@@ -93,7 +93,7 @@ helpfunc () {
 }
 
 zenitymain () {
-    ZMAINCASE=$(zenity --list --cancel-label=Exit --width=550 --height=350 --title=gpgpassman --text="What would you like to do?" --column="Cases" --hide-header "Add a new encrypted password" "Decrypt an existing password" "Remove an existing password" "Change the default password storage directory" "Update gpgpassman")
+    ZMAINCASE=$(zenity --list --cancel-label=Exit --width=450 --height=350 --title=gpgpassman --text="What would you like to do?" --column="Cases" --hide-header "Add a new encrypted password" "Decrypt an existing password" "Remove an existing password" "Change the default password storage directory" "Update gpgpassman")
     if [[ $? -eq 1 ]]; then
         exit 0
     fi
