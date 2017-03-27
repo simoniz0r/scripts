@@ -5,8 +5,8 @@
 # Also with 'zenity', you can execuite 'gpgpassman.sh dec' for direct access to decrypting passwords; can be used with a keybind.
 # Written by simonizor 3/22/2017 - http://www.simonizor.gq/scripts
 
-GPMVER="1.1.6"
-X="v1.1.6 - Added check for 'curl' before updating through zenity GUI."
+GPMVER="1.1.7"
+X="v1.1.7 - Removed the radiolist buttons on the main gpgpassman window for a cleaner look."
 # ^^Remember to update this and gpmversion.txt every release!
 SCRIPTNAME="$0"
 GPMDIR="$(< ~/.config/gpgpassman/gpgpassman.conf)"
@@ -93,7 +93,7 @@ helpfunc () {
 }
 
 zenitymain () {
-    ZMAINCASE=$(zenity --list --cancel-label=Exit --width=550 --height=350 --title=gpgpassman --text "What would you like to do?" --radiolist --column="Pick" --column="Case" --hide-header TRUE "Add a new encrypted password" FALSE "Decrypt an existing password" FALSE "Remove an existing password" FALSE "Change the default password storage directory" FALSE "Update gpgpassman")
+    ZMAINCASE=$(zenity --list --cancel-label=Exit --width=550 --height=350 --title=gpgpassman --text="What would you like to do?" --column="Cases" --hide-header "Add a new encrypted password" "Decrypt an existing password" "Remove an existing password" "Change the default password storage directory" "Update gpgpassman")
     if [[ $? -eq 1 ]]; then
         exit 0
     fi

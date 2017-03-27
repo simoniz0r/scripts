@@ -1,2 +1,2 @@
-GPMVER="1.1.6"
-X="v1.1.6 - Added check for 'curl' before updating through zenity GUI."
+GPMVER="1.1.7"
+X="v1.1.7 - Removed the radiolist buttons on the main gpgpassman window for a cleaner look."
