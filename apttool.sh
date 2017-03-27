@@ -2,8 +2,8 @@
 # A simple script that can run apt options to save keystrokes.
 # Also has a semi-experimental GUI using 'zenity'; most things work well, but you won't be notified when package install/update/removal completes fully.
 
-APTTVER="1.0.6"
-X="v1.0.6 - Disabled 'Remove' in GUI due to being not user friendly.  Fixed bugs with launching 'Update' directly through zenity and added it back in.  Added placeholder apttool update checker to GUI."
+APTTVER="1.0.7"
+X="v1.0.7 - In zenity GUI mode, 'Upgrade', 'Install', and 'Remove' now open in a terminal window due to apt being relatively unreliable through zenity with those options.  The GUI will open again after those options complete."
 # ^^ Remember to update these and apttversion.txt every release!
 SCRIPTNAME="$0"
 
@@ -25,7 +25,7 @@ noguistart () {
 }
 
 zenitystart () {
-    ZCASENUM=$(zenity --list --cancel-label=Exit --width=450 --height=305 --title=apttool --text="Welcome to apttool\n\nNote: Make sure all apt processes have completed before closing!\n\nWhat would you like to do?" --column="Cases" --hide-header "Update package list and upgrade installed packages" "Show information for a package" "Search for packages in the repos" "Install a new package" "List packages installed by user" "Check for updated version of apttool")
+    ZCASENUM=$(zenity --list --cancel-label=Exit --width=450 --height=325 --title=apttool --text="Welcome to apttool\n\nNote: Make sure all apt processes have completed before closing!\n\nWhat would you like to do?" --column="Cases" --hide-header "Update package list and upgrade installed packages" "Show information for a package" "Search for packages in the repos" "Install a new package" "List packages installed by user" "Remove an installed package" "Check for updated version of apttool")
     if [[ $? -eq 1 ]]; then
         exit 0
     fi
@@ -37,6 +37,14 @@ zenitystart () {
 main () {
     case $1 in
         1|Update*)
+            if [ "$ZHEADLESS" = "0" ]; then
+                sudo apt update
+                echo
+                echo "--Finshed--"
+                echo
+                noguistart
+                exit 0
+            fi
             programisinstalled "zenity"
             if [ "$return" = "1" ]; then
                 PASSWORD="$(zenity --password --title=apttool)\n"; echo -e $PASSWORD | sudo -S apt update | zenity --text-info --cancel-label="Main menu" --ok-label="Upgrade packages" --width=800 --height=600
@@ -48,33 +56,27 @@ main () {
                     main "Upgrade"
                 fi
             PASSWORD=""
-            else
-                sudo apt update
-                echo
-                echo "--Finshed--"
-                echo
-                noguistart
-                exit 0
             fi
             ;;
-        2|Upgrade*)
-            if [ "$ZHEADLESS" = "1" ]; then
-                PASSWORD="$(zenity --password --title=apttool)\n"; echo -e $PASSWORD | sudo apt upgrade -y | zenity --text-info --cancel-label="Main menu" --ok-label="Exit" --width=800 --height=600
-                if [[ $? -eq 1 ]]; then
-                    zenitystart
-                    exit 0
-                else
-                    exit 0
-                fi
-            PASSWORD=""
-            else
-                sudo apt upgrade
-                echo
-                echo "--Finshed--"
-                echo
-                noguistart
-                exit 0
-            fi
+        Upgrade*)
+            x-terminal-emulator -e $SCRIPTNAME ZUPG
+            exit 0
+            ;;
+        ZUPG)
+            sudo apt upgrade
+            echo
+            echo "--Finshed--"
+            echo
+            nohup $SCRIPTNAME
+            exit
+            ;;
+        2)
+            sudo apt upgrade
+            echo
+            echo "--Finshed--"
+            echo
+            noguistart
+            exit 0
             ;;
         3|Show*)
             if [ "$ZHEADLESS" = "1" ]; then
@@ -130,32 +132,31 @@ main () {
                 exit 0
             fi
             ;;
-        5|Install*)
-            if [ "$ZHEADLESS" = "1" ]; then
-                APTINSTALL="$(zenity --entry --title=apttool --text="Input the package to install:")"
-                if [[ $? -eq 1 ]]; then
-                    zenitystart
-                    exit 0
-                fi
-                PASSWORD="$(zenity --password --title=apttool)\n"; echo -e $PASSWORD | sudo -S apt install $APTINSTALL -y | zenity --text-info --cancel-label="Main menu" --ok-label="Exit" --width=800 --height=600
-                if [[ $? -eq 1 ]]; then
-                    zenitystart
-                    exit 0
-                else
-                    exit 0
-                fi
-            PASSWORD=""
-            else
-                read -p "What package would you like to install? " APTINSTALL
-                echo
-                sudo apt install $APTINSTALL
-                echo
-                echo "--Finshed--"
-                echo
-                APTINSTALL=""
-                noguistart
-                exit 0
-            fi
+        Install*)
+            x-terminal-emulator -e $SCRIPTNAME ZINS
+            exit 0
+            ;;
+        ZINS)
+            read -p "What package would you like to install? " APTINSTALL
+            echo
+            sudo apt install $APTINSTALL
+            echo
+            echo "--Finshed--"
+            echo
+            APTINSTALL=""
+            nohup $SCRIPTNAME
+            exit
+            ;;
+        5)
+            read -p "What package would you like to install? " APTINSTALL
+            echo
+            sudo apt install $APTINSTALL
+            echo
+            echo "--Finshed--"
+            echo
+            APTINSTALL=""
+            noguistart
+            exit 0
             ;;
         6|List*)
             NUM=$(packagelist | wc -l)
@@ -180,37 +181,31 @@ main () {
                 exit 0
             fi
             ;;
-        7|Remove*)
-            if [ "$ZHEADLESS" = "1" ]; then
-                APTREMOVE="$(zenity --entry --title=apttool --text="Input the package to remove:")"
-                if [[ $? -eq 1 ]]; then
-                    zenitystart
-                    exit 0
-                fi
-                zenity --question --title=apttool --text="Are you sure you want to remove $APTREMOVE?"
-                if [[ $? -eq 1 ]]; then
-                    zenitystart
-                    exit 0
-                fi
-                PASSWORD="$(zenity --password --title=apttool)\n"; echo -e $PASSWORD | sudo -S apt remove $APTREMOVE -y | zenity --text-info --cancel-label="Main menu" --ok-label="Exit" --width=800 --height=600
-                if [[ $? -eq 1 ]]; then
-                    zenitystart
-                    exit 0
-                else
-                    exit 0
-                fi
-            PASSWORD=""
-            else
-                read -p "What package would you like to remove? " APTREMOVE
-                echo
-                sudo apt remove $APTREMOVE
-                echo
-                echo "--Finshed--"
-                echo
-                APTREMOVE=""
-                noguistart
-                exit 0
-            fi
+        Remove*)
+            x-terminal-emulator -e $SCRIPTNAME ZREM
+            exit 0
+            ;;
+        ZREM)
+            read -p "What package would you like to remove? " APTREMOVE
+            echo
+            sudo apt remove $APTREMOVE
+            echo
+            echo "--Finshed--"
+            echo
+            APTREMOVE=""
+            nohup $SCRIPTNAME
+            exit
+            ;;
+        7)
+            read -p "What package would you like to remove? " APTREMOVE
+            echo
+            sudo apt remove $APTREMOVE
+            echo
+            echo "--Finshed--"
+            echo
+            APTREMOVE=""
+            noguistart
+            exit 0
             ;;
         8)
             echo
@@ -223,9 +218,10 @@ main () {
             echo
             echo "--Finshed--"
             echo
-            main
+            noguistart
             ;;
         no*)
+            ZHEADLESS="0"
             PROGRAM="curl"
             programisinstalled
             if [ "$return" = "1" ]; then
