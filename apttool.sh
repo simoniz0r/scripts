@@ -188,7 +188,7 @@ main () {
             ;;
         7|Remove*)
             if [ "$ZHEADLESS" = "1" ]; then
-                APTREMOVE="$(zenity --entry --text="Input the package to remove:")"
+                APTREMOVE="$(zenity --entry --title=apttool --text="Input the package to remove:")"
                 if [[ $? -eq 1 ]]; then
                     zenitystart
                     exit 0
@@ -198,12 +198,12 @@ main () {
                     zenitystart
                     exit 0
                 fi
-                PASSWORD="$(zenity --password)\n"; echo -e $PASSWORD | sudo -S apt remove $APTREMOVE | zenity --text-info --cancel-label="Main menu" --ok-label="Remove package" --width=800 --height=600
+                PASSWORD="$(zenity --password --title=apttool)\n"; echo -e $PASSWORD | sudo -S apt remove $APTREMOVE | zenity --text-info --cancel-label="Main menu" --ok-label="Remove package" --width=800 --height=600
                 if [[ $? -eq 1 ]]; then
                     zenitystart
                     exit 0
                 else
-                    sudo apt remove $APTREMOVE -y | zenity --text-info --cancel-label="Main menu" --ok-label="Exit" --width=800 --height=600
+                    sudo apt remove $APTREMOVE -y | zenity --text-info --title=apttool --cancel-label="Main menu" --ok-label="Exit" --width=800 --height=600
                     if [[ $? -eq 1 ]]; then
                         zenitystart
                         exit 0
