@@ -25,7 +25,7 @@ noguistart () {
 }
 
 zenitystart () {
-    ZCASENUM=$(zenity --list --cancel-label=Exit --width=450 --height=325 --title=apttool --text="Welcome to apttool\n\nNote: Make sure all apt processes have completed before closing!\n\nWhat would you like to do?" --column="Cases" --hide-header "Update package list" "Upgrade installed packages" "Show information for a package" "Search for packages in the repos" "Install a new package" "List packages installed by user" "Remove an installed package")
+    ZCASENUM=$(zenity --list --cancel-label=Exit --width=450 --height=310 --title=apttool --text="Welcome to apttool\n\nNote: Make sure all apt processes have completed before closing!\n\nWhat would you like to do?" --column="Cases" --hide-header "Update package list and upgrade installed packages" "Show information for a package" "Search for packages in the repos" "Install a new package" "List packages installed by user" "Remove an installed package")
     if [[ $? -eq 1 ]]; then
         exit 0
     fi
@@ -57,7 +57,7 @@ main () {
             ;;
         2|Upgrade*)
             if [ "$ZHEADLESS" = "1" ]; then
-                PASSWORD="$(zenity --password --title=apttool)\n"; echo -e $PASSWORD | sudo -S apt upgrade | zenity --text-info --cancel-label="Main menu" --ok-label="Upgrade packages" --width=800 --height=600
+                sudo apt upgrade | zenity --text-info --cancel-label="Main menu" --ok-label="Upgrade packages" --width=800 --height=600
                 if [[ $? -eq 1 ]]; then
                     zenitystart
                     exit 0
