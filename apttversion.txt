@@ -1,2 +1,2 @@
 APTTVER="1.0.6"
-X="v1.0.6 - Disabled 'Remove' in GUI due to being not user friendly.  Fixed bugs with launching 'Update' directly through zenity and added it back in."
+X="v1.0.6 - Disabled 'Remove' in GUI due to being not user friendly.  Fixed bugs with launching 'Update' directly through zenity and added it back in.  Added placeholder apttool update checker to GUI."

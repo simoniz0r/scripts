@@ -3,7 +3,7 @@
 # Also has a semi-experimental GUI using 'zenity'; most things work well, but you won't be notified when package install/update/removal completes fully.
 
 APTTVER="1.0.6"
-X="v1.0.6 - Disabled 'Remove' in GUI due to being not user friendly.  Fixed bugs with launching 'Update' directly through zenity and added it back in."
+X="v1.0.6 - Disabled 'Remove' in GUI due to being not user friendly.  Fixed bugs with launching 'Update' directly through zenity and added it back in.  Added placeholder apttool update checker to GUI."
 # ^^ Remember to update these and apttversion.txt every release!
 SCRIPTNAME="$0"
 
