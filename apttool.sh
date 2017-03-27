@@ -1,12 +1,13 @@
 #!/bin/bash
 # A simple script that can run apt options to save keystrokes.
+# Also has a semi-experimental GUI using 'zenity'; most things work well, but you won't be notified when package install/update/removal completes fully.
 
-APTTVER="1.0.1"
-X="v1.0.1 - Cleaned up package list output."
+APTTVER="1.0.2"
+X="v1.0.2 - Added a full GUI with 'zenity'.  It's still a little rough around the edges, so use with caution.'"
 # ^^ Remember to update these and apttversion.txt every release!
 SCRIPTNAME="$0"
 
-main () {
+noguistart () {
     echo "What would you like to do?"
     echo "1 - Run apt update."
     echo "2 - Run apt upgrade."
@@ -19,74 +20,258 @@ main () {
     echo "9 - Exit."
     read -p "Choice? " -n 1 -r
     echo
-    if [[ $REPLY =~ ^[1]$ ]]; then
-        sudo apt update
-        echo
-        echo "--Finshed--"
-        echo
-        main
-    elif [[ $REPLY =~ ^[2]$ ]]; then
-        sudo apt upgrade
-        echo
-        echo "--Finshed--"
-        echo
-        main
-    elif [[ $REPLY =~ ^[3]$ ]]; then
-        read -p "What package would you like to show info for? " SHOW
-        echo
-        apt show $SHOW
-        echo
-        echo "--Finshed--"
-        echo
-        main
-    elif [[ $REPLY =~ ^[4]$ ]]; then
-        read -p "What package would you like to search for? " SEARCH
-        echo
-        apt search $SEARCH
-        echo
-        echo "--Finshed--"
-        echo
-        main
-    elif [[ $REPLY =~ ^[5]$ ]]; then
-        read -p "What package would you like to install? " INSTALL
-        echo
-        sudo apt install $INSTALL
-        echo
-        echo "--Finshed--"
-        echo
-        main
-    elif [[ $REPLY =~ ^[6]$ ]]; then
-        NUM=$(packagelist | wc -l)
-        echo "-- Packages --"
-        packagelist
-        echo "-- Total number of user installed packages: $NUM --"
-        echo
-        echo "--Finshed--"
-        echo
-        main
-    elif [[ $REPLY =~ ^[7]$ ]]; then
-        read -p "What package would you like to remove? " REMOVE
-        echo
-        sudo apt remove $REMOVE
-        echo
-        echo "--Finshed--"
-        echo
-        main
-    elif [[ $REPLY =~ ^[8]$ ]]; then
-        echo
-        echo
-        echo "Use with caution! Be sure to read through the packages"
-        echo "listed to make sure you do not need them!"
-        echo
-        echo
-        sudo apt autoremove
-        echo
-        echo "--Finshed--"
-        echo
-        main
-    else
-        exit 1
+    main "$REPLY"
+    exit 0
+}
+
+zenitystart () {
+    ZCASENUM=$(zenity --list --cancel-label=Exit --width=450 --height=325 --title=apttool --text="Welcome to apttool\n\nNote: Make sure all apt processes have completed before closing!\n\nWhat would you like to do?" --column="Cases" --hide-header "Update package list" "Upgrade installed packages" "Show information for a package" "Search for packages in the repos" "Install a new package" "List packages installed by user" "Remove an installed package")
+    if [[ $? -eq 1 ]]; then
+        exit 0
     fi
+    ZHEADLESS="1"
+    main "$ZCASENUM"
+    exit 0
+}
+
+main () {
+    case $1 in
+        1|Update*)
+            if [ "$ZHEADLESS" = "1" ]; then
+                PASSWORD="$(zenity --password --title=apttool)\n"; echo -e $PASSWORD | sudo -S apt update | zenity --text-info --cancel-label="Main menu" --ok-label="Upgrade packages" --width=800 --height=600
+                if [[ $? -eq 1 ]]; then
+                    zenitystart
+                    exit 0
+                else
+                    main "Upgrade"
+                fi
+                PASSWORD=""
+            else
+                sudo apt update
+                echo
+                echo "--Finshed--"
+                echo
+                noguistart
+                exit 0
+            fi
+            ;;
+        2|Upgrade*)
+            if [ "$ZHEADLESS" = "1" ]; then
+                PASSWORD="$(zenity --password --title=apttool)\n"; echo -e $PASSWORD | sudo -S apt upgrade | zenity --text-info --cancel-label="Main menu" --ok-label="Upgrade packages" --width=800 --height=600
+                if [[ $? -eq 1 ]]; then
+                    zenitystart
+                    exit 0
+                else
+                    sudo apt upgrade -y | zenity --text-info --title=apttool --cancel-label="Main menu" --ok-label="Exit" --width=800 --height=600
+                    zenitystart
+                    exit 0
+                fi
+                PASSWORD=""
+            else
+                sudo apt upgrade
+                echo
+                echo "--Finshed--"
+                echo
+                noguistart
+                exit 0
+            fi
+            ;;
+        3|Show*)
+            if [ "$ZHEADLESS" = "1" ]; then
+                APTSHOW="$(zenity --entry --title=apttool --text="Input the package to show info for:")"
+                if [[ $? -eq 1 ]]; then
+                    zenitystart
+                    exit 0
+                fi
+                apt show $APTSHOW | zenity --text-info --title=apttool --cancel-label="Main menu" --ok-label="Exit" --width=800 --height=600
+                if [[ $? -eq 1 ]]; then
+                    zenitystart
+                    exit 0
+                else
+                    exit 0
+                fi
+                PASSWORD=""
+            else
+                read -p "What package would you like to show info for? " APTSHOW
+                echo
+                apt show $APTSHOW
+                echo
+                echo "--Finshed--"
+                echo
+                APTSHOW=""
+                noguistart
+                exit 0
+            fi
+            ;;
+        4|Search*)
+            if [ "$ZHEADLESS" = "1" ]; then
+                APTSEARCH="$(zenity --entry --title=apttool --text="Input the package to search for:")"
+                if [[ $? -eq 1 ]]; then
+                    zenitystart
+                    exit 0
+                fi
+                apt search $APTSEARCH | zenity --text-info --title=apttool --cancel-label="Main menu" --ok-label="Exit" --width=800 --height=600
+                if [[ $? -eq 1 ]]; then
+                    zenitystart
+                    exit 0
+                else
+                    exit 0
+                fi
+                PASSWORD=""
+            else
+                read -p "What package would you like to search for? " APTSEARCH
+                echo
+                apt search $APTSEARCH
+                echo
+                echo "--Finshed--"
+                echo
+                APTSEARCH=""
+                noguistart
+                exit 0
+            fi
+            ;;
+        5|Install*)
+            if [ "$ZHEADLESS" = "1" ]; then
+                APTINSTALL="$(zenity --entry --title=apttool --text="Input the package to install:")"
+                if [[ $? -eq 1 ]]; then
+                    zenitystart
+                    exit 0
+                fi
+                PASSWORD="$(zenity --password --title=apttool)\n"; echo -e $PASSWORD | sudo -S apt install $APTINSTALL | zenity --text-info --cancel-label="Main menu" --ok-label="Install packages" --width=800 --height=600
+                if [[ $? -eq 1 ]]; then
+                    zenitystart
+                    exit 0
+                else
+                    sudo apt install $APTINSTALL -y | zenity --text-info --title=apttool --cancel-label="Main menu" --ok-label="Exit" --width=800 --height=600
+                    if [[ $? -eq 1 ]]; then
+                        zenitystart
+                        exit 0
+                    else
+                        exit 0
+                    fi
+                fi
+                PASSWORD=""
+            else
+                read -p "What package would you like to install? " APTINSTALL
+                echo
+                sudo apt install $APTINSTALL
+                echo
+                echo "--Finshed--"
+                echo
+                APTINSTALL=""
+                noguistart
+                exit 0
+            fi
+            ;;
+        6|List*)
+            NUM=$(packagelist | wc -l)
+            if [ "$ZHEADLESS" = "1" ]; then
+                zenity --warning --title=apttool --text="Total number of user installed packages: $NUM"
+                packagelist | zenity --text-info --title=apttool --cancel-label="Main menu" --ok-label="Exit" --width=800 --height=600
+                if [[ $? -eq 1 ]]; then
+                    zenitystart
+                    exit 0
+                else
+                    exit 0
+                fi
+            else
+                echo "-- Packages --"
+                packagelist
+                echo "-- Total number of user installed packages: $NUM --"
+                echo
+                echo "--Finshed--"
+                echo
+                NUM=""
+                noguistart
+                exit 0
+            fi
+            ;;
+        7|Remove*)
+            if [ "$ZHEADLESS" = "1" ]; then
+                APTREMOVE="$(zenity --entry --text="Input the package to remove:")"
+                if [[ $? -eq 1 ]]; then
+                    zenitystart
+                    exit 0
+                fi
+                zenity --question --title=apttool --text="Are you sure you want to remove $APTREMOVE?"
+                if [[ $? -eq 1 ]]; then
+                    zenitystart
+                    exit 0
+                fi
+                PASSWORD="$(zenity --password)\n"; echo -e $PASSWORD | sudo -S apt remove $APTREMOVE | zenity --text-info --cancel-label="Main menu" --ok-label="Remove package" --width=800 --height=600
+                if [[ $? -eq 1 ]]; then
+                    zenitystart
+                    exit 0
+                else
+                    sudo apt remove $APTREMOVE -y | zenity --text-info --cancel-label="Main menu" --ok-label="Exit" --width=800 --height=600
+                    if [[ $? -eq 1 ]]; then
+                        zenitystart
+                        exit 0
+                    else
+                        exit 0
+                    fi
+                fi
+                PASSWORD=""
+            else
+                read -p "What package would you like to remove? " APTREMOVE
+                echo
+                sudo apt remove $APTREMOVE
+                echo
+                echo "--Finshed--"
+                echo
+                APTREMOVE=""
+                noguistart
+                exit 0
+            fi
+            ;;
+        8)
+            echo
+            echo
+            echo "Use with caution! Be sure to read through the packages"
+            echo "listed to make sure you do not need them!"
+            echo
+            echo
+            sudo apt autoremove
+            echo
+            echo "--Finshed--"
+            echo
+            main
+            ;;
+        no*)
+            PROGRAM="curl"
+            programisinstalled
+            if [ "$return" = "1" ]; then
+                updatecheck
+            else
+                read -p "curl is not installed; run script without checking for new version? Y/N " -n 1 -r
+                if [[ $REPLY =~ ^[Yy]$ ]]; then
+                    echo
+                    noguistart
+                else
+                    echo
+                    echo "Exiting."
+                    exit 0
+                fi
+            fi
+            ZHEADLESS="0"
+            noguistart
+            exit 0
+            ;;
+        9)
+            exit 1
+            ;;
+        *)
+            programisinstalled "zenity"
+            if [ "$return" = "1" ]; then
+                zenitystart
+                exit 0
+            else
+                echo "apttool.sh now has a GUI; install 'zenity' to check it out!"
+                echo
+                noguistart
+                exit 0
+            fi
+    esac
 }
 
 packagelist () {
@@ -97,7 +282,7 @@ programisinstalled () {
   # set to 1 initially
   return=1
   # set to 0 if not found
-  type $PROGRAM >/dev/null 2>&1 || { return=0; }
+  type $1 >/dev/null 2>&1 || { return=0; }
   # return value
 }
 
@@ -145,31 +330,15 @@ updatecheck () {
             exit 0
         else
             echo
-            main
+            noguistart
         fi
     else
         echo "Installed version: $APTTVER -- Current version: $VERTEST"
         echo $UPNOTES
         echo "apttool.sh is up to date."
         echo
-        main
+        noguistart
     fi
 }
 
-
-
-PROGRAM="curl"
-programisinstalled
-if [ "$return" = "1" ]; then
-    updatecheck
-else
-    read -p "curl is not installed; run script without checking for new version? Y/N " -n 1 -r
-    if [[ $REPLY =~ ^[Yy]$ ]]; then
-        echo
-        main
-    else
-        echo
-        echo "Exiting."
-        exit 0
-    fi
-fi
+main "$1"

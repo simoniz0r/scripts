@@ -1,2 +1,2 @@
-APTTVER="1.0.1"
-X="v1.0.1 - Cleaned up package list output."
+APTTVER="1.0.2"
+X="v1.0.2 - Added a full GUI with 'zenity'.  It's still a little rough around the edges, so use with caution.'"
