@@ -25,7 +25,7 @@ noguistart () {
 }
 
 zenitystart () {
-    ZCASENUM=$(zenity --list --cancel-label=Exit --width=450 --height=340 --title=apttool --text="Welcome to apttool\n\nNote: Some options will launch in a new terminal window.\napttool will relaunch after apt has finished running in the terminal.\n\nWhat would you like to do?" --column="Cases" --hide-header "Update package list and upgrade installed packages" "Show information for a package" "Search for packages in the repos" "List packages installed by user" "Install a new package" "Remove an installed package" "Check for updated version of apttool")
+    ZCASENUM=$(zenity --list --cancel-label=Exit --width=450 --height=340 --title=apttool --text="Welcome to apttool\n\nNote: Some options will launch in a new terminal window.\napttool will relaunch after apt has finished running in the terminal.\n\nWhat would you like to do?" --column="Cases" --hide-header "Update package list and upgrade installed packages" "Show information for a package" "Search for packages in the repos" "List packages installed by $USER" "Install a new package" "Remove an installed package" "Check for updated version of apttool")
     if [[ $? -eq 1 ]]; then
         exit 0
     fi
@@ -161,7 +161,7 @@ main () {
         6|List*)
             NUM=$(packagelist | wc -l)
             if [ "$ZHEADLESS" = "1" ]; then
-                packagelist | zenity --list --title=apttool --column="List of packages installed by user in alphabetical order:" --cancel-label="Main menu" --ok-label="Exit" --width=800 --height=600 --text="Total number of user installed packages: $NUM"
+                packagelist | zenity --list --title=apttool --column="List of packages installed by $USER in alphabetical order:" --cancel-label="Main menu" --ok-label="Exit" --width=800 --height=600 --text="Total number of packages installed by $USER: $NUM"
                 if [[ $? -eq 1 ]]; then
                     zenitystart
                     exit 0
