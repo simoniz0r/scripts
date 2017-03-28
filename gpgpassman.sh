@@ -149,8 +149,7 @@ main () {
                         exit 0
                     fi
                 else
-                    helpfunc
-                    exit 0
+                    read -p "Input the service name to encrypt a password for: " SERVNAME
                 fi
             fi
             if [ -f "$GPMDIR/$SERVNAME/$SERVNAME.gpg" ];then
