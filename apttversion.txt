@@ -1,2 +1,2 @@
-APTTVER="1.1.1"
-X="v1.1.1 - Terminal window closes after sleep 5 to give user a chance to view output."
+APTTVER="1.1.2"
+X="v1.1.2 - Added 'autoremove' back into GUI menu; will be launched in terminal.  Remember to use this option carefully!"

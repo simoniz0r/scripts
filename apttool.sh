@@ -2,8 +2,8 @@
 # A simple script that can run apt options to save keystrokes.
 # Also has a semi-experimental GUI using 'zenity'; most things work well, but you won't be notified when package install/update/removal completes fully.
 
-APTTVER="1.1.1"
-X="v1.1.1 - Terminal window closes after sleep 5 to give user a chance to view output."
+APTTVER="1.1.2"
+X="v1.1.2 - Added 'autoremove' back into GUI menu; will be launched in terminal.  Remember to use this option carefully!"
 # ^^ Remember to update these and apttversion.txt every release!
 SCRIPTNAME="$0"
 
@@ -26,7 +26,7 @@ noguistart () {
 
 zenitystart () {
     TERMPID=$(pgrep -l x-term)
-    ZCASENUM=$(kill -9 $TERMPID; zenity --list --cancel-label=Exit --width=450 --height=340 --title=apttool --text="Welcome to apttool\n\nNote: Some options will launch in a new terminal window.\napttool will relaunch after apt has finished running in the terminal.\n\nWhat would you like to do?" --column="Cases" --hide-header "Update package list and upgrade installed packages" "Show information for a package" "Search for packages in the repos" "List packages installed by $USER" "Install new package(s) from the repo" "Remove installed package(s)" "Check for updated version of apttool")
+    ZCASENUM=$(kill -9 $TERMPID; zenity --list --cancel-label=Exit --width=450 --height=365 --title=apttool --text="Welcome to apttool\n\nNote: Some options will launch in a new terminal window.\napttool will relaunch after apt has finished running in the terminal.\n\nWhat would you like to do?" --column="Cases" --hide-header "Update package list and upgrade installed packages" "Show information for a package" "Search for packages in the repos" "List packages installed by $USER" "Install new package(s) from the repo" "Remove installed package(s)" "Autoremove unneeded packages (USE WITH CAUTION)" "Check for updated version of apttool")
     if [[ $? -eq 1 ]]; then
         exit 0
     fi
@@ -208,6 +208,29 @@ main () {
             echo
             APTREMOVE=""
             noguistart
+            exit 0
+            ;;
+        Autoremove*)
+            x-terminal-emulator -e $SCRIPTNAME ATO
+            exit 0
+            ;;
+        ATO)
+            echo
+            echo
+            echo "Use with caution! Be sure to read through the packages"
+            echo "listed to make sure you do not need them!"
+            echo
+            echo
+            read -p "Are you sure you want to continue? Y/N " -n 1 -r
+            echo
+            if [[ $REPLY =~ ^[Yy]$ ]]; then
+                sudo apt autoremove
+                echo
+                echo "--Finshed--"
+                echo
+            fi
+            sleep 5
+            nohup $SCRIPTNAME
             exit 0
             ;;
         8)
