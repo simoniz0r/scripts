@@ -1,2 +1,2 @@
-APTTVER="1.0.7"
-X="v1.0.7 - In zenity GUI mode, 'Upgrade', 'Install', and 'Remove' now open in a terminal window due to apt being relatively unreliable through zenity with those options.  The GUI will open again after those options complete."
+APTTVER="1.0.8"
+X="v1.0.8 - Changed 'List' in zenity GUI to have total packages at top of window instead of popping up in warning before listing."

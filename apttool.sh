@@ -2,8 +2,8 @@
 # A simple script that can run apt options to save keystrokes.
 # Also has a semi-experimental GUI using 'zenity'; most things work well, but you won't be notified when package install/update/removal completes fully.
 
-APTTVER="1.0.7"
-X="v1.0.7 - In zenity GUI mode, 'Upgrade', 'Install', and 'Remove' now open in a terminal window due to apt being relatively unreliable through zenity with those options.  The GUI will open again after those options complete."
+APTTVER="1.0.8"
+X="v1.0.8 - Changed 'List' in zenity GUI to have total packages at top of window instead of popping up in warning before listing."
 # ^^ Remember to update these and apttversion.txt every release!
 SCRIPTNAME="$0"
 
@@ -161,8 +161,7 @@ main () {
         6|List*)
             NUM=$(packagelist | wc -l)
             if [ "$ZHEADLESS" = "1" ]; then
-                zenity --warning --title=apttool --text="Total number of user installed packages: $NUM"
-                packagelist | zenity --text-info --title=apttool --cancel-label="Main menu" --ok-label="Exit" --width=800 --height=600
+                packagelist | zenity --list --title=apttool --column="Total number of user installed packages: $NUM" --cancel-label="Main menu" --ok-label="Exit" --width=800 --height=600
                 if [[ $? -eq 1 ]]; then
                     zenitystart
                     exit 0
