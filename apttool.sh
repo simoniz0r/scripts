@@ -25,7 +25,7 @@ noguistart () {
 }
 
 zenitystart () {
-    ZCASENUM=$(zenity --list --cancel-label=Exit --width=450 --height=340 --title=apttool --text="Welcome to apttool\n\nNote: Some options will launch in a new terminal window.\napttool will relaunch after apt has finished running in the terminal.\n\nWhat would you like to do?" --column="Cases" --hide-header "Update package list and upgrade installed packages" "Show information for a package" "Search for packages in the repos" "List packages installed by $USER" "Install new package(s) from the repo" "Remove an installed package(s)" "Check for updated version of apttool")
+    ZCASENUM=$(zenity --list --cancel-label=Exit --width=450 --height=340 --title=apttool --text="Welcome to apttool\n\nNote: Some options will launch in a new terminal window.\napttool will relaunch after apt has finished running in the terminal.\n\nWhat would you like to do?" --column="Cases" --hide-header "Update package list and upgrade installed packages" "Show information for a package" "Search for packages in the repos" "List packages installed by $USER" "Install new package(s) from the repo" "Remove installed package(s)" "Check for updated version of apttool")
     if [[ $? -eq 1 ]]; then
         exit 0
     fi
