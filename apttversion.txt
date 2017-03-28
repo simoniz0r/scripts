@@ -1,2 +1,2 @@
-APTTVER="1.1.0"
-X="v1.1.0 - Terminal window will now close on its own after processes running inside are finished."
+APTTVER="1.1.1"
+X="v1.1.1 - Terminal window closes after sleep 5 to give user a chance to view output."

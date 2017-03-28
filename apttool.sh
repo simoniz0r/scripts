@@ -2,8 +2,8 @@
 # A simple script that can run apt options to save keystrokes.
 # Also has a semi-experimental GUI using 'zenity'; most things work well, but you won't be notified when package install/update/removal completes fully.
 
-APTTVER="1.1.0"
-X="v1.1.0 - Terminal window will now close on its own after processes running inside are finished."
+APTTVER="1.1.1"
+X="v1.1.1 - Terminal window closes after sleep 5 to give user a chance to view output."
 # ^^ Remember to update these and apttversion.txt every release!
 SCRIPTNAME="$0"
 
@@ -68,6 +68,7 @@ main () {
             echo
             echo "--Finshed--"
             echo
+            sleep 5
             nohup $SCRIPTNAME
             exit
             ;;
@@ -145,6 +146,7 @@ main () {
             echo "--Finshed--"
             echo
             APTINSTALL=""
+            sleep 5
             nohup $SCRIPTNAME
             exit
             ;;
@@ -193,6 +195,7 @@ main () {
             echo "--Finshed--"
             echo
             APTREMOVE=""
+            sleep 5
             nohup $SCRIPTNAME
             exit
             ;;
@@ -295,6 +298,7 @@ runupdate () {
         echo "Update finished!"
         rm -f /tmp/updatescript.sh
         if type zenity >/dev/null 2>&1; then
+            sleep 5
             nohup $SCRIPTNAME
             exit 0
         else
@@ -334,7 +338,9 @@ updatecheck () {
         else
             echo
             if [ "$ZHEADLESS" = "1" ]; then
-                zenitystart
+                sleep 5
+                nohup $SCRIPTNAME
+                exit 0
             else
                 noguistart
             fi
@@ -345,6 +351,7 @@ updatecheck () {
         echo "apttool.sh is up to date."
         echo
          if [ "$ZHEADLESS" = "1" ]; then
+            sleep 5
             nohup $SCRIPTNAME
             exit 0
         else
