@@ -1,2 +1,2 @@
-APTTVER="1.0.9"
-X="v1.0.9 - Update check in GUI will now relaunch apttool GUI when finished."
+APTTVER="1.1.0"
+X="v1.1.0 - Terminal window will now close on its own after processes running inside are finished."
