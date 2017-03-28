@@ -5,8 +5,8 @@
 # Also with 'zenity', you can execuite 'gpgpassman.sh dec' for direct access to decrypting passwords; can be used with a keybind.
 # Written by simonizor 3/22/2017 - http://www.simonizor.gq/scripts
 
-GPMVER="1.1.7"
-X="v1.1.7 - Removed the radiolist buttons on the main gpgpassman window for a cleaner look."
+GPMVER="1.1.8"
+X="v1.1.8 - gpgpassman will now relaunch after checking for update.  Also added 'nogui' mode."
 # ^^Remember to update this and gpmversion.txt every release!
 SCRIPTNAME="$0"
 GPMDIR="$(< ~/.config/gpgpassman/gpgpassman.conf)"
@@ -25,7 +25,12 @@ runupdate () {
     if [ -f $SCRIPTNAME ]; then
         echo "Update finished!"
         rm -f /tmp/updatescript.sh
-        exit 0
+        if type zenity >/dev/null 2>&1; then
+            nohup $SCRIPTNAME
+            exit 0
+        else
+            exec $SCRIPTNAME
+        fi
     else
         read -p "Update Failed! Try again? Y/N " -n 1 -r
         if [[ $REPLY =~ ^[Yy]$ ]]; then
@@ -58,8 +63,16 @@ updatecheck () {
             exec /tmp/updatescript.sh
             exit 0
         else
-            echo
-            echo "gpgpassman.sh was not updated."
+            if [ "$ZHEADLESS" = "1" ]; then
+                nohup $SCRIPTNAME
+                exit 0
+            elif [ "$ZHEADLESS" = "0" ];then
+                noguimain
+                exit 0
+            else
+                echo
+                echo "gpgpassman.sh was not updated."
+            fi
         fi
     else
         echo "Installed version: $GPMVER -- Current version: $VERTEST"
@@ -93,7 +106,8 @@ helpfunc () {
 }
 
 zenitymain () {
-    ZMAINCASE=$(zenity --list --cancel-label=Exit --width=450 --height=350 --title=gpgpassman --text="What would you like to do?" --column="Cases" --hide-header "Add a new encrypted password" "Decrypt an existing password" "Remove an existing password" "Change the default password storage directory" "Update gpgpassman")
+    TERMPID=$(pgrep -l x-term)
+    ZMAINCASE=$(kill -9 $TERMPID; zenity --list --cancel-label=Exit --width=450 --height=350 --title=gpgpassman --text="What would you like to do?" --column="Cases" --hide-header "Add a new encrypted password" "Decrypt an existing password" "Remove an existing password" "Change the default password storage directory" "Update gpgpassman")
     if [[ $? -eq 1 ]]; then
         exit 0
     fi
@@ -101,9 +115,23 @@ zenitymain () {
     main "$ZMAINCASE"
 }
 
+noguimain () {
+    echo "What would you like to do?"
+    echo "${bold}Add${normal} an encrypted password."
+    echo "${bold}Decrypt${normal} a stored password."
+    echo "${bold}Remove${normal} a stored password."
+    echo "${bold}Change${normal} the default password storage directory."
+    echo "${bold}Help${normal}"
+    echo "${bold}Exit${normal}"
+    read -p "Choice? " -r
+    echo
+    main "$REPLY"
+    exit 0
+}
+
 main () {
     case $1 in
-        add|Add*)
+        add*|Add*)
             if [ -z $SERVNAME ]; then
                 if [ "$ZHEADLESS" = "1" ]; then
                     SERVNAME=$(zenity --entry --title=gpgpassman --cancel-label=Main --text="Enter the name of the service you would like to encrypt a password for:")
@@ -228,19 +256,23 @@ main () {
                 fi
             fi
             ;;
-        dec|Dec*)
+        dec*|Dec*)
             if [ -z "$SERVNAME" ]; then
-                programisinstalled "zenity"
-                if [ $return = "1" ];then
-                    SERVNAME=$(zenity --file-selection --file-filter=*.gpg --title="gpgpassman -- Select the gpg file to decrypt" --filename=$GPMDIR/)
-                    if [[ $? -eq 1 ]]; then
-                        SERVNAME=""
-                        main
-                        exit 0
-                    fi
-                    ZHEADLESS="1"
+                if [ $ZHEADLESS = "0" ]; then
+                    read -p "Input the service name to decrypt a password for: " SERVNAME
                 else
-                    read -p "Enter the service name to decrypt password for: " SERVNAME
+                    programisinstalled "zenity"
+                    if [ $return = "1" ];then
+                        SERVNAME=$(zenity --file-selection --file-filter=*.gpg --title="gpgpassman -- Select the gpg file to decrypt" --filename=$GPMDIR/)
+                        if [[ $? -eq 1 ]]; then
+                            SERVNAME=""
+                            main
+                            exit 0
+                        fi
+                        ZHEADLESS="1"
+                    else
+                        read -p "Enter the service name to decrypt password for: " SERVNAME
+                    fi
                 fi
             fi
             if [ -f "$GPMDIR/$SERVNAME/$SERVNAME.gpg" ];then 
@@ -282,7 +314,7 @@ main () {
                 echo "No password found for $SERVNAME"
             fi
             ;;
-        rem|Rem*)
+        rem*|Rem*)
             if [ -z "$SERVNAME" ]; then
                 if [ "$ZHEADLESS" = "1" ]; then
                     SERVNAME=$(zenity --forms --cancel-label=Main --title=gpgpassman --text="Managed services: $(dir $GPMDIR)" --add-entry="Enter the service name to remove:")
@@ -292,8 +324,7 @@ main () {
                         exit 0
                     fi
                 else
-                    helpfunc
-                    exit 0
+                    read -p "Input the service name for the password you want to remove: " SERVNAME
                 fi
             fi
             if [ -f "$GPMDIR/$SERVNAME/$SERVNAME.gpg" ];then
@@ -346,7 +377,7 @@ main () {
                 fi
             fi
             ;;
-        dir|Change*)
+        dir*|Change*|change*)
             if [ -z $SERVNAME ]; then
                 if [ "$ZHEADLESS" = "1" ]; then
                     SERVNAME=$(zenity --file-selection --directory --title="gpgpassman -- Select a new password storage directory")
@@ -362,8 +393,7 @@ main () {
                         exit 0
                     fi
                 else
-                    helpfunc
-                    exit 0
+                    read -p "Input the full directory to change password storage to. Ex: '/home/simonizor/mypasswords': " SERVNAME
                 fi
             fi
             if [ "${SERVNAME: -1}" = "/" ]; then
@@ -409,13 +439,13 @@ main () {
                 updatecheck
             fi
             ;;
-        Exit)
+        exit*|Exit*)
             exit 0
             ;;
         Update*)
             programisinstalled "curl"
             if [ "$return" = "1" ]; then
-                x-terminal-emulator -e $SCRIPTNAME help
+                x-terminal-emulator -e $SCRIPTNAME UPD
                 exit 0
             else
                 zenity --error --text="'curl' is not installed; cannot check for updates!"
@@ -423,6 +453,16 @@ main () {
                 main
                 exit 0
             fi
+            ;;
+        UPD)
+            ZHEADLESS="1"
+            updatecheck
+            ;;
+        nogui)
+            ZHEADLESS="0"
+            noguimain
+            SERVNAME=""
+            exit 0
             ;;
         *)
             programisinstalled "zenity"
@@ -433,7 +473,7 @@ main () {
                 echo "A script that uses 'gpg' to encrypt and decrypt passwords."
                 echo "gpgpassman.sh now has a GUI; install 'zenity' to check it out!"
                 echo
-                helpfunc
+                noguimain
                 echo
                 programisinstalled "curl"
                 if [ $return = "1" ]; then
