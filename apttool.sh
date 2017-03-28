@@ -2,8 +2,8 @@
 # A simple script that can run apt options to save keystrokes.
 # Also has a semi-experimental GUI using 'zenity'; most things work well, but you won't be notified when package install/update/removal completes fully.
 
-APTTVER="1.0.9"
-X="v1.0.9 - Update check in GUI will now relaunch apttool GUI when finished."
+APTTVER="1.1.0"
+X="v1.1.0 - Terminal window will now close on its own after processes running inside are finished."
 # ^^ Remember to update these and apttversion.txt every release!
 SCRIPTNAME="$0"
 
@@ -345,7 +345,6 @@ updatecheck () {
         echo "apttool.sh is up to date."
         echo
          if [ "$ZHEADLESS" = "1" ]; then
-            ZKILLTERM="1"
             nohup $SCRIPTNAME
             exit 0
         else
