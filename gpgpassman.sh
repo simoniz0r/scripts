@@ -75,9 +75,17 @@ updatecheck () {
             fi
         fi
     else
-        echo "Installed version: $GPMVER -- Current version: $VERTEST"
-        echo $UPNOTES
-        echo "gpgpassman.sh is up to date."
+        if [ "$ZHEADLESS" = "1" ]; then
+            nohup $SCRIPTNAME
+            exit 0
+        elif [ "$ZHEADLESS" = "0" ];then
+            noguimain
+            exit 0
+        else
+            echo "Installed version: $GPMVER -- Current version: $VERTEST"
+            echo $UPNOTES
+            echo "gpgpassman.sh is up to date."
+        fi
     fi
 }
 
@@ -263,6 +271,7 @@ main () {
                 else
                     programisinstalled "zenity"
                     if [ $return = "1" ];then
+                        ZHEADLESS="1"
                         SERVNAME=$(zenity --file-selection --file-filter=*.gpg --title="gpgpassman -- Select the gpg file to decrypt" --filename=$GPMDIR/)
                         if [[ $? -eq 1 ]]; then
                             SERVNAME=""
