@@ -161,7 +161,7 @@ main () {
         6|List*)
             NUM=$(packagelist | wc -l)
             if [ "$ZHEADLESS" = "1" ]; then
-                packagelist | zenity --list --title=apttool --column="Total number of user installed packages: $NUM" --cancel-label="Main menu" --ok-label="Exit" --width=800 --height=600
+                packagelist | zenity --list --title=apttool --column="List of packages installed by user in alphabetical order:" --cancel-label="Main menu" --ok-label="Exit" --width=800 --height=600 --text="Total number of user installed packages: $NUM"
                 if [[ $? -eq 1 ]]; then
                     zenitystart
                     exit 0
