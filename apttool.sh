@@ -2,8 +2,8 @@
 # A simple script that can run apt options to save keystrokes.
 # Also has a semi-experimental GUI using 'zenity'; most things work well, but you won't be notified when package install/update/removal completes fully.
 
-APTTVER="1.0.8"
-X="v1.0.8 - Changed 'List' in zenity GUI to have total packages at top of window instead of popping up in warning before listing."
+APTTVER="1.0.9"
+X="v1.0.9 - Update check in GUI will now relaunch apttool GUI when finished."
 # ^^ Remember to update these and apttversion.txt every release!
 SCRIPTNAME="$0"
 
@@ -244,8 +244,19 @@ main () {
             exit 1
             ;;
         Check*)
-            x-terminal-emulator -e $SCRIPTNAME noguistart
-            exit 0
+            programisinstalled "curl"
+            if [ "$return" = "1" ]; then
+                x-terminal-emulator -e $SCRIPTNAME CHK
+                exit 0
+            else
+                zenity --error --title=apttool --text="curl is not installed; cannot check for updates!"
+                zenitystart
+                exit 0
+            fi
+            ;;
+        CHK)
+            ZHEADLESS="1"
+            updatecheck
             ;;
         *)
             programisinstalled "zenity"
@@ -282,8 +293,12 @@ runupdate () {
     if [ -f $SCRIPTNAME ]; then
         echo "Update finished!"
         rm -f /tmp/updatescript.sh
-        exec $SCRIPTNAME
-        exit 0
+        if type zenity >/dev/null 2>&1; then
+            nohup $SCRIPTNAME
+            exit 0
+        else
+            exec $SCRIPTNAME
+        fi
     else
         read -p "Update Failed! Try again? Y/N " -n 1 -r
         if [[ $REPLY =~ ^[Yy]$ ]]; then
@@ -317,14 +332,23 @@ updatecheck () {
             exit 0
         else
             echo
-            noguistart
+            if [ "$ZHEADLESS" = "1" ]; then
+                zenitystart
+            else
+                noguistart
+            fi
         fi
     else
         echo "Installed version: $APTTVER -- Current version: $VERTEST"
         echo $UPNOTES
         echo "apttool.sh is up to date."
         echo
-        noguistart
+         if [ "$ZHEADLESS" = "1" ]; then
+            nohup $SCRIPTNAME
+            exit 0
+        else
+            noguistart
+        fi
     fi
 }
 

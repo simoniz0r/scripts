@@ -1,2 +1,2 @@
-APTTVER="1.0.8"
-X="v1.0.8 - Changed 'List' in zenity GUI to have total packages at top of window instead of popping up in warning before listing."
+APTTVER="1.0.9"
+X="v1.0.9 - Update check in GUI will now relaunch apttool GUI when finished."
