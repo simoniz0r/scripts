@@ -1,6 +1,6 @@
 #!/bin/bash
 # A simple script that can run apt options to save keystrokes.
-# Also has a semi-experimental GUI using 'zenity'; most things work well, but you won't be notified when package install/update/removal completes fully.
+# Also has a GUI using 'zenity'; just install 'zenity' to check it out.
 
 APTTVER="1.1.2"
 X="v1.1.2 - Added 'autoremove' back into GUI menu; will be launched in terminal.  Remember to use this option carefully!"
