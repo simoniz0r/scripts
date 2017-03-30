@@ -32,6 +32,7 @@ runupdate () {
         echo "Update finished!"
         rm -f /tmp/updatescript.sh
         if type zenity >/dev/null 2>&1; then
+            sleep 3
             nohup $SCRIPTNAME
             exit 0
         else
