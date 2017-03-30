@@ -20,10 +20,9 @@ updatescript () {
 cat >/tmp/updatescript.sh <<EOL
 runupdate () {
     if [ "$SCRIPTNAME" = "/usr/bin/gpgpassman" ]; then
-        SCRIPTNAME=$(readlink $(type gpgpassman))
-        sudo rm -f $SCRIPTNAME
-        sudo wget -O $SCRIPTNAME "https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/gpgpassman.sh"
-        sudo chmod +x $SCRIPTNAME
+        sudo rm -f /opt/gpgpassman/gpgpassman.sh
+        sudo wget -O /opt/gpgpassman/gpgpassman.sh "https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/gpgpassman.sh"
+        sudo chmod +x /opt/gpgpassman/gpgpassman.sh
     else
         rm -f $SCRIPTNAME
         wget -O $SCRIPTNAME "https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/gpgpassman.sh"
@@ -54,6 +53,7 @@ EOL
 
 updatecheck () {
     echo "Checking for new version..."
+    echo "$SCRIPTNAME"
     UPNOTES=$(curl -v --silent https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/gpmversion.txt 2>&1 | grep X= | tr -d 'X="')
     VERTEST=$(curl -v --silent https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/gpmversion.txt 2>&1 | grep GPMVER= | tr -d 'GPMVER="')
     if [[ $GPMVER < $VERTEST ]]; then
@@ -340,7 +340,7 @@ main () {
         rem*|Rem*)
             if [ -z "$SERVNAME" ]; then
                 if [ "$ZHEADLESS" = "1" ]; then
-                    SERVNAME=$(zenity --entry --cancel-label="Main menu" --width=540 --height=435 --title=gpgpassman --text="Remove an encrypted password\n\nThe password for the service name you enter will be deleted permanently!\nYou will be asked for the gpg encryption password before removal.\n\nPassword storage directory:\n$GPMDIR\n\nManaged services:\n$(dir $GPMDIR)\n\n\n\n\n\nEnter the service name to remove:")
+                    SERVNAME=$(zenity --entry --cancel-label="Main menu" --width=540 --height=435 --title=gpgpassman --text="Remove an encrypted password.\n\nThe password for the service name you enter will be deleted permanently!\nYou will be asked for the gpg encryption password before removal.\n\nPassword storage directory:\n$GPMDIR\n\nManaged services:\n$(dir $GPMDIR)\n\n\n\n\n\nEnter the service name to remove:")
                     if [[ $? -eq 1 ]]; then
                         SERVNAME=""
                         main
