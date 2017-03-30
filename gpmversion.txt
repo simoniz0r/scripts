@@ -1,2 +1,2 @@
-GPMVER="1.1.8"
-X="v1.1.8 - gpgpassman will now relaunch after checking for update.  Also added 'nogui' mode."
+GPMVER="1.1.9"
+X="v1.1.9 - Cleaned up gpgpassman's GUI"

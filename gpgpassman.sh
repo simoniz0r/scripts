@@ -5,8 +5,8 @@
 # Also with 'zenity', you can execuite 'gpgpassman.sh dec' for direct access to decrypting passwords; can be used with a keybind.
 # Written by simonizor 3/22/2017 - http://www.simonizor.gq/scripts
 
-GPMVER="1.1.8"
-X="v1.1.8 - gpgpassman will now relaunch after checking for update.  Also added 'nogui' mode."
+GPMVER="1.1.9"
+X="v1.1.9 - Cleaned up gpgpassman's GUI"
 # ^^Remember to update this and gpmversion.txt every release!
 SCRIPTNAME="$0"
 GPMDIR="$(< ~/.config/gpgpassman/gpgpassman.conf)"
@@ -19,9 +19,16 @@ normal=$(tput sgr0)
 updatescript () {
 cat >/tmp/updatescript.sh <<EOL
 runupdate () {
-    rm -f $SCRIPTNAME
-    wget -O $SCRIPTNAME "https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/gpgpassman.sh"
-    chmod +x $SCRIPTNAME
+    if [ "$SCRIPTNAME" = "/usr/bin/gpgpassman" ]; then
+        SCRIPTNAME=$(readlink $(type gpgpassman))
+        sudo rm -f $SCRIPTNAME
+        sudo wget -O $SCRIPTNAME "https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/gpgpassman.sh"
+        sudo chmod +x $SCRIPTNAME
+    else
+        rm -f $SCRIPTNAME
+        wget -O $SCRIPTNAME "https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/gpgpassman.sh"
+        chmod +x $SCRIPTNAME
+    fi
     if [ -f $SCRIPTNAME ]; then
         echo "Update finished!"
         rm -f /tmp/updatescript.sh
@@ -64,6 +71,7 @@ updatecheck () {
             exit 0
         else
             if [ "$ZHEADLESS" = "1" ]; then
+                sleep 2
                 nohup $SCRIPTNAME
                 exit 0
             elif [ "$ZHEADLESS" = "0" ];then
@@ -76,9 +84,16 @@ updatecheck () {
         fi
     else
         if [ "$ZHEADLESS" = "1" ]; then
+            echo "Installed version: $GPMVER -- Current version: $VERTEST"
+            echo $UPNOTES
+            echo "gpgpassman.sh is up to date."
+            sleep 2
             nohup $SCRIPTNAME
             exit 0
         elif [ "$ZHEADLESS" = "0" ];then
+            echo "Installed version: $GPMVER -- Current version: $VERTEST"
+            echo $UPNOTES
+            echo "gpgpassman.sh is up to date."
             noguimain
             exit 0
         else
@@ -115,7 +130,7 @@ helpfunc () {
 
 zenitymain () {
     TERMPID=$(pgrep -l x-term)
-    ZMAINCASE=$(kill -9 $TERMPID; zenity --list --cancel-label=Exit --width=450 --height=350 --title=gpgpassman --text="What would you like to do?" --column="Cases" --hide-header "Add a new encrypted password" "Decrypt an existing password" "Remove an existing password" "Change the default password storage directory" "Update gpgpassman")
+    ZMAINCASE=$(kill -9 $TERMPID; zenity --list --cancel-label=Exit --width=540 --height=435 --title=gpgpassman --text="Welcome to gpgpassman v$GPMVER\n\ngpgpassman is a password manager tool that\nencrypts and decrypts passwords using 'gpg'\n\nPassword storage directory:\n$GPMDIR\n\nManaged passwords:\n$(dir $GPMDIR)\n\nWhat would you like to do?" --column="Cases" --hide-header "Add a new encrypted password" "Decrypt an existing password" "Remove an existing password" "Change password storage directory" "Check for gpgpassman update")
     if [[ $? -eq 1 ]]; then
         exit 0
     fi
@@ -142,7 +157,7 @@ main () {
         add*|Add*)
             if [ -z $SERVNAME ]; then
                 if [ "$ZHEADLESS" = "1" ]; then
-                    SERVNAME=$(zenity --entry --title=gpgpassman --cancel-label=Main --text="Enter the name of the service you would like to encrypt a password for:")
+                    SERVNAME=$(zenity --entry --title=gpgpassman --cancel-label="Main menu" --width=540 --height=435 --text="Add a new encrypted password.\n\nYou will be prompted for two different password inputs.\nThe first is the password that you use to login to the service.\nThe second is the password used for gpg encryption.\n\nYou will be prompted to overwrite already managed services.\n\n\n\n\n\n\n\n\n\n\nEnter the service name to encrypt a password for:")
                     if [[ $? -eq 1 ]]; then
                         SERVNAME=""
                         main
@@ -325,7 +340,7 @@ main () {
         rem*|Rem*)
             if [ -z "$SERVNAME" ]; then
                 if [ "$ZHEADLESS" = "1" ]; then
-                    SERVNAME=$(zenity --forms --cancel-label=Main --title=gpgpassman --text="Managed services: $(dir $GPMDIR)" --add-entry="Enter the service name to remove:")
+                    SERVNAME=$(zenity --entry --cancel-label="Main menu" --width=540 --height=435 --title=gpgpassman --text="Remove an encrypted password\n\nThe password for the service name you enter will be deleted permanently!\nYou will be asked for the gpg encryption password before removal\n\nPassword storage directory:\n$GPMDIR\n\nManaged services:\n$(dir $GPMDIR)\n\n\n\n\n\nEnter the service name to remove:")
                     if [[ $? -eq 1 ]]; then
                         SERVNAME=""
                         main
@@ -450,7 +465,7 @@ main () {
         exit*|Exit*)
             exit 0
             ;;
-        Update*)
+        Check*)
             programisinstalled "curl"
             if [ "$return" = "1" ]; then
                 x-terminal-emulator -e $SCRIPTNAME UPD
