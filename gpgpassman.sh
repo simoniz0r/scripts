@@ -20,9 +20,9 @@ updatescript () {
 cat >/tmp/updatescript.sh <<EOL
 runupdate () {
     if [ "$SCRIPTNAME" = "/usr/bin/gpgpassman" ]; then
-        sudo rm -f /opt/gpgpassman/gpgpassman.sh
-        sudo wget -O /opt/gpgpassman/gpgpassman.sh "https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/gpgpassman.sh"
-        sudo chmod +x /opt/gpgpassman/gpgpassman.sh
+        sudo rm -f $SCRIPTNAME
+        sudo wget -O $SCRIPTNAME "https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/gpgpassman.sh"
+        sudo chmod +x $SCRIPTNAME
     else
         rm -f $SCRIPTNAME
         wget -O $SCRIPTNAME "https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/gpgpassman.sh"
