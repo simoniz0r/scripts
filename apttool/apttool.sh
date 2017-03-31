@@ -315,10 +315,10 @@ updatescript () {
 cat >/tmp/updatescript.sh <<EOL
 runupdate () {
     if [ "$SCRIPTNAME" = "/usr/bin/apttool" ]; then
-        wget -O /tmp/apttool$APTTVER.sh "https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/apttool/apttool.sh"
-        if [ -f "/tmp/apttool$APTTVER.sh" ]; then
+        wget -O /tmp/apttool.sh "https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/apttool/apttool.sh"
+        if [ -f "/tmp/apttool.sh" ]; then
             sudo rm -f $SCRIPTNAME
-            sudo mv /tmp/apttool$APTTVER.sh $SCRIPTNAME
+            sudo mv /tmp/apttool.sh $SCRIPTNAME
             sudo chmod +x $SCRIPTNAME
         else
             read -p "Update Failed! Try again? Y/N " -n 1 -r
@@ -330,10 +330,10 @@ runupdate () {
             fi
         fi
     else
-        wget -O /tmp/apttool$APTTVER.sh "https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/apttool/apttool.sh"
-        if [ -f "/tmp/apttool$APTTVER.sh" ]; then
+        wget -O /tmp/apttool.sh "https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/apttool/apttool.sh"
+        if [ -f "/tmp/apttool.sh" ]; then
             rm -f $SCRIPTNAME
-            mv /tmp/apttool$APTTVER.sh $SCRIPTNAME
+            mv /tmp/apttool.sh $SCRIPTNAME
             chmod +x $SCRIPTNAME
         else
             read -p "Update Failed! Try again? Y/N " -n 1 -r

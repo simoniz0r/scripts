@@ -20,10 +20,10 @@ updatescript () {
 cat >/tmp/updatescript.sh <<EOL
 runupdate () {
     if [ "$SCRIPTNAME" = "/usr/bin/gpgpassman" ]; then
-        wget -O /tmp/gpgpassman$GPMVER.sh "https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/gpgpassman/gpgpassman.sh"
-        if [ -f "/tmp/gpgpassman$GPMVER.sh" ]; then
+        wget -O /tmp/gpgpassman.sh "https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/gpgpassman/gpgpassman.sh"
+        if [ -f "/tmp/gpgpassman.sh" ]; then
             sudo rm -f /usr/bin/gpgpassman
-            sudo mv /tmp/gpgpassman$GPMVER.sh /usr/bin/gpgpassman
+            sudo mv /tmp/gpgpassman.sh /usr/bin/gpgpassman
             sudo chmod +x /usr/bin/gpgpassman
         else
             read -p "Update Failed! Try again? Y/N " -n 1 -r
@@ -35,10 +35,10 @@ runupdate () {
             fi
         fi
     else
-        wget -O /tmp/gpgpassman$GPMVER.sh "https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/gpgpassman/gpgpassman.sh"
-        if [ -f "/tmp/gpgpassman$GPMVER.sh" ]; then
+        wget -O /tmp/gpgpassman.sh "https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/gpgpassman/gpgpassman.sh"
+        if [ -f "/tmp/gpgpassman.sh" ]; then
             rm -f $SCRIPTNAME
-            mv /tmp/gpgpassman$GPMVER.sh $SCRIPTNAME
+            mv /tmp/gpgpassman.sh $SCRIPTNAME
             chmod +x $SCRIPTNAME
         else
             read -p "Update Failed! Try again? Y/N " -n 1 -r
