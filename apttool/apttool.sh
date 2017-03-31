@@ -318,8 +318,8 @@ runupdate () {
         wget -O /tmp/apttool$APTTVER.sh "https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/apttool/apttool.sh"
         if [ -f "/tmp/apttool$APTTVER.sh" ]; then
             sudo rm -f $SCRIPTNAME
-            sudo chmod +x $SCRIPTNAME
             sudo mv /tmp/apttool$APTTVER.sh $SCRIPTNAME
+            sudo chmod +x $SCRIPTNAME
         else
             read -p "Update Failed! Try again? Y/N " -n 1 -r
             if [[ $REPLY =~ ^[Yy]$ ]]; then
