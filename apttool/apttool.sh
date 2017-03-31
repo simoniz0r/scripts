@@ -2,8 +2,8 @@
 # A simple script that can run apt options to save keystrokes.
 # Also has a GUI using 'zenity'; just install 'zenity' to check it out.
 
-APTTVER="1.1.4"
-X="v1.1.4 - Fixed update process; if you have version 1.1.3, you will need to download 1.1.4 manually :("
+APTTVER="1.1.5"
+X="v1.1.5 - Fixed update process; if you have version 1.1.4, you will need to download 1.1.5 manually :("
 # ^^ Remember to update these and apttversion.txt every release!
 SCRIPTNAME="$0"
 
@@ -315,13 +315,35 @@ updatescript () {
 cat >/tmp/updatescript.sh <<EOL
 runupdate () {
     if [ "$SCRIPTNAME" = "/usr/bin/apttool" ]; then
-        sudo rm -f $SCRIPTNAME
-        sudo wget -O $SCRIPTNAME "https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/apttool/apttool.sh"
-        sudo chmod +x $SCRIPTNAME
+        wget -O /tmp/apttool$APTTVER.sh "https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/apttool/apttool.sh"
+        if [ -f "/tmp/apttool$APTTVER.sh" ]; then
+            sudo rm -f $SCRIPTNAME
+            sudo chmod +x $SCRIPTNAME
+            sudo mv /tmp/apttool$APTTVER.sh $SCRIPTNAME
+        else
+            read -p "Update Failed! Try again? Y/N " -n 1 -r
+            if [[ $REPLY =~ ^[Yy]$ ]]; then
+                runupdate
+            else
+                echo "apttool.sh was not updated!"
+                exit 0
+            fi
+        fi
     else
-        rm -f $SCRIPTNAME
-        wget -O $SCRIPTNAME "https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/apttool/apttool.sh"
-        chmod +x $SCRIPTNAME
+        wget -O /tmp/apttool$APTTVER.sh "https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/apttool/apttool.sh"
+        if [ -f "/tmp/apttool$APTTVER.sh" ]; then
+            rm -f $SCRIPTNAME
+            mv /tmp/apttool$APTTVER.sh $SCRIPTNAME
+            chmod +x $SCRIPTNAME
+        else
+            read -p "Update Failed! Try again? Y/N " -n 1 -r
+            if [[ $REPLY =~ ^[Yy]$ ]]; then
+                runupdate
+            else
+                echo "apttool.sh was not updated!"
+                exit 0
+            fi
+        fi
     fi
     if [ -f $SCRIPTNAME ]; then
         echo "Update finished!"
