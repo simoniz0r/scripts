@@ -27,7 +27,7 @@ updatescript () {
 cat >/tmp/updatescript.sh <<EOL
 runupdate () {
     rm -f $SCRIPTNAME
-    wget -O $SCRIPTNAME "https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/aptmarklist.sh"
+    wget -O $SCRIPTNAME "https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/aptmarklist/aptmarklist.sh"
     chmod +x $SCRIPTNAME
     if [ -f $SCRIPTNAME ]; then
         echo "Update finished!"
@@ -49,8 +49,8 @@ EOL
 
 updatecheck () {
     echo "Checking for new version..."
-    UPNOTES=$(curl -v --silent https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/aptmarklistversion.txt 2>&1 | grep X= | tr -d 'X="')
-    VERTEST=$(curl -v --silent https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/aptmarklistversion.txt 2>&1 | grep AMVER= | tr -d 'AMVER="')
+    UPNOTES=$(curl -v --silent https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/aptmarklist/aptmarklistversion.txt 2>&1 | grep X= | tr -d 'X="')
+    VERTEST=$(curl -v --silent https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/aptmarklist/aptmarklistversion.txt 2>&1 | grep AMVER= | tr -d 'AMVER="')
     if [[ $AMVER < $VERTEST ]]; then
         echo "Installed version: $AMVER -- Current version: $VERTEST"
         echo "A new version is available!"

@@ -40,7 +40,7 @@ updatescript () {
 cat >/tmp/updatescript.sh <<EOL
 runupdate () {
     rm -f $SCRIPTNAME
-    wget -O $SCRIPTNAME "https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/easyrm.sh"
+    wget -O $SCRIPTNAME "https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/easyrm/easyrm.sh"
     chmod +x $SCRIPTNAME
     if [ -f $SCRIPTNAME ]; then
         echo "Update finished!"
@@ -62,8 +62,8 @@ EOL
 
 updatecheck () {
     echo "Checking for new version..."
-    UPNOTES=$(curl -v --silent https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/ermversion.txt 2>&1 | grep X= | tr -d 'X="')
-    VERTEST=$(curl -v --silent https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/ermversion.txt 2>&1 | grep ERMVER= | tr -d 'ERMVER="')
+    UPNOTES=$(curl -v --silent https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/easyrm/ermversion.txt 2>&1 | grep X= | tr -d 'X="')
+    VERTEST=$(curl -v --silent https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/easyrm/ermversion.txt 2>&1 | grep ERMVER= | tr -d 'ERMVER="')
     if [[ $ERMVER < $VERTEST ]]; then
         echo "Installed version: $ERMVER -- Current version: $VERTEST"
         echo "A new version is available!"

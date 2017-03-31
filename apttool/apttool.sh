@@ -315,7 +315,7 @@ updatescript () {
 cat >/tmp/updatescript.sh <<EOL
 runupdate () {
     rm -f $SCRIPTNAME
-    wget -O $SCRIPTNAME "https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/apttool.sh"
+    wget -O $SCRIPTNAME "https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/apttool/apttool/apttool.sh"
     chmod +x $SCRIPTNAME
     if [ -f $SCRIPTNAME ]; then
         echo "Update finished!"
@@ -343,8 +343,8 @@ EOL
 
 updatecheck () {
     echo "Checking for new version..."
-    UPNOTES=$(curl -v --silent https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/apttversion.txt 2>&1 | grep X= | tr -d 'X="')
-    VERTEST=$(curl -v --silent https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/apttversion.txt 2>&1 | grep APTTVER= | tr -d 'APTTVER="')
+    UPNOTES=$(curl -v --silent https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/apttool/apttool/apttversion.txt 2>&1 | grep X= | tr -d 'X="')
+    VERTEST=$(curl -v --silent https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/apttool/apttversion.txt 2>&1 | grep APTTVER= | tr -d 'APTTVER="')
     if [[ $APTTVER < $VERTEST ]]; then
         echo "Installed version: $APTTVER -- Current version: $VERTEST"
         echo "A new version is available!"

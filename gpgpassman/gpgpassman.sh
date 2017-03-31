@@ -21,11 +21,11 @@ cat >/tmp/updatescript.sh <<EOL
 runupdate () {
     if [ "$SCRIPTNAME" = "/usr/bin/gpgpassman" ]; then
         sudo rm -f $SCRIPTNAME
-        sudo wget -O $SCRIPTNAME "https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/gpgpassman.sh"
+        sudo wget -O $SCRIPTNAME "https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/gpgpassman/gpgpassman.sh"
         sudo chmod +x $SCRIPTNAME
     else
         rm -f $SCRIPTNAME
-        wget -O $SCRIPTNAME "https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/gpgpassman.sh"
+        wget -O $SCRIPTNAME "https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/gpgpassman/gpgpassman.sh"
         chmod +x $SCRIPTNAME
     fi
     if [ -f $SCRIPTNAME ]; then
@@ -54,8 +54,8 @@ EOL
 
 updatecheck () {
     echo "Checking for new version..."
-    UPNOTES=$(curl -v --silent https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/gpmversion.txt 2>&1 | grep X= | tr -d 'X="')
-    VERTEST=$(curl -v --silent https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/gpmversion.txt 2>&1 | grep GPMVER= | tr -d 'GPMVER="')
+    UPNOTES=$(curl -v --silent https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/gpgpassman/gpmversion.txt 2>&1 | grep X= | tr -d 'X="')
+    VERTEST=$(curl -v --silent https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/gpgpassman/gpmversion.txt 2>&1 | grep GPMVER= | tr -d 'GPMVER="')
     if [[ $GPMVER < $VERTEST ]]; then
         echo "Installed version: $GPMVER -- Current version: $VERTEST"
         echo "A new version is available!"

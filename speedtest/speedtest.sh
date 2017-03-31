@@ -11,7 +11,7 @@ updatescript () {
 cat >/tmp/updatescript.sh <<EOL
 runupdate () {
     rm -f $SCRIPTNAME
-    wget -O $SCRIPTNAME "https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/speedtest.sh"
+    wget -O $SCRIPTNAME "https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/speedtest/speedtest.sh"
     chmod +x $SCRIPTNAME
     if [ -f $SCRIPTNAME ]; then
         echo "Update finished!"
@@ -33,8 +33,8 @@ EOL
 
 updatecheck () {
     echo "Checking for new version..."
-    UPNOTES=$(curl -v --silent https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/speedtestversion.txt 2>&1 | grep X= | tr -d 'X="')
-    VERTEST=$(curl -v --silent https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/speedtestversion.txt 2>&1 | grep STVER= | tr -d 'STVER="')
+    UPNOTES=$(curl -v --silent https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/speedtest/speedtestversion.txt 2>&1 | grep X= | tr -d 'X="')
+    VERTEST=$(curl -v --silent https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/speedtest/speedtestversion.txt 2>&1 | grep STVER= | tr -d 'STVER="')
     if [[ $STVER < $VERTEST ]]; then
         echo "Installed version: $STVER -- Current version: $VERTEST"
         echo "A new version is available!"
