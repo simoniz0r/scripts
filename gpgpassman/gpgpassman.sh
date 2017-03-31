@@ -101,27 +101,27 @@ updatecheck () {
                 exit 0
             else
                 echo
-                echo "gpgpassman.sh was not updated."
+                echo "gpgpassman was not updated."
             fi
         fi
     else
         if [ "$ZHEADLESS" = "1" ]; then
             echo "Installed version: $GPMVER -- Current version: $VERTEST"
             echo $UPNOTES
-            echo "gpgpassman.sh is up to date."
+            echo "gpgpassman is up to date."
             sleep 2
             nohup $SCRIPTNAME
             exit 0
         elif [ "$ZHEADLESS" = "0" ];then
             echo "Installed version: $GPMVER -- Current version: $VERTEST"
             echo $UPNOTES
-            echo "gpgpassman.sh is up to date."
+            echo "gpgpassman is up to date."
             noguimain
             exit 0
         else
             echo "Installed version: $GPMVER -- Current version: $VERTEST"
             echo $UPNOTES
-            echo "gpgpassman.sh is up to date."
+            echo "gpgpassman is up to date."
         fi
     fi
 }
