@@ -314,9 +314,14 @@ programisinstalled () {
 updatescript () {
 cat >/tmp/updatescript.sh <<EOL
 runupdate () {
-    rm -f $SCRIPTNAME
-    wget -O $SCRIPTNAME "https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/apttool/apttool/apttool.sh"
-    chmod +x $SCRIPTNAME
+    if [ "$SCRIPTNAME" = "/usr/bin/apttool" ]; then
+        sudo rm -f $SCRIPTNAME
+        sudo wget -O $SCRIPTNAME "https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/apttool/apttool/apttool.sh"
+        sudo chmod +x $SCRIPTNAME
+    else
+        rm -f $SCRIPTNAME
+        wget -O $SCRIPTNAME "https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/apttool/apttool/apttool.sh"
+        chmod +x $SCRIPTNAME
     if [ -f $SCRIPTNAME ]; then
         echo "Update finished!"
         rm -f /tmp/updatescript.sh
