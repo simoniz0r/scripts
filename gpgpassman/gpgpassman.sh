@@ -5,8 +5,8 @@
 # Also with 'zenity', you can execuite 'gpgpassman.sh dec' for direct access to decrypting passwords; can be used with a keybind.
 # Written by simonizor 3/22/2017 - http://www.simonizor.gq/scripts
 
-GPMVER="1.2.2"
-X="v1.2.2 - Fixed update process; if you have version 1.2.1, you will need to download 1.2.2 manually :("
+GPMVER="1.2.3"
+X="v1.2.3 - Cleaned up the GUI and the update process a bit."
 # ^^Remember to update this and gpmversion.txt every release!
 SCRIPTNAME="$0"
 GPMDIR="$(< ~/.config/gpgpassman/gpgpassman.conf)"
