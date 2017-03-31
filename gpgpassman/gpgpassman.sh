@@ -6,7 +6,7 @@
 # Written by simonizor 3/22/2017 - http://www.simonizor.gq/scripts
 
 GPMVER="1.2.2"
-X="v1.2.2 - Fixed update process again."
+X="v1.2.2 - Fixed update process; if you have version 1.2.1, you will need to download 1.2.2 manually :("
 # ^^Remember to update this and gpmversion.txt every release!
 SCRIPTNAME="$0"
 GPMDIR="$(< ~/.config/gpgpassman/gpgpassman.conf)"
