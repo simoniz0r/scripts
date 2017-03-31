@@ -5,8 +5,8 @@
 # Also with 'zenity', you can execuite 'gpgpassman.sh dec' for direct access to decrypting passwords; can be used with a keybind.
 # Written by simonizor 3/22/2017 - http://www.simonizor.gq/scripts
 
-GPMVER="1.2.1"
-X="v1.2.1 - Made update process smarter by checking to see if download failed before removing files."
+GPMVER="1.2.2"
+X="v1.2.2 - Fixed update process again."
 # ^^Remember to update this and gpmversion.txt every release!
 SCRIPTNAME="$0"
 GPMDIR="$(< ~/.config/gpgpassman/gpgpassman.conf)"
@@ -22,9 +22,9 @@ runupdate () {
     if [ "$SCRIPTNAME" = "/usr/bin/gpgpassman" ]; then
         wget -O /tmp/gpgpassman$GPMVER.sh "https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/gpgpassman/gpgpassman.sh"
         if [ -f "/tmp/gpgpassman$GPMVER.sh" ]; then
-            sudo mv /tmp/gpgpassman$GPMVER.sh $SCRIPTNAME
-            sudo chmod +x $SCRIPTNAME
-            sudo rm -f $SCRIPTNAME
+            sudo rm -f /usr/bin/gpgpassman
+            sudo mv /tmp/gpgpassman$GPMVER.sh /usr/bin/gpgpassman
+            sudo chmod +x /usr/bin/gpgpassman
         else
             read -p "Update Failed! Try again? Y/N " -n 1 -r
             if [[ $REPLY =~ ^[Yy]$ ]]; then
@@ -37,8 +37,8 @@ runupdate () {
     else
         wget -O /tmp/gpgpassman$GPMVER.sh "https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/gpgpassman/gpgpassman.sh"
         if [ -f "/tmp/gpgpassman$GPMVER.sh" ]; then
-            /tmp/gpgpassman$GPMVER.sh $SCRIPTNAME
             rm -f $SCRIPTNAME
+            mv /tmp/gpgpassman$GPMVER.sh $SCRIPTNAME
             chmod +x $SCRIPTNAME
         else
             read -p "Update Failed! Try again? Y/N " -n 1 -r

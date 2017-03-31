@@ -1,2 +1,2 @@
-GPMVER="1.2.1"
-X="v1.2.1 - Made update process smarter by checking to see if download failed before removing files."
+GPMVER="1.2.2"
+X="v1.2.2 - Fixed update process again."
