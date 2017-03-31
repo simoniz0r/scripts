@@ -316,11 +316,11 @@ cat >/tmp/updatescript.sh <<EOL
 runupdate () {
     if [ "$SCRIPTNAME" = "/usr/bin/apttool" ]; then
         sudo rm -f $SCRIPTNAME
-        sudo wget -O $SCRIPTNAME "https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/apttool/apttool/apttool.sh"
+        sudo wget -O $SCRIPTNAME "https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/apttool/apttool.sh"
         sudo chmod +x $SCRIPTNAME
     else
         rm -f $SCRIPTNAME
-        wget -O $SCRIPTNAME "https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/apttool/apttool/apttool.sh"
+        wget -O $SCRIPTNAME "https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/apttool/apttool.sh"
         chmod +x $SCRIPTNAME
     if [ -f $SCRIPTNAME ]; then
         echo "Update finished!"
@@ -348,7 +348,7 @@ EOL
 
 updatecheck () {
     echo "Checking for new version..."
-    UPNOTES=$(curl -v --silent https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/apttool/apttool/apttversion.txt 2>&1 | grep X= | tr -d 'X="')
+    UPNOTES=$(curl -v --silent https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/apttool/apttversion.txt 2>&1 | grep X= | tr -d 'X="')
     VERTEST=$(curl -v --silent https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/apttool/apttversion.txt 2>&1 | grep APTTVER= | tr -d 'APTTVER="')
     if [[ $APTTVER < $VERTEST ]]; then
         echo "Installed version: $APTTVER -- Current version: $VERTEST"
