@@ -340,7 +340,7 @@ main () {
                     main "dec"
                     exit 0
                 fi
-                zenity --forms --timeout=45 --text="Password to clipboard; clipboard will be cleared after 45 seconds..." --cancel-label="Clear now and return to main" --ok-label="Clear now and close"
+                zenity --forms --timeout=45 --text="Copied password to clipboard; clipboard will be cleared after 45 seconds..." --cancel-label="Clear now and return to main" --ok-label="Clear now and close"
                 if [[ $? -eq 1 ]]; then
                     echo -n "Password cleared from clipboard" | xclip -selection c -i
                     SERVNAME=""
