@@ -2,8 +2,8 @@
 # A simple script that can run apt options to save keystrokes.
 # Also has a GUI using 'zenity'; just install 'zenity' to check it out.
 
-APTTVER="1.1.3"
-X="v1.1.3 - Fixed URLs in apttool update to reflect new URLs after adding folders to repo for organization."
+APTTVER="1.1.4"
+X="v1.1.4 - Fixed update process; if you have version 1.1.3, you will need to download 1.1.4 manually :("
 # ^^ Remember to update these and apttversion.txt every release!
 SCRIPTNAME="$0"
 
@@ -322,6 +322,7 @@ runupdate () {
         rm -f $SCRIPTNAME
         wget -O $SCRIPTNAME "https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/apttool/apttool.sh"
         chmod +x $SCRIPTNAME
+    fi
     if [ -f $SCRIPTNAME ]; then
         echo "Update finished!"
         rm -f /tmp/updatescript.sh
