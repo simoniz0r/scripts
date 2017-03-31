@@ -140,14 +140,16 @@ helpfunc () {
     echo
     echo "${bold}Usage:"
     echo "${bold}add${normal} - Add encrypted password file."
-    echo "- Ex: './gpgpassman.sh add servicename'"
+    echo "- Ex: 'gpgpassman add servicename'"
     echo "${bold}dec${normal} - Decrypt a stored password file using the service name and copy to clipboard for 45 seconds."
-    echo "- Ex: './gpgpassman.sh dec servicename'"
-    echo "- Can also be executed as './gpgpassman dec' to launch a zenity window to input service or launch terminal if zenity is not installed."
+    echo "- Ex: 'gpgpassman dec servicename'"
+    echo "- Can also be executed as './gpgpassman.sh dec' to launch a zenity window to input service or launch terminal if zenity is not installed."
     echo "${bold}rem${normal} - Remove a stored password file using the service name."
-    echo "- Ex: './gpgpassman.sh rem servicename'"
+    echo "- Ex: 'gpgpassman rem servicename'"
     echo "${bold}dir${normal} - Change default directory used by gpgpassman.sh. Only passwords in the currently configured directory will be able to be managed."
-    echo "- Ex: './gpgpassman.sh dir /path/to/directory'."
+    echo "- Ex: './gpgpassman dir /path/to/directory'."
+    echo "${bold}nogui${normal} - Run gpgpassman in a terminal without a GUI if 'zenity' is installed."
+    echo "- Ex: gpgpassman nogui"
 }
 
 zenitymain () {
