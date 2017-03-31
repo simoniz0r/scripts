@@ -2,8 +2,8 @@
 # A simple script that can run apt options to save keystrokes.
 # Also has a GUI using 'zenity'; just install 'zenity' to check it out.
 
-APTTVER="1.1.2"
-X="v1.1.2 - Added 'autoremove' back into GUI menu; will be launched in terminal.  Remember to use this option carefully!"
+APTTVER="1.1.3"
+X="v1.1.3 - Fixed URLs in apttool update to reflect new URLs after adding folders to repo for organization."
 # ^^ Remember to update these and apttversion.txt every release!
 SCRIPTNAME="$0"
 
