@@ -1,2 +1,2 @@
-GPMVER="1.2.0"
-X="v1.2.0 - URLs for updating have changed due to adding folders to repo; if you have version 1.1.9, you will have to update manually :("
+GPMVER="1.2.1"
+X="v1.2.1 - Made update process smarter by checking to see if download failed before removing files."
