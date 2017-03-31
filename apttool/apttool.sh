@@ -2,8 +2,8 @@
 # A simple script that can run apt options to save keystrokes.
 # Also has a GUI using 'zenity'; just install 'zenity' to check it out.
 
-APTTVER="1.1.4"
-X="v1.1.4 - Fixed update process; if you have version 1.1.4, you will need to download 1.1.5 manually :("
+APTTVER="1.1.5"
+X="v1.1.5 - Fixed update process; if you have version 1.1.4, you will need to download 1.1.5 manually :("
 # ^^ Remember to update these and apttversion.txt every release!
 SCRIPTNAME="$0"
 
