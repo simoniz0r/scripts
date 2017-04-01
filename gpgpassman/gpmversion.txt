@@ -1,2 +1,2 @@
-GPMVER="1.2.3"
-X="v1.2.3 - Cleaned up the GUI and the update process a bit."
+GPMVER="1.2.4"
+X="v1.2.4 - Changed default behavior to launch without a GUI.  Executing 'gpgpassman gui' will now launch the 'zenity' GUI.  The gpgpassman.desktop file has also changed, so if you have already installed using the install file, you should run the install again to update your gpgpassman.desktop file."

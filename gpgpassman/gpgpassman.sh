@@ -5,8 +5,8 @@
 # Also with 'zenity', you can execuite 'gpgpassman.sh dec' for direct access to decrypting passwords; can be used with a keybind.
 # Written by simonizor 3/22/2017 - http://www.simonizor.gq/scripts
 
-GPMVER="1.2.3"
-X="v1.2.3 - Cleaned up the GUI and the update process a bit."
+GPMVER="1.2.4"
+X="v1.2.4 - Changed default behavior to launch without a GUI.  Executing 'gpgpassman gui' will now launch the 'zenity' GUI.  The gpgpassman.desktop file has also changed, so if you have already installed using the install file, you should run the install again to update your gpgpassman.desktop file."
 # ^^Remember to update this and gpmversion.txt every release!
 SCRIPTNAME="$0"
 GPMDIR="$(< ~/.config/gpgpassman/gpgpassman.conf)"
@@ -148,8 +148,8 @@ helpfunc () {
     echo "- Ex: 'gpgpassman rem servicename'"
     echo "${bold}dir${normal} - Change default directory used by gpgpassman.sh. Only passwords in the currently configured directory will be able to be managed."
     echo "- Ex: './gpgpassman dir /path/to/directory'."
-    echo "${bold}nogui${normal} - Run gpgpassman in a terminal without a GUI if 'zenity' is installed."
-    echo "- Ex: gpgpassman nogui"
+    echo "${bold}gui${normal} - If 'zenity' is installed, gpgpassman's GUI will be launched.'"
+    echo "- Ex: gpgpassman gui"
 }
 
 zenitymain () {
@@ -505,13 +505,7 @@ main () {
             ZHEADLESS="1"
             updatecheck
             ;;
-        nogui)
-            ZHEADLESS="0"
-            noguimain
-            SERVNAME=""
-            exit 0
-            ;;
-        *)
+        gui)
             programisinstalled "zenity"
             if [ $return = "1" ]; then
                 zenitymain
@@ -527,6 +521,12 @@ main () {
                     updatecheck
                 fi
             fi
+            ;;
+        *)
+            ZHEADLESS="0"
+            noguimain
+            SERVNAME=""
+            exit 0
     esac
 }
 
