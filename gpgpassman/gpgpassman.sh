@@ -30,7 +30,7 @@ runupdate () {
             if [[ $REPLY =~ ^[Yy]$ ]]; then
                 runupdate
             else
-                echo "gpgpassman.sh was not updated!"
+                echo "gpgpassman was not updated!"
                 exit 0
             fi
         fi
@@ -45,7 +45,7 @@ runupdate () {
             if [[ $REPLY =~ ^[Yy]$ ]]; then
                 runupdate
             else
-                echo "gpgpassman.sh was not updated!"
+                echo "gpgpassman was not updated!"
                 exit 0
             fi
         fi
