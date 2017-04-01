@@ -55,13 +55,15 @@ main () {
             fi
             if [ -f "/usr/share/icons/apttool.png" ]; then
                 rm -f /usr/share/icons/apttool.png
-                echo "Icon has been removed!"
+                echo "apttool.png has been removed!"
             else
-                echo "Icon for apttool does not exist!"
+                echo "apttool.png does not exist!"
             fi
             if [ -f "/usr/share/applications/apttool.desktop" ]; then
                 rm -f /usr/share/applications/apttool.desktop
-                echo ".desktop file has been removed!"
+                echo "apttool.desktop has been removed!"
+            else
+                echo "apttool.desktop does not exist!"
             fi
             exit 0
             ;;
