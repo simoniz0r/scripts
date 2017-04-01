@@ -270,7 +270,7 @@ main () {
                 zenitystart
                 exit 0
             else
-                echo "apttool.sh now has a GUI; install 'zenity' to check it out!"
+                echo "apttool now has a GUI; install 'zenity' to check it out!"
                 echo
                 noguistart
                 exit 0
@@ -340,7 +340,7 @@ runupdate () {
             if [[ $REPLY =~ ^[Yy]$ ]]; then
                 runupdate
             else
-                echo "apttool.sh was not updated!"
+                echo "apttool was not updated!"
                 exit 0
             fi
         fi
@@ -360,7 +360,7 @@ runupdate () {
         if [[ $REPLY =~ ^[Yy]$ ]]; then
             runupdate
         else
-            echo "apttool.sh was not updated!"
+            echo "apttool was not updated!"
             exit 0
         fi
     fi
@@ -399,7 +399,7 @@ updatecheck () {
     else
         echo "Installed version: $APTTVER -- Current version: $VERTEST"
         echo $UPNOTES
-        echo "apttool.sh is up to date."
+        echo "apttool is up to date."
         echo
          if [ "$ZHEADLESS" = "1" ]; then
             sleep 5
