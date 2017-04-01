@@ -2,8 +2,8 @@
 # A simple script that can run apt options to save keystrokes.
 # Also has a GUI using 'zenity'; just install 'zenity' to check it out.
 
-APTTVER="1.1.6"
-X="v1.1.6 - apttool will now output whether package list update is successful or not after it finishes."
+APTTVER="1.1.7"
+X="v1.1.7 - Changed default behavior to launch without a GUI.  Executing 'apttool gui' will now launch the 'zenity' GUI.  The apttool.desktop file has also changed, so if you have already installed using the install file, you should run the install again to update your apttool.desktop file."
 # ^^ Remember to update these and apttversion.txt every release!
 SCRIPTNAME="$0"
 
@@ -246,7 +246,37 @@ main () {
             echo
             noguistart
             ;;
-        no*)
+        9)
+            exit 1
+            ;;
+        Check*)
+            programisinstalled "curl"
+            if [ "$return" = "1" ]; then
+                x-terminal-emulator -e $SCRIPTNAME CHK
+                exit 0
+            else
+                zenity --error --title=apttool --text="curl is not installed; cannot check for updates!"
+                zenitystart
+                exit 0
+            fi
+            ;;
+        CHK)
+            ZHEADLESS="1"
+            updatecheck
+            ;;
+        gui)
+            programisinstalled "zenity"
+            if [ "$return" = "1" ]; then
+                zenitystart
+                exit 0
+            else
+                echo "apttool.sh now has a GUI; install 'zenity' to check it out!"
+                echo
+                noguistart
+                exit 0
+            fi
+            ;;
+        *)
             ZHEADLESS="0"
             PROGRAM="curl"
             programisinstalled
@@ -266,36 +296,6 @@ main () {
             ZHEADLESS="0"
             noguistart
             exit 0
-            ;;
-        9)
-            exit 1
-            ;;
-        Check*)
-            programisinstalled "curl"
-            if [ "$return" = "1" ]; then
-                x-terminal-emulator -e $SCRIPTNAME CHK
-                exit 0
-            else
-                zenity --error --title=apttool --text="curl is not installed; cannot check for updates!"
-                zenitystart
-                exit 0
-            fi
-            ;;
-        CHK)
-            ZHEADLESS="1"
-            updatecheck
-            ;;
-        *)
-            programisinstalled "zenity"
-            if [ "$return" = "1" ]; then
-                zenitystart
-                exit 0
-            else
-                echo "apttool.sh now has a GUI; install 'zenity' to check it out!"
-                echo
-                noguistart
-                exit 0
-            fi
     esac
 }
 

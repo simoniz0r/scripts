@@ -3,6 +3,6 @@ Type=Application
 Encoding=UTF-8
 Name=apt tool
 Comment=An application that can run apt options in a zenity GUI or in your terminal
-Exec=/usr/bin/apttool
+Exec=/usr/bin/apttool gui
 Icon=/usr/share/icons/apttool.png
 Terminal=false
