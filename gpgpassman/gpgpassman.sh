@@ -55,7 +55,7 @@ runupdate () {
         rm -f /tmp/updatescript.sh
         if type zenity >/dev/null 2>&1; then
             sleep 3
-            nohup $SCRIPTNAME
+            nohup $SCRIPTNAME gui
             exit 0
         else
             exec $SCRIPTNAME
