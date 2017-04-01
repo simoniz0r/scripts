@@ -148,7 +148,7 @@ helpfunc () {
     echo "- Ex: 'gpgpassman rem servicename'"
     echo "${bold}dir${normal} - Change default directory used by gpgpassman. Only passwords in the currently configured directory will be able to be managed."
     echo "- Ex: './gpgpassman dir /path/to/directory'."
-    echo "${bold}gui${normal} - If 'zenity' is installed, gpgpassman's GUI will be launched.'"
+    echo "${bold}gui${normal} - If 'zenity' is installed, gpgpassman's GUI will be launched."
     echo "- Ex: gpgpassman gui"
 }
 
