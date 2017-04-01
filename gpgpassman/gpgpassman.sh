@@ -1,8 +1,8 @@
 #!/bin/bash
 # A script that uses 'gpg' to encrypt and decrypt passwords stored in '~/.gpgpassman'.
-# Dependencies: 'gpg', 'xclip', 'curl' (optional; for auto-updating gpgpassman.sh), 'zenity' (optional)
-# If you have 'zenity' installed, executing 'gpgpassman.sh' will show a full GUI for all of the scripts options.
-# Also with 'zenity', you can execuite 'gpgpassman.sh dec' for direct access to decrypting passwords; can be used with a keybind.
+# Dependencies: 'gpg', 'xclip', 'curl' (optional; for auto-updating gpgpassman), 'zenity' (optional)
+# If you have 'zenity' installed, executing 'gpgpassman' will show a full GUI for all of the scripts options.
+# Also with 'zenity', you can execuite 'gpgpassman dec' for direct access to decrypting passwords; can be used with a keybind.
 # Written by simonizor 3/22/2017 - http://www.simonizor.gq/scripts
 
 GPMVER="1.2.4"
@@ -65,7 +65,7 @@ runupdate () {
         if [[ $REPLY =~ ^[Yy]$ ]]; then
             runupdate
         else
-            echo "gpgpassman.sh was not updated!"
+            echo "gpgpassman was not updated!"
             exit 0
         fi
     fi
@@ -143,10 +143,10 @@ helpfunc () {
     echo "- Ex: 'gpgpassman add servicename'"
     echo "${bold}dec${normal} - Decrypt a stored password file using the service name and copy to clipboard for 45 seconds."
     echo "- Ex: 'gpgpassman dec servicename'"
-    echo "- Can also be executed as './gpgpassman.sh dec' to launch a zenity window to input service or launch terminal if zenity is not installed."
+    echo "- Can also be executed as './gpgpassman dec' to launch a zenity window to input service or launch terminal if zenity is not installed."
     echo "${bold}rem${normal} - Remove a stored password file using the service name."
     echo "- Ex: 'gpgpassman rem servicename'"
-    echo "${bold}dir${normal} - Change default directory used by gpgpassman.sh. Only passwords in the currently configured directory will be able to be managed."
+    echo "${bold}dir${normal} - Change default directory used by gpgpassman. Only passwords in the currently configured directory will be able to be managed."
     echo "- Ex: './gpgpassman dir /path/to/directory'."
     echo "${bold}gui${normal} - If 'zenity' is installed, gpgpassman's GUI will be launched.'"
     echo "- Ex: gpgpassman gui"
@@ -471,13 +471,13 @@ main () {
                     main "dir"
                     exit 0
                 else
-                    echo "$SERVNAME is not a valid directory; use full directory path. Ex: './gpgpassman.sh dir /home/simonizor/mypasswords'"
+                    echo "$SERVNAME is not a valid directory; use full directory path. Ex: './gpgpassman dir /home/simonizor/mypasswords'"
                     helpfunc
                 fi
             fi
             ;;
         h*)
-            echo "gpgpassman.sh - http://www.simonizor.gq/scripts"
+            echo "gpgpassman - http://www.simonizor.gq/scripts"
             echo "A script that uses 'gpg' to encrypt and decrypt passwords."
             helpfunc
             echo
@@ -510,9 +510,9 @@ main () {
             if [ $return = "1" ]; then
                 zenitymain
             else
-                echo "gpgpassman.sh - http://www.simonizor.gq/scripts"
+                echo "gpgpassman - http://www.simonizor.gq/scripts"
                 echo "A script that uses 'gpg' to encrypt and decrypt passwords."
-                echo "gpgpassman.sh now has a GUI; install 'zenity' to check it out!"
+                echo "gpgpassman now has a GUI; install 'zenity' to check it out!"
                 echo
                 noguimain
                 echo
@@ -535,7 +535,7 @@ if [ ! -f "$GPMCONFDIR/gpgpassman.conf" ]; then
     mkdir $GPMCONFDIR
     mkdir $GPMINITDIR
     echo "$GPMINITDIR" > $GPMCONFDIR/gpgpassman.conf
-    echo "$GPMCONFDIR created and config file written; run gpgpassman.sh again."
+    echo "$GPMCONFDIR created and config file written; run gpgpassman again."
     exit 0
 fi
 programisinstalled "gpg"
