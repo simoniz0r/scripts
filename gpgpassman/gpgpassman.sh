@@ -330,7 +330,7 @@ main () {
                     echo "Wrong password or gpg failure!"
                     exit 0
                 fi
-                echo "$SERVNAME password to clipboard; clipboard will be cleared after 45 seconds..."
+                echo "$SERVNAME password copied to clipboard; clipboard will be cleared after 45 seconds..."
                 sleep 45
                 echo -n "Password cleared from clipboard" | xclip -selection c -i
                 echo "Password cleard from clipboard."
