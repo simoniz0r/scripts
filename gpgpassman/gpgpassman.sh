@@ -94,7 +94,7 @@ updatecheck () {
         else
             if [ "$ZHEADLESS" = "1" ]; then
                 sleep 2
-                nohup $SCRIPTNAME
+                nohup $SCRIPTNAME gui
                 exit 0
             elif [ "$ZHEADLESS" = "0" ];then
                 noguimain
@@ -110,7 +110,7 @@ updatecheck () {
             echo $UPNOTES
             echo "gpgpassman is up to date."
             sleep 2
-            nohup $SCRIPTNAME
+            nohup $SCRIPTNAME gui
             exit 0
         elif [ "$ZHEADLESS" = "0" ];then
             echo "Installed version: $GPMVER -- Current version: $VERTEST"

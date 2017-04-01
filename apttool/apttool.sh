@@ -69,7 +69,7 @@ main () {
             echo "--Finshed--"
             echo
             sleep 5
-            nohup $SCRIPTNAME
+            nohup $SCRIPTNAME gui
             exit
             ;;
         2)
@@ -147,7 +147,7 @@ main () {
             echo
             APTINSTALL=""
             sleep 5
-            nohup $SCRIPTNAME
+            nohup $SCRIPTNAME gui
             exit
             ;;
         5)
@@ -196,7 +196,7 @@ main () {
             echo
             APTREMOVE=""
             sleep 5
-            nohup $SCRIPTNAME
+            nohup $SCRIPTNAME gui
             exit
             ;;
         7)
@@ -230,7 +230,7 @@ main () {
                 echo
             fi
             sleep 5
-            nohup $SCRIPTNAME
+            nohup $SCRIPTNAME gui
             exit 0
             ;;
         8)
@@ -350,7 +350,7 @@ runupdate () {
         rm -f /tmp/updatescript.sh
         if type zenity >/dev/null 2>&1; then
             sleep 5
-            nohup $SCRIPTNAME
+            nohup $SCRIPTNAME gui
             exit 0
         else
             exec $SCRIPTNAME
@@ -390,7 +390,7 @@ updatecheck () {
             echo
             if [ "$ZHEADLESS" = "1" ]; then
                 sleep 5
-                nohup $SCRIPTNAME
+                nohup $SCRIPTNAME gui
                 exit 0
             else
                 noguistart
@@ -403,7 +403,7 @@ updatecheck () {
         echo
          if [ "$ZHEADLESS" = "1" ]; then
             sleep 5
-            nohup $SCRIPTNAME
+            nohup $SCRIPTNAME gui
             exit 0
         else
             noguistart
