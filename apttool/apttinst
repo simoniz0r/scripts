@@ -83,7 +83,7 @@ programisinstalled () {
 }
 
 if [ "$EUID" -ne 0 ]; then
-    echo "make install and uninstall must be ran as root!"
+    echo "apttinst install and uninstall must be ran as root!"
     main "help"
     exit 0
 fi
