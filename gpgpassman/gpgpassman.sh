@@ -582,7 +582,8 @@ main () {
                     exit 0
                 else
                     apg -s -a 1 -m 30 -n 4
-                    read -p "Press ENTER to continue"
+                    read -p "Press ENTER to continue; terminal window will be cleared"
+                    clear
                 fi
                 if [ "$ZHEADLESS" = "0" ];then
                     noguimain
