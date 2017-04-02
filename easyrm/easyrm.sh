@@ -1,5 +1,5 @@
 #!/bin/bash
-# A bash script that attempts to make 'rm' easier to use by moving files to '~/.easyrmtmp' by default.
+# A bash script that uses 'mv' to move files to '~/.easyrmtmp' and provides arguments to clear out '~/.easyrmtmp'; meant to replace using 'rm' on files and folders in case you aren't sure about deleting them.
 # Created by simonizor 3/11/2017
 
 # A POSIX variable
