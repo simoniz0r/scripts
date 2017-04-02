@@ -11,7 +11,8 @@ X="v1.0.9 - Cleaned up a few things and made script not run without any input."
 SCRIPTNAME="$0"
 
 helpfunc () {
-    echo "Tool that uses 'mv' and 'rm' to move files to '~/.easyrmtmp' instead of deleting them by default."
+    echo "easyrm.sh - http://www.simonizor.gq/scripts"
+    echo "A script that uses 'mv' and 'rm' to move files to '~/.easyrmtmp' instead of deleting them by default."
     echo "Usage: 'easyrm.sh /path/to/file' or 'easyrm.sh /path/to/directory/'"
     echo "Note: Directories must have the trailing '/' or you will receive an error."
     echo "Arguments:"
