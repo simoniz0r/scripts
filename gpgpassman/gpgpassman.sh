@@ -471,7 +471,7 @@ main () {
                     main "dir"
                     exit 0
                 else
-                    echo "$SERVNAME is not a valid directory; use full directory path. Ex: './gpgpassman dir /home/simonizor/passwordbackup'"
+                    echo "$SERVNAME is not a valid directory; use full directory path. Ex: './gpgpassman bac /home/simonizor/passwordbackup'"
                     helpfunc
                 fi
             fi
