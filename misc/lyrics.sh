@@ -16,6 +16,10 @@ main () {
             read -p "Title: " title
             { curl -s --get "https://makeitpersonal.co/lyrics" --data-urlencode "artist=$artist" --data-urlencode "title=$title" ; }
         fi
+    elif [[ "$1" == -n* ]]; then
+        read -p "Artist: " artist
+        read -p "Title: " title
+        { curl -s --get "https://makeitpersonal.co/lyrics" --data-urlencode "artist=$artist" --data-urlencode "title=$title" ; }
     else
         artist="$1"
         title="$2"
@@ -33,7 +37,7 @@ programisinstalled () {
 
 programisinstalled "curl"
 if [ "$return" = "1" ]; then
-    main "$1" "$2"
+    main "$1" "$2" "$3"
 else
     echo "'curl' is not installed; cannot fetch lyrics."
 fi
