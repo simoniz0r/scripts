@@ -278,6 +278,7 @@ main () {
             ;;
         *)
             ZHEADLESS="0"
+            echo "apttool - http://www.simonizor.gq/linuxapps"
             programisinstalled "curl"
             if [ "$return" = "1" ]; then
                 programisinstalled "wget"
@@ -285,7 +286,6 @@ main () {
                     updatecheck
                 fi
             fi
-            echo "apttool - http://www.simonizor.gq/linuxapps"
             noguistart
             exit 0
     esac
