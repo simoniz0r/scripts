@@ -174,6 +174,7 @@ if [ ! -f ~/.config/easyrm/easyrm.conf ]; then
     echo "Directory '~/.easyrmtmp' does not exist..."
     echo "Creating '~/.easyrmtmp' directory for temporary storage of removed files/directories..."
     mkdir ~/.easyrmtmp
-    echo "Please run the command again"
+    echo "Please run easyrm again"
+    echo
 fi
 main "$1"
