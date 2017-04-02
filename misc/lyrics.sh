@@ -37,7 +37,7 @@ programisinstalled () {
 
 programisinstalled "curl"
 if [ "$return" = "1" ]; then
-    main "$1" "$2" "$3"
+    main "$1" "$2"
 else
     echo "'curl' is not installed; cannot fetch lyrics."
 fi
