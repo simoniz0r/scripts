@@ -1,6 +1,6 @@
 #!/bin/bash
 # A script that uses 'gpg' to encrypt and decrypt passwords stored in '~/.gpgpassman'.
-# Dependencies: 'gpg', 'xclip', 'curl' (optional; for auto-updating gpgpassman), 'zenity' (optional)
+# Dependencies: 'gpg', 'xclip', 'curl' (optional; for auto-updating gpgpassman), 'apg' (optional; for generationg passwords), 'zenity' (optional; for GUI)
 # If you have 'zenity' installed, executing 'gpgpassman gui' will show a full GUI for all of the scripts options.
 # Also with 'zenity', you can execuite 'gpgpassman dec' for direct access to decrypting passwords; can be used with a keybind.
 # Written by simonizor 3/22/2017 - http://www.simonizor.gq/gpgpassman
