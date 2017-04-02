@@ -1,2 +1,2 @@
-ERMVER="1.0.7"
-X="v1.0.7 - Made it clear that 'curl' is needed for updating."
+ERMVER="1.0.8"
+X="v1.0.8 - Removed '-p'; not needed in this script.  Changed '-f' to remove files in '~/.easyrmtmp' by force instead of removing user inputted files."
