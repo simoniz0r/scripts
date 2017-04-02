@@ -3,7 +3,7 @@
 # Dependencies: 'gpg', 'xclip', 'curl' (optional; for auto-updating gpgpassman), 'zenity' (optional)
 # If you have 'zenity' installed, executing 'gpgpassman' will show a full GUI for all of the scripts options.
 # Also with 'zenity', you can execuite 'gpgpassman dec' for direct access to decrypting passwords; can be used with a keybind.
-# Written by simonizor 3/22/2017 - http://www.simonizor.gq/scripts
+# Written by simonizor 3/22/2017 - http://www.simonizor.gq/gpgpassman
 
 GPMVER="1.2.8"
 X="v1.2.8 - Added option to backup stored passwords to a different directory."
@@ -529,7 +529,7 @@ main () {
             fi
             ;;
         h*)
-            echo "gpgpassman - http://www.simonizor.gq/scripts"
+            echo "gpgpassman - http://www.simonizor.gq/gpgpassman"
             echo "A script that uses 'gpg' to encrypt and decrypt passwords."
             helpfunc
             echo
@@ -562,7 +562,7 @@ main () {
             if [ $return = "1" ]; then
                 zenitymain
             else
-                echo "gpgpassman - http://www.simonizor.gq/scripts"
+                echo "gpgpassman - http://www.simonizor.gq/gpgpassman"
                 echo "A script that uses 'gpg' to encrypt and decrypt passwords."
                 echo "gpgpassman now has a GUI; install 'zenity' to check it out!"
                 echo
