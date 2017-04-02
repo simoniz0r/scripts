@@ -285,6 +285,7 @@ main () {
                     updatecheck
                 fi
             fi
+            echo "apttool - http://www.simonizor.gq/linuxapps"
             noguistart
             exit 0
     esac

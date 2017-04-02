@@ -568,7 +568,7 @@ main () {
             nohup $SCRIPTNAME gui
             ;;
         h*)
-            echo "gpgpassman - http://www.simonizor.gq/gpgpassman"
+            echo "gpgpassman - http://www.simonizor.gq/linuxapps"
             echo "A script that uses 'gpg' to encrypt and decrypt passwords."
             helpfunc
             echo

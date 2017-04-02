@@ -68,6 +68,7 @@ programisinstalled () {
 }
 
 helpfunc () {
+    echo "speedtest.sh - http://www.simonizor.gq/scripts"
     echo "A simple script that uses 'wget' to download files to  '/dev/null' to test download speeds."
     echo "File sizes available for testing are 5MB, 10MB, 100MB, and 200MB."
     echo "Also included is a file from Twitch, Steam, and Google."
