@@ -5,8 +5,8 @@
 # Also with 'zenity', you can execuite 'gpgpassman dec' for direct access to decrypting passwords; can be used with a keybind.
 # Written by simonizor 3/22/2017 - http://www.simonizor.gq/scripts
 
-GPMVER="1.2.7"
-X="v1.2.7 - Added password generation through 'apg'."
+GPMVER="1.2.8"
+X="v1.2.8 - Added option to backup stored passwords to a different directory."
 # ^^Remember to update this and gpmversion.txt every release!
 SCRIPTNAME="$0"
 GPMDIR="$(< ~/.config/gpgpassman/gpgpassman.conf)"
@@ -143,18 +143,22 @@ helpfunc () {
     echo "- Ex: 'gpgpassman add servicename'"
     echo "${bold}dec${normal} - Decrypt a stored password file using the service name and copy to clipboard for 45 seconds."
     echo "- Ex: 'gpgpassman dec servicename'"
+    echo "${bold}bac${normal} - Backup your passwords to a new directory."
+    echo "- Ex: 'gpgpassman bac /home/simonizor/passwordbackup'"
     echo "- Can also be executed as './gpgpassman dec' to launch a zenity window to input service or launch terminal if zenity is not installed."
     echo "${bold}rem${normal} - Remove a stored password file using the service name."
     echo "- Ex: 'gpgpassman rem servicename'"
     echo "${bold}dir${normal} - Change default directory used by gpgpassman. Only passwords in the currently configured directory will be able to be managed."
     echo "- Ex: './gpgpassman dir /path/to/directory'."
+    echo "${bold}gen${normal} - Generate new passwords using 'apg'."
+    echo "- Ex: 'gpgpassman gen'"
     echo "${bold}gui${normal} - If 'zenity' is installed, gpgpassman's GUI will be launched."
     echo "- Ex: gpgpassman gui"
 }
 
 zenitymain () {
     TERMPID=$(pgrep -l x-term)
-    ZMAINCASE=$(kill -9 $TERMPID; zenity --list --cancel-label=Exit --width=540 --height=435 --title=gpgpassman --text="Welcome to gpgpassman v$GPMVER\n\ngpgpassman is a password manager that uses 'gpg' for encryption.\n\nPassword storage directory:\n$GPMDIR\n\nManaged passwords:\n$(dir $GPMDIR)\n\nWhat would you like to do?" --column="Cases" --hide-header "Add a new encrypted password" "Decrypt an existing password" "Remove an existing password" "Change password storage directory" "Generate passwords using 'apg'" "Check for gpgpassman update")
+    ZMAINCASE=$(kill -9 $TERMPID; zenity --list --cancel-label=Exit --width=540 --height=460 --title=gpgpassman --text="Welcome to gpgpassman v$GPMVER\n\ngpgpassman is a password manager that uses 'gpg' for encryption.\n\nPassword storage directory:\n$GPMDIR\n\nManaged passwords:\n$(dir $GPMDIR)\n\nWhat would you like to do?" --column="Cases" --hide-header "Add a new encrypted password" "Decrypt a stored password" "Backup your stored passwords" "Remove a stored password" "Change password storage directory" "Generate passwords using 'apg'" "Check for gpgpassman update")
     if [[ $? -eq 1 ]]; then
         exit 0
     fi
@@ -166,8 +170,10 @@ noguimain () {
     echo "What would you like to do?"
     echo "${bold}Add${normal} an encrypted password."
     echo "${bold}Decrypt${normal} a stored password."
+    echo "${bold}Backup${normal} your passwords."
     echo "${bold}Remove${normal} a stored password."
     echo "${bold}Change${normal} the default password storage directory."
+    echo "${bold}Generate${normal} new passwords using 'apg'."
     echo "${bold}Help${normal}"
     echo "${bold}Exit${normal}"
     read -p "Choice? " -r
@@ -181,7 +187,7 @@ main () {
         add*|Add*)
             if [ -z $SERVNAME ]; then
                 if [ "$ZHEADLESS" = "1" ]; then
-                    SERVNAME=$(zenity --entry --title=gpgpassman --cancel-label="Main menu" --width=540 --height=435 --text="Add a new encrypted password.\n\nYou will be prompted for two different password inputs.\nThe first is the password that you use to login to the service.\nThe second is the password used for gpg encryption.\n\nYou will be prompted to overwrite already managed services.\n\n\n\n\n\n\n\n\n\n\nEnter the service name to encrypt a password for:")
+                    SERVNAME=$(zenity --entry --title=gpgpassman --cancel-label="Main menu" --width=540 --height=460 --text="Add a new encrypted password.\n\nYou will be prompted for two different password inputs.\nThe first is the password that you use to login to the service.\nThe second is the password used for gpg encryption.\n\nYou will be prompted to overwrite already managed services.\n\n\n\n\n\n\n\n\n\n\nEnter the service name to encrypt a password for:")
                     if [[ $? -eq 1 ]]; then
                         SERVNAME=""
                         zenitymain
@@ -364,7 +370,7 @@ main () {
         rem*|Rem*)
             if [ -z "$SERVNAME" ]; then
                 if [ "$ZHEADLESS" = "1" ]; then
-                    SERVNAME=$(zenity --entry --cancel-label="Main menu" --width=540 --height=435 --title=gpgpassman --text="Remove an encrypted password.\n\nThe password for the service name you enter will be deleted permanently!\nYou will be asked for the gpg encryption password before removal.\n\nPassword storage directory:\n$GPMDIR\n\nManaged services:\n$(dir $GPMDIR)\n\n\n\n\n\nEnter the service name to remove:")
+                    SERVNAME=$(zenity --entry --cancel-label="Main menu" --width=540 --height=460 --title=gpgpassman --text="Remove an encrypted password.\n\nThe password for the service name you enter will be deleted permanently!\nYou will be asked for the gpg encryption password before removal.\n\nPassword storage directory:\n$GPMDIR\n\nManaged services:\n$(dir $GPMDIR)\n\n\n\n\n\nEnter the service name to remove:")
                     if [[ $? -eq 1 ]]; then
                         SERVNAME=""
                         zenitymain
@@ -421,6 +427,52 @@ main () {
                     exit 0
                 else
                     echo "No password found for $SERVNAME"
+                fi
+            fi
+            ;;
+        bac*|Bac*)
+            if [ -z $SERVNAME ]; then
+                if [ "$ZHEADLESS" = "1" ]; then
+                    SERVNAME=$(zenity --file-selection --directory --title="gpgpassman -- Select a location to back up your passwords")
+                    if [[ $? -eq 1 ]]; then
+                        SERVNAME=""
+                        zenitymain
+                        exit 0
+                    fi
+                else
+                    read -p "Input the full directory to backup your passwords to. Ex: '/home/simonizor/passwordbackup': " SERVNAME
+                fi
+            fi
+            if [ "${SERVNAME: -1}" = "/" ]; then
+                SERVNAME="${SERVNAME::-1}"
+            fi
+            if [[ "$SERVNAME" == /* ]]; then
+                if [ ! -d $SERVNAME ]; then
+                    mkdir $SERVNAME
+                    if [ "$ZHEADLESS" = "1" ]; then
+                        zenity --warning --timeout=5 --text="$SERVNAME directory created for password backup."
+                    else
+                        echo "$SERVNAME directory created for password backup."
+                    fi
+                fi
+                cp -r $GPMDIR/* $SERVNAME/
+                if [ "$ZHEADLESS" = "1" ]; then
+                    zenity --warning --timeout=5 --text="Passwords have been backed up to $SERVNAME."
+                    SERVNAME=""
+                    zenitymain
+                    exit 0
+                else
+                    echo "Passwords have been backed up to $SERVNAME."
+                fi
+            else
+                if [ "$ZHEADLESS" = "1" ]; then
+                    zenity --error --timeout=5 --text="$SERVNAME is not a valid directory; use full directory path. Ex: '/home/simonizor/passwordbackup'"
+                    SERVNAME=""
+                    main "dir"
+                    exit 0
+                else
+                    echo "$SERVNAME is not a valid directory; use full directory path. Ex: './gpgpassman dir /home/simonizor/passwordbackup'"
+                    helpfunc
                 fi
             fi
             ;;
