@@ -1,2 +1,2 @@
-APTTVER="1.1.7"
-X="v1.1.7 - Changed default behavior to launch without a GUI.  Executing 'apttool gui' will now launch the 'zenity' GUI.  The apttool.desktop file has also changed, so if you have already installed using the install file, you should run the install again to update your apttool.desktop file."
+APTTVER="1.1.8"
+X="v1.1.8 - Terminal windows opened through the GUI will now close after pressing ENTER instead of automatically after 5 seconds."

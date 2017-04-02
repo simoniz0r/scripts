@@ -2,8 +2,8 @@
 # A simple script that can run apt options to save keystrokes.
 # Also has a GUI using 'zenity'; just install 'zenity' to check it out.
 
-APTTVER="1.1.7"
-X="v1.1.7 - Changed default behavior to launch without a GUI.  Executing 'apttool gui' will now launch the 'zenity' GUI.  The apttool.desktop file has also changed, so if you have already installed using the install file, you should run the install again to update your apttool.desktop file."
+APTTVER="1.1.8"
+X="v1.1.8 - Terminal windows opened through the GUI will now close after pressing ENTER instead of automatically after 5 seconds."
 # ^^ Remember to update these and apttversion.txt every release!
 SCRIPTNAME="$0"
 
@@ -68,7 +68,7 @@ main () {
             echo
             echo "--Finshed--"
             echo
-            sleep 5
+            read -p "Press ENTER to continue"
             nohup $SCRIPTNAME gui
             exit
             ;;
@@ -146,7 +146,7 @@ main () {
             echo "--Finshed--"
             echo
             APTINSTALL=""
-            sleep 5
+            read -p "Press ENTER to continue"
             nohup $SCRIPTNAME gui
             exit
             ;;
@@ -195,7 +195,7 @@ main () {
             echo "--Finshed--"
             echo
             APTREMOVE=""
-            sleep 5
+            read -p "Press ENTER to continue"
             nohup $SCRIPTNAME gui
             exit
             ;;
@@ -229,7 +229,7 @@ main () {
                 echo "--Finshed--"
                 echo
             fi
-            sleep 5
+            read -p "Press ENTER to continue"
             nohup $SCRIPTNAME gui
             exit 0
             ;;
@@ -349,7 +349,7 @@ runupdate () {
         echo "Update finished!"
         rm -f /tmp/updatescript.sh
         if type zenity >/dev/null 2>&1; then
-            sleep 5
+            read -p "Press ENTER to continue"
             nohup $SCRIPTNAME gui
             exit 0
         else
@@ -389,7 +389,7 @@ updatecheck () {
         else
             echo
             if [ "$ZHEADLESS" = "1" ]; then
-                sleep 5
+                read -p "Press ENTER to continue"
                 nohup $SCRIPTNAME gui
                 exit 0
             else
@@ -402,7 +402,7 @@ updatecheck () {
         echo "apttool is up to date."
         echo
          if [ "$ZHEADLESS" = "1" ]; then
-            sleep 5
+            read -p "Press ENTER to continue"
             nohup $SCRIPTNAME gui
             exit 0
         else
