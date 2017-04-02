@@ -153,7 +153,7 @@ helpfunc () {
     echo "${bold}gen${normal} - Generate new passwords using 'apg'."
     echo "- Ex: 'gpgpassman gen'"
     echo "${bold}gui${normal} - If 'zenity' is installed, gpgpassman's GUI will be launched."
-    echo "- Ex: gpgpassman gui"
+    echo "- Ex: 'gpgpassman gui'"
 }
 
 zenitymain () {
