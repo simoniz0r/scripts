@@ -5,8 +5,8 @@
 # Also with 'zenity', you can execuite 'gpgpassman dec' for direct access to decrypting passwords; can be used with a keybind.
 # Written by simonizor 3/22/2017 - http://www.simonizor.gq/scripts
 
-GPMVER="1.2.6"
-X="v1.2.6 - Terminal windows opened through the GUI will now close after pressing ENTER instead of automatically after 5 seconds."
+GPMVER="1.2.7"
+X="v1.2.7 - Added password generation through 'apg'."
 # ^^Remember to update this and gpmversion.txt every release!
 SCRIPTNAME="$0"
 GPMDIR="$(< ~/.config/gpgpassman/gpgpassman.conf)"
@@ -523,16 +523,31 @@ main () {
             fi
             ;;
         gen*|Gen*)
-            if [ "$ZHEADLESS" = "1" ]; then
-                main "GEN"
-                exit 0
+            programisinstalled "apg"
+            if [ "$return" = "1" ]; then
+                if [ "$ZHEADLESS" = "1" ]; then
+                    main "GEN"
+                    exit 0
+                else
+                    apg -s -a 1 -m 30 -n 4
+                    read -p "Press ENTER to continue"
+                fi
+                if [ "$ZHEADLESS" = "0" ];then
+                    noguimain
+                    exit 0
+                fi
             else
-                apg -s -a 1 -m 30 -n 4
-                read -p "Press ENTER to continue"
-            fi
-            if [ "$ZHEADLESS" = "0" ];then
-                noguimain
-                exit 0
+                if [ "$ZHEADLESS" = "1" ]; then
+                    zenity --error --title=gpgpassman --text="apg is not installed; cannot generate passwords!"
+                    zenitymain
+                    exit 0
+                else
+                    echo "apg is not installed!"
+                fi
+                if [ "$ZHEADLESS" = "0" ]; then
+                    noguimain
+                    exit 0
+                fi
             fi
             ;;
         GEN)
