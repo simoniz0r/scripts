@@ -118,6 +118,7 @@ updatecheck () {
             echo "Installed version: $GPMVER -- Current version: $VERTEST"
             echo $UPNOTES
             echo "gpgpassman is up to date."
+            echo
             noguimain
             exit 0
         else
