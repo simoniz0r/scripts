@@ -5,12 +5,12 @@
 # A POSIX variable
 OPTIND=1         # Reset in case getopts has been used previously in the shell.
 
-ERMVER="1.0.8"
-X="v1.0.8 - Removed '-p'; not needed in this script.  Changed '-f' to remove files in '~/.easyrmtmp' by force instead of removing user inputted files."
+ERMVER="1.0.9"
+X="v1.0.9 - Cleaned up a few things and made script not run without any input."
 # ^^ Remember to update these and ermversion.txt every release!
 SCRIPTNAME="$0"
 
-help () {
+helpfunc () {
     echo "Tool that uses 'mv' and 'rm' to move files to '~/.easyrmtmp' instead of deleting them by default."
     echo "Usage: 'easyrm.sh /path/to/file' or 'easyrm.sh /path/to/directory/'"
     echo "Note: Directories must have the trailing '/' or you will receive an error."
@@ -24,14 +24,14 @@ help () {
 }
 
 easyrm () {
-    echo "$ARG will be moved to '~/.easyrmtmp'..."
+    echo "$1 will be moved to '~/.easyrmtmp'..."
     read -p "Continue? Y/N" -n 1 -r
     echo
     if [[ $REPLY =~ ^[Yy]$ ]]; then
-        mv $ARG ~/.easyrmtmp/
-        echo "$ARG has been moved to '~/.easyrmtmp'!"
+        mv $1 ~/.easyrmtmp/
+        echo "$1 has been moved to '~/.easyrmtmp'!"
     else
-        echo "$ARG was not moved!"
+        echo "$1 was not moved!"
     fi
 }
 
@@ -91,24 +91,23 @@ programisinstalled () {
   # set to 1 initially
   return=1
   # set to 0 if not found
-  type $PROGRAM >/dev/null 2>&1 || { return=0; }
+  type $1 >/dev/null 2>&1 || { return=0; }
   # return value
 }
 
-if [ -f ~/.config/easyrm/easyrm.conf ]; then
-    ARG=$1
-    if [[ "$ARG" == /* ]]; then
-        easyrm
-    elif [[ "$ARG" == ./* ]]; then
-        easyrm
-    elif [[ "$ARG" == ~/* ]]; then
-        easyrm
-    elif [[ "$ARG" == -* ]]; then
-        case "$ARG" in
-            -l*)
+main () {
+    if [[ "$1" == /* ]]; then
+        easyrm "$1"
+    elif [[ "$1" == ./* ]]; then
+        easyrm "$1"
+    elif [[ "$1" == ~/* ]]; then
+        easyrm "$1"
+    elif [[ "$1" == -* ]]; then
+        case "$1" in
+            -l*|--l*)
                 dir ~/.easyrmtmp
                 ;;
-            -c*)
+            -c*|--c*)
                 NUMBER=$(ls -l ~/.easyrmtmp | wc -l)
                 REALNUM=$(($NUMBER-1))
                 echo "The following files and/or directories in '~/.easyrmtmp' will be permanently deleted:"
@@ -122,7 +121,7 @@ if [ -f ~/.config/easyrm/easyrm.conf ]; then
                     echo "Files and directories in '~/.easyrmtmp' were not deleted!"
                 fi
                 ;;
-            -f*)
+            -f*|--f*)
                 NUMBER=$(ls -l ~/.easyrmtmp | wc -l)
                 REALNUM=$(($NUMBER-1))
                 echo "The following files and/or directories in '~/.easyrmtmp' will be permanently deleted by force:"
@@ -136,7 +135,7 @@ if [ -f ~/.config/easyrm/easyrm.conf ]; then
                     echo "Files and directories in '~/.easyrmtmp' were not deleted!"
                 fi
                 ;;
-            -r*)
+            -r*|--r*)
                 echo "All files in '~/.easyrmtmp' will be permanently deleted and config file will be removed!"
                 read -p "Continue? Y/N" -n 1 -r
                 echo
@@ -148,9 +147,8 @@ if [ -f ~/.config/easyrm/easyrm.conf ]; then
                     echo "'~/.easyrmtmp' was not deleted and config file remains!"
                 fi
                 ;;
-            -u*)
-                PROGRAM="curl"
-                programisinstalled
+            -u*|--*)
+                programisinstalled "curl"
                 if [ "$return" = "1" ]; then
                     updatecheck
                 else
@@ -158,19 +156,19 @@ if [ -f ~/.config/easyrm/easyrm.conf ]; then
                     exit 1
                 fi
                 ;;
-            -*)
-                help
+            -*|--*)
+                helpfunc
                 exit 0
         esac
+    elif [ -z "$1" ];then
+        helpfunc
     else
-        ARG="${ARG::-z}./$1"
-        easyrm
+        ARG="${1::-z}./$1"
+        easyrm "$ARG"
     fi
+}
 
-    shift $((OPTIND-1))
-
-    [ "$1" = "--" ] && shift
-else
+if [ ! -f ~/.config/easyrm/easyrm.conf ]; then
     mkdir ~/.config/easyrm/
     echo "'~/.easyrmtmp' has been created." > ~/.config/easyrm/easyrm.conf
     echo "Directory '~/.easyrmtmp' does not exist..."
@@ -178,3 +176,4 @@ else
     mkdir ~/.easyrmtmp
     echo "Please run the command again"
 fi
+main "$1"
