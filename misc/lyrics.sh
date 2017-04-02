@@ -35,9 +35,5 @@ programisinstalled () {
   # return value
 }
 
-programisinstalled "curl"
-if [ "$return" = "1" ]; then
-    main "$1" "$2"
-else
-    echo "'curl' is not installed; cannot fetch lyrics."
-fi
+type curl >/dev/null 2>&1 || { echo "'curl' is not installed; cannot fetch lyrics." ; exit 0 ; }
+main "$1" "$2"
