@@ -110,6 +110,7 @@ updatecheck () {
             echo "Installed version: $GPMVER -- Current version: $VERTEST"
             echo $UPNOTES
             echo "gpgpassman is up to date."
+            echo
             read -p "Press ENTER to continue"
             nohup $SCRIPTNAME gui
             exit 0
