@@ -5,8 +5,8 @@
 # Also with 'zenity', you can execuite 'gpgpassman dec' for direct access to decrypting passwords; can be used with a keybind.
 # Written by simonizor 3/22/2017 - http://www.simonizor.gq/gpgpassman
 
-GPMVER="1.2.8"
-X="v1.2.8 - Added option to backup stored passwords to a different directory."
+GPMVER="1.2.9"
+X="v1.2.9 - Added check for 'wget' before running updatecheck."
 # ^^Remember to update this and gpmversion.txt every release!
 SCRIPTNAME="$0"
 GPMDIR="$(< ~/.config/gpgpassman/gpgpassman.conf)"
@@ -93,6 +93,7 @@ updatecheck () {
             exit 0
         else
             if [ "$ZHEADLESS" = "1" ]; then
+                echo
                 read -p "Press ENTER to continue"
                 nohup $SCRIPTNAME gui
                 exit 0
@@ -367,6 +368,52 @@ main () {
                 echo "No password found for $SERVNAME"
             fi
             ;;
+        bac*|Bac*)
+            if [ -z $SERVNAME ]; then
+                if [ "$ZHEADLESS" = "1" ]; then
+                    SERVNAME=$(zenity --file-selection --directory --title="gpgpassman -- Select a location to back up your passwords")
+                    if [[ $? -eq 1 ]]; then
+                        SERVNAME=""
+                        zenitymain
+                        exit 0
+                    fi
+                else
+                    read -p "Input the full directory to backup your passwords to. Ex: '/home/simonizor/passwordbackup': " SERVNAME
+                fi
+            fi
+            if [ "${SERVNAME: -1}" = "/" ]; then
+                SERVNAME="${SERVNAME::-1}"
+            fi
+            if [[ "$SERVNAME" == /* ]]; then
+                if [ ! -d $SERVNAME ]; then
+                    mkdir $SERVNAME
+                    if [ "$ZHEADLESS" = "1" ]; then
+                        zenity --warning --timeout=5 --text="$SERVNAME directory created for password backup."
+                    else
+                        echo "$SERVNAME directory created for password backup."
+                    fi
+                fi
+                cp -r $GPMDIR/* $SERVNAME/
+                if [ "$ZHEADLESS" = "1" ]; then
+                    zenity --warning --timeout=5 --text="Passwords have been backed up to $SERVNAME."
+                    SERVNAME=""
+                    zenitymain
+                    exit 0
+                else
+                    echo "Passwords have been backed up to $SERVNAME."
+                fi
+            else
+                if [ "$ZHEADLESS" = "1" ]; then
+                    zenity --error --timeout=5 --text="$SERVNAME is not a valid directory; use full directory path. Ex: '/home/simonizor/passwordbackup'"
+                    SERVNAME=""
+                    main "dir"
+                    exit 0
+                else
+                    echo "$SERVNAME is not a valid directory; use full directory path. Ex: 'gpgpassman bac /home/simonizor/passwordbackup'"
+                    helpfunc
+                fi
+            fi
+            ;;
         rem*|Rem*)
             if [ -z "$SERVNAME" ]; then
                 if [ "$ZHEADLESS" = "1" ]; then
@@ -430,52 +477,6 @@ main () {
                 fi
             fi
             ;;
-        bac*|Bac*)
-            if [ -z $SERVNAME ]; then
-                if [ "$ZHEADLESS" = "1" ]; then
-                    SERVNAME=$(zenity --file-selection --directory --title="gpgpassman -- Select a location to back up your passwords")
-                    if [[ $? -eq 1 ]]; then
-                        SERVNAME=""
-                        zenitymain
-                        exit 0
-                    fi
-                else
-                    read -p "Input the full directory to backup your passwords to. Ex: '/home/simonizor/passwordbackup': " SERVNAME
-                fi
-            fi
-            if [ "${SERVNAME: -1}" = "/" ]; then
-                SERVNAME="${SERVNAME::-1}"
-            fi
-            if [[ "$SERVNAME" == /* ]]; then
-                if [ ! -d $SERVNAME ]; then
-                    mkdir $SERVNAME
-                    if [ "$ZHEADLESS" = "1" ]; then
-                        zenity --warning --timeout=5 --text="$SERVNAME directory created for password backup."
-                    else
-                        echo "$SERVNAME directory created for password backup."
-                    fi
-                fi
-                cp -r $GPMDIR/* $SERVNAME/
-                if [ "$ZHEADLESS" = "1" ]; then
-                    zenity --warning --timeout=5 --text="Passwords have been backed up to $SERVNAME."
-                    SERVNAME=""
-                    zenitymain
-                    exit 0
-                else
-                    echo "Passwords have been backed up to $SERVNAME."
-                fi
-            else
-                if [ "$ZHEADLESS" = "1" ]; then
-                    zenity --error --timeout=5 --text="$SERVNAME is not a valid directory; use full directory path. Ex: '/home/simonizor/passwordbackup'"
-                    SERVNAME=""
-                    main "dir"
-                    exit 0
-                else
-                    echo "$SERVNAME is not a valid directory; use full directory path. Ex: 'gpgpassman bac /home/simonizor/passwordbackup'"
-                    helpfunc
-                fi
-            fi
-            ;;
         dir*|Change*|change*)
             if [ -z $SERVNAME ]; then
                 if [ "$ZHEADLESS" = "1" ]; then
@@ -528,52 +529,6 @@ main () {
                 fi
             fi
             ;;
-        h*)
-            echo "gpgpassman - http://www.simonizor.gq/gpgpassman"
-            echo "A script that uses 'gpg' to encrypt and decrypt passwords."
-            helpfunc
-            echo
-            programisinstalled "curl"
-            if [ $return = "1" ]; then
-                updatecheck
-            fi
-            ;;
-        exit*|Exit*)
-            exit 0
-            ;;
-        Check*)
-            programisinstalled "curl"
-            if [ "$return" = "1" ]; then
-                x-terminal-emulator -e $SCRIPTNAME UPD
-                exit 0
-            else
-                zenity --error --text="'curl' is not installed; cannot check for updates!"
-                SERVNAME=""
-                zenitymain
-                exit 0
-            fi
-            ;;
-        UPD)
-            ZHEADLESS="1"
-            updatecheck
-            ;;
-        gui)
-            programisinstalled "zenity"
-            if [ $return = "1" ]; then
-                zenitymain
-            else
-                echo "gpgpassman - http://www.simonizor.gq/gpgpassman"
-                echo "A script that uses 'gpg' to encrypt and decrypt passwords."
-                echo "gpgpassman now has a GUI; install 'zenity' to check it out!"
-                echo
-                noguimain
-                echo
-                programisinstalled "curl"
-                if [ $return = "1" ]; then
-                    updatecheck
-                fi
-            fi
-            ;;
         gen*|Gen*)
             programisinstalled "apg"
             if [ "$return" = "1" ]; then
@@ -582,6 +537,7 @@ main () {
                     exit 0
                 else
                     apg -s -a 1 -m 30 -n 4
+                    echo
                     read -p "Press ENTER to continue; terminal window will be cleared"
                     clear
                 fi
@@ -609,11 +565,74 @@ main () {
             ZHEADLESS="1"
             nohup $SCRIPTNAME gui
             ;;
+        h*)
+            echo "gpgpassman - http://www.simonizor.gq/gpgpassman"
+            echo "A script that uses 'gpg' to encrypt and decrypt passwords."
+            helpfunc
+            echo
+            programisinstalled "curl"
+            if [ $return = "1" ]; then
+                updatecheck
+            fi
+            ;;
+        exit*|Exit*)
+            exit 0
+            ;;
+        Check*)
+            programisinstalled "curl"
+            if [ "$return" = "1" ]; then
+                programisinstalled "wget"
+                if [ "$return" = "1" ]; then
+                    x-terminal-emulator -e $SCRIPTNAME UPD
+                    exit 0
+                else
+                    zenity --error --text="'wget' is not installed; cannot check for updates!"
+                    SERVNAME=""
+                    zenitymain
+                    exit 0
+                fi
+            else
+                zenity --error --text="'curl' is not installed; cannot check for updates!"
+                SERVNAME=""
+                zenitymain
+                exit 0
+            fi
+            ;;
+        UPD)
+            ZHEADLESS="1"
+            updatecheck
+            ;;
+        gui)
+            programisinstalled "zenity"
+            if [ $return = "1" ]; then
+                zenitymain
+            else
+                echo "gpgpassman - http://www.simonizor.gq/gpgpassman"
+                echo "A script that uses 'gpg' to encrypt and decrypt passwords."
+                echo "gpgpassman now has a GUI; install 'zenity' to check it out!"
+                echo
+                programisinstalled "curl"
+                if [ $return = "1" ]; then
+                    programisinstalled "wget"
+                    if [ $return = "1" ]; then
+                        updatecheck
+                    fi
+                fi
+                echo
+                noguimain
+            fi
+            ;;
         *)
             ZHEADLESS="0"
+            programisinstalled "curl"
+            if [ $return = "1" ]; then
+                programisinstalled "wget"
+                if [ $return = "1" ]; then
+                    updatecheck
+                fi
+            fi
+            echo
             noguimain
-            SERVNAME=""
-            exit 0
     esac
 }
 

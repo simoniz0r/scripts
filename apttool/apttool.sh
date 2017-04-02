@@ -2,8 +2,8 @@
 # A simple script that can run apt options to save keystrokes.
 # Also has a GUI using 'zenity'; just install 'zenity' to check it out.
 
-APTTVER="1.1.8"
-X="v1.1.8 - Terminal windows opened through the GUI will now close after pressing ENTER instead of automatically after 5 seconds."
+APTTVER="1.1.9"
+X="v1.1.9 - Added check for 'wget' before running updatecheck."
 # ^^ Remember to update these and apttversion.txt every release!
 SCRIPTNAME="$0"
 
@@ -278,22 +278,13 @@ main () {
             ;;
         *)
             ZHEADLESS="0"
-            PROGRAM="curl"
-            programisinstalled
+            programisinstalled "curl"
             if [ "$return" = "1" ]; then
-                updatecheck
-            else
-                read -p "curl is not installed; run script without checking for new version? Y/N " -n 1 -r
-                if [[ $REPLY =~ ^[Yy]$ ]]; then
-                    echo
-                    noguistart
-                else
-                    echo
-                    echo "Exiting."
-                    exit 0
+                programisinstalled "wget"
+                if [ "$return" = "1" ]; then
+                    updatecheck
                 fi
             fi
-            ZHEADLESS="0"
             noguistart
             exit 0
     esac

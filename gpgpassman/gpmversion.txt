@@ -1,2 +1,2 @@
-GPMVER="1.2.8"
-X="v1.2.8 - Added option to backup stored passwords to a different directory."
+GPMVER="1.2.9"
+X="v1.2.9 - Added check for 'wget' before running updatecheck."

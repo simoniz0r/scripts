@@ -1,2 +1,2 @@
-APTTVER="1.1.8"
-X="v1.1.8 - Terminal windows opened through the GUI will now close after pressing ENTER instead of automatically after 5 seconds."
+APTTVER="1.1.9"
+X="v1.1.9 - Added check for 'wget' before running updatecheck."
