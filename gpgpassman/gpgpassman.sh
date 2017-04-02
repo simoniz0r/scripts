@@ -577,9 +577,6 @@ main () {
                 updatecheck
             fi
             ;;
-        exit*|Exit*)
-            exit 0
-            ;;
         Check*)
             programisinstalled "curl"
             if [ "$return" = "1" ]; then
@@ -623,6 +620,9 @@ main () {
                 echo
                 noguimain
             fi
+            ;;
+        exit*|Exit*)
+            exit 0
             ;;
         *)
             ZHEADLESS="0"
