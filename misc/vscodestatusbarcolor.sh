@@ -9,7 +9,8 @@ read -p "Killing running 'VSCode' process; press ENTER to continue" NUL
 killall -9 code
 if [ "$1" = "--revert" ];then
     sudo cp ~/.vscode/workbench.main.css.backup "$DIR"/resources/app/out/vs/workbench/electron-browser/workbench.main.css
-    echo "Original workbench file restored."
+    echo "Original workbench file restored; restarting 'VSCode'..."
+    /usr/bin/code
     exit 0
 fi
 echo "Input the color you would like to change the status bar in hex format"
@@ -31,4 +32,6 @@ sudo sed -i -e 's/007acc/'$REPLY'/g' "$DIR"/resources/app/out/vs/workbench/elect
 echo "Status bar color changed to #$REPLY!"
 echo "Backup workbench.main.css created in '~/.vscode/'; use '--revert' to restore it."
 echo "Trying to change your color a second time without first using '--revert' will have no effect."
-exit 1
+echo "Restarting 'VSCode'..."
+/usr/bin/code
+exit 0
