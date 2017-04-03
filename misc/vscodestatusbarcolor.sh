@@ -27,6 +27,7 @@ if [ ! -d ~/.vscode ];then
 fi
 sudo cp "$DIR"/resources/app/out/vs/workbench/electron-browser/workbench.main.css ~/.vscode/workbench.main.css.backup
 echo "Backup workbench.main.css created in '~/.vscode/'; use '--revert' to restore it."
+echo "Trying to change your color a second time without first using '--revert' will have no effect."
 sudo sed -i -e 's/007acc/'$REPLY'/g' "$DIR"/resources/app/out/vs/workbench/electron-browser/workbench.main.css
 echo "Status bar color changed to #$REPLY!"
 exit 1
