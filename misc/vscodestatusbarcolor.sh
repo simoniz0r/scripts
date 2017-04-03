@@ -41,9 +41,8 @@ if [ ! -f "$DIR/resources/app/out/vs/workbench/electron-browser/workbench.main.c
 else
     echo "workbench.main.css.backup exists; skipping backup. Use '--revert' to restore it."
 fi
-echo "workbench.main.css status bar color changed to #$REPLY" | sudo tee $DIR/resources/app/out/vs/workbench/electron-browser/vscodestatusbarcolorsh.conf
+echo "Status bar color changed to #$REPLY!" | sudo tee $DIR/resources/app/out/vs/workbench/electron-browser/vscodestatusbarcolorsh.conf
 sudo sed -i -e 's/007acc/'$REPLY'/g' $DIR/resources/app/out/vs/workbench/electron-browser/workbench.main.css
-echo "Status bar color changed to #$REPLY!"
 echo "Use '--revert' before attempting to change your color again."
 echo "Restarting 'VSCode'..."
 /usr/bin/code
