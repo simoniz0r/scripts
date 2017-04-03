@@ -3,6 +3,7 @@
 # This will replace all '#007acc', so there may be some other places that get recolored also (such changes to files on the sidebar)
 # A backup copy of the 'workbench.main.css' file will be saved in ~/.vscode/workbench.main.css.backup in case you don't like the changes.
 # Use '--revert' to restore the original 'workbench.main.css' file.
+
 GETDIR="$(readlink -f $(which code))"
 DIR="${GETDIR::-9}"
 read -p "Killing running 'VSCode' process; press ENTER to continue" NUL
