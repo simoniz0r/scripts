@@ -10,6 +10,10 @@ GETDIR="$(readlink -f $(which code))"
 DIR="${GETDIR::-9}"
 
 if [ "$1" = "--revert" ];then
+    if [ ! -f "$DIR/resources/app/out/vs/workbench/electron-browser/vscodestatusbarcolorsh.conf" ];then
+        echo "Status bar color has not been changed; run base script first."
+        exit 0
+    fi
     read -p "Killing running 'VSCode' process; press ENTER to continue..." NUL
     killall -9 code
     sudo cp $DIR/resources/app/out/vs/workbench/electron-browser/workbench.main.css.backup $DIR/resources/app/out/vs/workbench/electron-browser/workbench.main.css || { echo "workbench.main.css.backup does not exist; reinstall VSCode to restore your colors :(" ; exit 0 ; }
