@@ -9,8 +9,8 @@ SCRIPTNAME="$0"
 GETDIR="$(readlink -f $(which code))"
 DIR="${GETDIR::-9}"
 
-if [ "$1" = "--revert" ];then
-    if [ ! -f "$DIR/resources/app/out/vs/workbench/electron-browser/vscodestatusbarcolorsh.conf" ];then
+if [ "$1" = "--revert" ]; then
+    if [ ! -f "$DIR/resources/app/out/vs/workbench/electron-browser/vscodestatusbarcolorsh.conf" ]; then
         echo "Status bar color has not been changed; run base script first."
         exit 0
     fi
@@ -22,7 +22,7 @@ if [ "$1" = "--revert" ];then
     /usr/bin/code
     exit 0
 fi
-if [ -f "$DIR/resources/app/out/vs/workbench/electron-browser/vscodestatusbarcolorsh.conf" ];then
+if [ -f "$DIR/resources/app/out/vs/workbench/electron-browser/vscodestatusbarcolorsh.conf" ]; then
     echo "Status bar color already changed; use '--revert' before changing it again!"
     exit 0
 fi
@@ -33,13 +33,13 @@ if [ -z "$REPLY" ]; then
     echo "No color input; try again..."
     exec $SCRIPTNAME
 fi
-if [ "${REPLY: -1}" = "#" ];then
+if [ "${REPLY: -1}" = "#" ]; then
     echo "Invalid input; use 6 digit hex color code; do not include the '#'. Try again..."
     exec $SCRIPTNAME
 fi
 read -p "Killing running 'VSCode' process; press ENTER to continue..." NUL
 killall -9 code
-if [ ! -f "$DIR/resources/app/out/vs/workbench/electron-browser/workbench.main.css.backup" ];then
+if [ ! -f "$DIR/resources/app/out/vs/workbench/electron-browser/workbench.main.css.backup" ]; then
     sudo cp $DIR/resources/app/out/vs/workbench/electron-browser/workbench.main.css $DIR/resources/app/out/vs/workbench/electron-browser/workbench.main.css.backup
     echo "Backup created in '$DIR/resources/app/out/vs/workbench/electron-browser/workbench.main.css'; use '--revert' to restore it."
 else
