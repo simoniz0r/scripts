@@ -22,7 +22,7 @@ if [ -z "$REPLY" ]; then
     exit 0
 fi
 if [ "${REPLY: -1}" = "#" ];then
-    echo "Invalid input; 6 digit hex color code; do not include the '#'"
+    echo "Invalid input; use 6 digit hex color code; do not include the '#'"
     exit 0
 fi
 if [ ! -d ~/.vscode ];then
