@@ -22,8 +22,6 @@ if [ -f "$DIR/resources/app/out/vs/workbench/electron-browser/vscodestatusbarcol
     echo "Status bar color already changed; use '--revert' before changing it again!"
     exit 0
 fi
-read -p "Killing running 'VSCode' process; press ENTER to continue..." NUL
-killall -9 code
 echo "Input the color you would like to change the status bar in hex format."
 read -p "Color #" -n 6 -r
 echo
@@ -35,6 +33,8 @@ if [ "${REPLY: -1}" = "#" ];then
     echo "Invalid input; use 6 digit hex color code; do not include the '#'. Try again..."
     exec $SCRIPTNAME
 fi
+read -p "Killing running 'VSCode' process; press ENTER to continue..." NUL
+killall -9 code
 if [ ! -f "$DIR/resources/app/out/vs/workbench/electron-browser/workbench.main.css.backup" ];then
     sudo cp $DIR/resources/app/out/vs/workbench/electron-browser/workbench.main.css $DIR/resources/app/out/vs/workbench/electron-browser/workbench.main.css.backup
     echo "Backup created in '$DIR/resources/app/out/vs/workbench/electron-browser/workbench.main.css'; use '--revert' to restore it."
