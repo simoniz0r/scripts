@@ -5,7 +5,8 @@
 # Use '--revert' to restore the original 'workbench.main.css' file.
 GETDIR="$(readlink -f $(which code))"
 DIR="${GETDIR::-9}"
-
+read -p "Killing running 'VSCode' process; press ENTER to continue" NUL
+killall -9 code
 if [ "$1" = "--revert" ];then
     sudo cp ~/.vscode/workbench.main.css.backup "$DIR"/resources/app/out/vs/workbench/electron-browser/workbench.main.css
     echo "Original workbench file restored."
