@@ -5,8 +5,8 @@
 # A POSIX variable
 OPTIND=1         # Reset in case getopts has been used previously in the shell.
 
-ERMVER="1.1.0"
-X="v1.1.0 - Running './easyrm.sh -c' or '-f' will no longer attempt to run if no files are in '~/.easyrmtmp'."
+ERMVER="1.1.1"
+X="v1.1.1 - Output if no files are in ~/.easyrmtmp on '-l'"
 # ^^ Remember to update these and ermversion.txt every release!
 SCRIPTNAME="$0"
 
@@ -106,6 +106,17 @@ main () {
     elif [[ "$1" == -* ]]; then
         case "$1" in
             -l*|--l*)
+                NUMBER=$(ls -l ~/.easyrmtmp | wc -l)
+                REALNUM=$(($NUMBER-1))
+                if [ "$REALNUM" = "0" ]; then
+                    echo "No files in ~/.easyrmtmp"
+                    exit 0
+                fi
+                if [ "$REALNUM" = "1" ]; then
+                    echo "$REALNUM file or directory."
+                else
+                    echo "$REALNUM files and/or directories."
+                fi
                 dir ~/.easyrmtmp
                 ;;
             -c*|--c*)
