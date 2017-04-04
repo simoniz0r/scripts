@@ -1,2 +1,2 @@
-ERMVER="1.0.9"
-X="v1.0.9 - Cleaned up a few things and made script not run without any input."
+ERMVER="1.1.0"
+X="v1.1.0 - Running './easyrm.sh -c' or '-f' will no longer attempt to run if no files are in '~/.easyrmtmp'."

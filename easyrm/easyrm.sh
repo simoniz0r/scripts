@@ -5,8 +5,8 @@
 # A POSIX variable
 OPTIND=1         # Reset in case getopts has been used previously in the shell.
 
-ERMVER="1.0.9"
-X="v1.0.9 - Cleaned up a few things and made script not run without any input."
+ERMVER="1.1.0"
+X="v1.1.0 - Running './easyrm.sh -c' or '-f' will no longer attempt to run if no files are in '~/.easyrmtmp'."
 # ^^ Remember to update these and ermversion.txt every release!
 SCRIPTNAME="$0"
 
@@ -111,13 +111,25 @@ main () {
             -c*|--c*)
                 NUMBER=$(ls -l ~/.easyrmtmp | wc -l)
                 REALNUM=$(($NUMBER-1))
-                echo "The following files and/or directories in '~/.easyrmtmp' will be permanently deleted:"
+                if [ "$REALNUM" = "0" ]; then
+                    echo "No files in ~/.easyrmtmp; exiting..."
+                    exit 0
+                fi
+                if [ "$REALNUM" = "1" ]; then
+                    echo "The following file or directory in '~/.easyrmtmp' will be permanently deleted:"
+                else
+                    echo "The following files and/or directories in '~/.easyrmtmp' will be permanently deleted:"
+                fi
                 dir ~/.easyrmtmp
                 read -p "Continue? Y/N" -n 1 -r
                 echo
                 if [[ $REPLY =~ ^[Yy]$ ]]; then
                     rm -r ~/.easyrmtmp/*
-                    echo "$REALNUM files and/or directories have been permanently deleted!"
+                    if [ "$REALNUM" = "1" ]; then
+                        echo "$REALNUM file or directory has been permanently deleted!"
+                    else
+                        echo "$REALNUM files and/or directories have been permanently deleted!"
+                    fi
                 else
                     echo "Files and directories in '~/.easyrmtmp' were not deleted!"
                 fi
@@ -125,13 +137,25 @@ main () {
             -f*|--f*)
                 NUMBER=$(ls -l ~/.easyrmtmp | wc -l)
                 REALNUM=$(($NUMBER-1))
-                echo "The following files and/or directories in '~/.easyrmtmp' will be permanently deleted by force:"
+                if [ "$REALNUM" = "0" ]; then
+                    echo "No files in ~/.easyrmtmp; exiting..."
+                    exit 0
+                fi
+                if [ "$REALNUM" = "1" ]; then
+                    echo "The following file or directory in '~/.easyrmtmp' will be permanently deleted by force:"
+                else
+                    echo "The following files and/or directories in '~/.easyrmtmp' will be permanently deleted by force:"
+                fi
                 dir ~/.easyrmtmp
                 read -p "Continue? Y/N" -n 1 -r
                 echo
                 if [[ $REPLY =~ ^[Yy]$ ]]; then
                     rm -rf ~/.easyrmtmp/*
-                    echo "$REALNUM files and/or directories have been permanently deleted by force!"
+                    if [ "$REALNUM" = "1" ]; then
+                        echo "$REALNUM file or directory has been permanently deleted by force!"
+                    else
+                        echo "$REALNUM files and/or directories have been permanently deleted by force!"
+                    fi
                 else
                     echo "Files and directories in '~/.easyrmtmp' were not deleted!"
                 fi
