@@ -541,7 +541,7 @@ main () {
                     apg -s -a 1 -m 30 -n 4
                     echo
                     read -p "Press ENTER to continue; terminal window will be cleared"
-                    clear
+                    tput reset
                 fi
                 if [ "$ZHEADLESS" = "0" ];then
                     noguimain
