@@ -4,12 +4,17 @@
 # This script uses 'printf '\e[?25l'' to hide the cursor; use 'reset' after running this script if your cursor is still hidden.
 # wttrrefresh.sh - http://www.simonizor.gq/scripts
 
-read -p "Input your location: " LOCATION
-tput reset
-while true
-do
+LOCATION="$1"
+
+wttr (){
+    if [ -z "$LOCATION" ]; then
+        LOCATION=$location
+    fi
     printf '\e[?25l'
     curl "wttr.in/$LOCATION?0?Q"
     sleep 300
     tput reset
-done
+    wttr "$LOCATION"
+}
+
+wttr "$LOCATION"
