@@ -8,7 +8,7 @@ LOCATION="$1"
 
 wttr (){
     if [ -z "$LOCATION" ]; then
-        LOCATION=$location
+        LOCATION="$location"
     fi
     printf '\e[?25l'
     curl "wttr.in/$LOCATION?0?Q"
