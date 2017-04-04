@@ -7,6 +7,7 @@ read -p "Input your location: " LOCATION
 tput reset
 while true
 do
+    printf '\e[?25l'
     curl "wttr.in/$LOCATION?0?Q"
     sleep 300
     tput reset
