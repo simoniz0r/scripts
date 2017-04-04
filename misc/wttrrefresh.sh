@@ -12,7 +12,7 @@ wttr (){
     case $1 in
         f*)
             if [ -z "$FLOCATION" ]; then
-                LOCATION="$location"
+                FLOCATION="$location"
             fi
             printf '\e[?25l'
             curl "wttr.in/$FLOCATION"
