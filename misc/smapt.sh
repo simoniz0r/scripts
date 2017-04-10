@@ -31,6 +31,8 @@ alias smapt-Suu='sudo apt update && sudo apt upgrade'
 alias smapt-Suuy='sudo apt update && sudo apt upgrade -y'
 alias smapt-Sfu='sudo apt full-upgrade'
 alias smapt-Sfuy='sudo apt full-upgrade -y'
+alias smapt-Sar='sudo apt-add-repository'
+alias smapt-Sary='sudo apt-add-repository -y'
 alias smapt-Ses='sudo apt edit-sources'
 
 smapt-help () {
@@ -47,6 +49,7 @@ smapt-help () {
     echo "-Sug - sudo apt upgrade - upgrade the system by installing/upgrading packages"
     echo "-Suu - sudo apt update && apt upgrade - run apt update and then apt upgrade"
     echo "-Sfu - sudo apt full-upgrade - fully upgrade the system by removing/installing/upgrading packages"
+    echo "-Sar - sudo apt-add-repository - apt-add-repository is a script for adding apt sources.list entries."
     echo "-Ses - sudo apt edit-sources - edit the source information file"
     echo 
     echo "Appedning 'y' will add '-y' to any of the relevant previous options."
