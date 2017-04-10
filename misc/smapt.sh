@@ -51,7 +51,6 @@ smapt-help () {
     echo 
     echo "Appedning 'y' will add '-y' to any of the relevant previous options.  Ex: 'smapt-Siy'"
     echo
-    exit 0
 }
 EOL
 }
