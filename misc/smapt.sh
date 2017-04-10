@@ -24,6 +24,7 @@ fi
 addaliases () {
 cat >>~/."$GETUSRSHELL"_aliases <<EOL
 
+
 alias smapt='apt'
 alias smapt-l='apt list'
 alias smapt-se='apt search'
@@ -75,7 +76,15 @@ EOL
 if [ -f ~/.zsh_aliases ]; then
     GETUSRSHELL="zsh"
     addaliases
+    if grep -q -a 'smapt' ~/.zsh_aliases; then
+        echo "smapt aliases added!"
+        exit 0
+    fi
 else
     GETUSRSHELL="bash"
     addaliases
+    if grep -q -a 'smapt' ~/.bash_aliases; then
+        echo "smapt aliases added!"
+        exit 0
+    fi
 fi
