@@ -8,14 +8,14 @@
 # Run this script once to add aliases to your ~/.bash_aliases file or ~/.zsh_aliases file if that exists.
 
 if [ -f ~/.bash_aliases ]; then
-    if grep -q -a 'smapt-help' ~/.bash_aliases; then
+    if grep -q -a 'smapt' ~/.bash_aliases; then
         echo "smapt aliases already added; remove them before running again!"
         exit 0
     fi
 fi
 
 if [ -f ~/.zsh_aliases ]; then
-    if grep -q -a 'smapt-help' ~/.zsh_aliases 2>&1; then
+    if grep -q -a 'smapt' ~/.zsh_aliases 2>&1; then
         echo "smapt aliases already added; remove them before running again!"
         exit 0
     fi
