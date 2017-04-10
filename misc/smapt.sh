@@ -50,7 +50,7 @@ smapt-help () {
     echo "-es  - apt edit-sources - edit the source information file"
     echo 
     echo "Prepending -S will run any of the relevant previous options as root.  Ex: 'smapt-Su'"
-    echo "Appedning 'y' will add '-y' to any of the relevant previous options.  'Ex: smapt-Siy'"
+    echo "Appedning 'y' will add '-y' to any of the relevant previous options.  Ex: 'smapt-Siy'"
     echo
     exit 0
 }
