@@ -51,7 +51,7 @@ smapt-help () {
     echo "smapt-Sa  - sudo apt autoremove - Remove automatically all unused packages"
     echo "smapt-Sud - sudo apt update - update list of available packages"
     echo "smapt-Sug - sudo apt upgrade - upgrade the system by installing/upgrading packages"
-    echo "smapt-Suu - sudo apt update && apt upgrade - run apt update and then apt upgrade"
+    echo "smapt-Suu - sudo apt update && sudo apt upgrade - run apt update and then apt upgrade"
     echo "smapt-Sfu - sudo apt full-upgrade - fully upgrade the system by removing/installing/upgrading packages"
     echo "smapt-Sar - sudo apt-add-repository - apt-add-repository is a script for adding apt sources.list entries."
     echo "smapt-Ses - sudo apt edit-sources - edit the source information file"
