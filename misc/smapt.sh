@@ -5,33 +5,14 @@
 # Dependencies: apt for Ubuntu and Ubuntu flavors
 # Description: A simple script that adds aliases to make apt easier to use by shortening the arguments, run them as root easily, and append '-y'
 # Example: 'smapt-Suuy' runs 'sudo apt update && sudo apt upgrade -y'
-# Run this script once to add aliases to your ~/.bash_aliases file, ~/.zshrc, or ~/.zsh_aliases file if that exists.
+# Run this script once to have aliases loaded through your ~/.bashrc or ~/.zshrc file.
 
-if [ -f ~/.bash_aliases ]; then
-    if grep -q -a 'smapt' ~/.bash_aliases; then
-        echo "smapt aliases already added; remove them before running again!"
-        exit 0
-    fi
-fi
-
-if [ -f ~/.zsh_aliases ]; then
-    if grep -q -a 'smapt' ~/.zsh_aliases; then
-        echo "smapt aliases already added; remove them before running again!"
-        exit 0
-    fi
-fi
-
-if [ -f ~/.zshrc ]; then
-    if grep -q -a 'smapt' ~/.zshrc; then
-        echo "smapt aliases already added; remove them before running again!"
-        exit 0
-    fi
+if [ -f ~/.smapt_aliases ]; then
+    echo "smapt aliases already added; remove them before running again!"
 fi
 
 addaliases () {
-cat >>~/"$ALIASFILE" <<EOL
-
-
+cat >~/.smapt_aliases <<EOL
 alias smapt='apt'
 alias smapt-l='apt list'
 alias smapt-se='apt search'
@@ -80,24 +61,37 @@ smapt-help () {
 EOL
 }
 
-if [ -f ~/.zsh_aliases ]; then
-    ALIASFILE=".zsh_aliases"
-    addaliases
-    if grep -q -a 'smapt' ~/.zsh_aliases; then
-        echo "smapt aliases added!"
-        exit 0
-    fi
-elif [ -f ~/.zshrc ]; then
-    ALIASFILE=".zshrc"
+loadaliases () {
+cat >>~/$RCFILE <<EOL
+
+
+if [ -f ~/.smapt_aliases ]; then
+    . ~/.smapt_aliases
+fi
+EOL
+}
+
+if [ -f ~/.zshrc ]; then
+    RCFILE=".zshrc"
     addaliases
     if grep -q -a 'smapt' ~/.zshrc; then
         echo "smapt aliases added!"
         exit 0
     fi
+    loadaliases
+    if grep -q -a 'smapt' ~/.zshrc; then
+        echo "smapt aliases added!"
+        exit 0
+    fi
 else
-    ALIASFILE=".bash_aliases"
+    RCFILE=".bashrc"
     addaliases
-    if grep -q -a 'smapt' ~/.bash_aliases; then
+    if grep -q -a 'smapt' ~/.bashrc; then
+        echo "smapt aliases added!"
+        exit 0
+    fi
+    loadaliases
+    if grep -q -a 'smapt' ~/.bashrc; then
         echo "smapt aliases added!"
         exit 0
     fi
