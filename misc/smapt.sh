@@ -6,6 +6,9 @@
 # Description: A simple script that adds aliases to make apt easier to use by shortening the arguments, run them as root easily, and append '-y'
 # Example: 'smapt-Suuy' runs 'sudo apt update && sudo apt upgrade -y'
 # Run this script once to have aliases loaded through your ~/.bashrc or ~/.zshrc file.
+# Remote install:
+# wget - bash -c "$(wget https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/misc/smapt.sh -O -)"
+# curl - bash -c "$(curl -fsSL https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/misc/smapt.sh)"
 
 if [ -f ~/.smapt_aliases ]; then
     echo "smapt aliases already added; remove them before running again!"
