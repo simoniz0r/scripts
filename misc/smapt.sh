@@ -14,6 +14,7 @@ addaliases () {
 cat >~/.smapt_aliases <<EOL
 alias smapt='smapt-help'
 alias smapt-l='apt list'
+alias smapt-lu='apt list --upgradeable'
 alias smapt-se='apt search'
 alias smapt-sh='apt show'
 alias smapt-sha='apt show -a'
@@ -42,6 +43,7 @@ smapt-help () {
     echo "smarter apt; a set of aliases that shortens apt's arguments"
     echo
     echo "smapt-l   - apt list - list packages based on package names"
+    echo "smapt-lu  - apt list --upgradeable - list packages that have available upgrades"
     echo "smapt-se  - apt search - search in package descriptions"
     echo "smapt-sh  - apt show - show package details"
     echo "smapt-sha - apt show -a - show all package details"
