@@ -14,7 +14,7 @@ cat >>~/."$GETUSRSHELL"_aliases <<EOL
 alias smapt='apt'
 alias smapt-l='apt list'
 alias smapt-se='apt search'
-alias smatp-sh='apt show'
+alias smapt-sh='apt show'
 alias smapt-sha='apt show -a'
 alias smapt-Si='sudo apt install'
 alias smapt-Siy='sudo apt install -y'
