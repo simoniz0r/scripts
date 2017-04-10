@@ -5,10 +5,12 @@
 # Dependencies: apt for Ubuntu and Ubuntu flavors
 # Description: A simple script that adds aliases to make apt easier to use by shortening the arguments, run them as root easily, and append '-y'
 # Example: 'smapt-Suuy' runs 'sudo apt update && sudo apt upgrade -y'
+# Run this script once to add aliases to your ~/.bash_aliases file or ~/.zsh_aliases file if that exists.
 
 
 addaliases () {
 cat >>~/."$GETUSRSHELL"_aliases <<EOL
+
 alias smapt='apt'
 alias smapt-l='apt list'
 alias smapt-se='apt search'
