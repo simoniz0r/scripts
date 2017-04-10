@@ -10,7 +10,7 @@
 # wget - bash -c "$(wget https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/misc/smapt.sh -O -)"
 # curl - bash -c "$(curl -fsSL https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/misc/smapt.sh)"
 
-if [ -f ~/.smapt_aliases ]; then
+if [ -f ~/.ssmapt_aliases ]; then
     echo "smapt aliases already added; remove them before running again!"
     exit 0
 fi
