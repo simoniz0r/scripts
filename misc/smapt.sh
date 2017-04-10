@@ -56,7 +56,7 @@ smapt-help () {
     echo "smapt-Sar - sudo apt-add-repository - apt-add-repository is a script for adding apt sources.list entries."
     echo "smapt-Ses - sudo apt edit-sources - edit the source information file"
     echo 
-    echo "Appedning 'y' will add '-y' to any of the relevant previous options."
+    echo "Appedning 'y' will add '-y' to any of the relevant arguments."
     echo "Ex: 'smapt-Siy packagename' runs 'sudo apt install -y packagename'"
     echo
 }
