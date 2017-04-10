@@ -12,7 +12,7 @@
 
 addaliases () {
 cat >~/.smapt_aliases <<EOL
-alias smapt='apt'
+alias smapt='smapt-help'
 alias smapt-l='apt list'
 alias smapt-se='apt search'
 alias smapt-sh='apt show'
