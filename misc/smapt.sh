@@ -9,6 +9,7 @@
 
 if [ -f ~/.smapt_aliases ]; then
     echo "smapt aliases already added; remove them before running again!"
+    exit 0
 fi
 
 addaliases () {
