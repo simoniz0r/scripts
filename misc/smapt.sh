@@ -7,13 +7,8 @@
 # Example: 'smapt-Suuy' runs 'sudo apt update && sudo apt upgrade -y'
 # Run this script once to have aliases loaded through your ~/.bashrc or ~/.zshrc file.
 # Remote install:
-# wget - bash -c "$(wget https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/misc/smapt.sh -O -)"
-# curl - bash -c "$(curl -fsSL https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/misc/smapt.sh)"
-
-if [ -f ~/.ssmapt_aliases ]; then
-    echo "smapt aliases already added; remove them before running again!"
-    exit 0
-fi
+# via wget - bash -c "$(wget https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/misc/smapt.sh -O -)"
+# via curl - bash -c "$(curl -fsSL https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/misc/smapt.sh)"
 
 addaliases () {
 cat >~/.smapt_aliases <<EOL
