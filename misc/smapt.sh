@@ -5,7 +5,7 @@
 # Dependencies: apt for Ubuntu and Ubuntu flavors
 # Description: A simple script that adds aliases to make apt easier to use by shortening the arguments, run them as root easily, and append '-y'
 # Example: 'smapt-Suuy' runs 'sudo apt update && sudo apt upgrade -y'
-# Run this script once to have aliases loaded through your ~/.bashrc or ~/.zshrc file.
+# Run this script once to have aliases loaded through your ~/.bashrc and ~/.zshrc file if it exists.
 # Remote install:
 # via wget: bash -c "$(wget https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/misc/smapt.sh -O -)" && $SHELL
 # via curl: bash -c "$(curl -fsSL https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/misc/smapt.sh)" && $SHELL
@@ -77,24 +77,22 @@ if [ -f ~/.zshrc ]; then
     RCFILE=".zshrc"
     addaliases
     if grep -q -a 'smapt' ~/.zshrc; then
-        echo "smapt aliases added!"
-        exit 0
+        echo "smapt aliases added to .zshrc!"
+    else
+        loadaliases
+        if grep -q -a 'smapt' ~/.zshrc; then
+            echo "smapt aliases added to .zshrc!"
+        fi
     fi
-    loadaliases
-    if grep -q -a 'smapt' ~/.zshrc; then
-        echo "smapt aliases added!"
-        exit 0
-    fi
+fi
+RCFILE=".bashrc"
+addaliases
+if grep -q -a 'smapt' ~/.bashrc; then
+    echo "smapt aliases added to .bashrc!"
 else
-    RCFILE=".bashrc"
-    addaliases
-    if grep -q -a 'smapt' ~/.bashrc; then
-        echo "smapt aliases added!"
-        exit 0
-    fi
     loadaliases
     if grep -q -a 'smapt' ~/.bashrc; then
-        echo "smapt aliases added!"
+        echo "smapt aliases added to .bashrc!"
         exit 0
     fi
 fi
