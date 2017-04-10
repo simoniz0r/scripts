@@ -49,7 +49,7 @@ smapt-help () {
     echo "-Sfu - sudo apt full-upgrade - fully upgrade the system by removing/installing/upgrading packages"
     echo "-Ses - sudo apt edit-sources - edit the source information file"
     echo 
-    echo "Appedning 'y' will add '-y' to any of the relevant previous options.  Ex: 'smapt-Siy'"
+    echo "Appedning 'y' will add '-y' to any of the relevant previous options.  Ex: 'smapt-Siy packagename' runs 'sudo apt install -y packagename'."
     echo
 }
 EOL
