@@ -5,7 +5,7 @@
 # Dependencies: apt for Ubuntu and Ubuntu flavors
 # Description: A simple script that adds aliases to make apt easier to use by shortening the arguments, run them as root easily, and append '-y'
 # Example: 'smapt-Suuy' runs 'sudo apt update && sudo apt upgrade -y'
-# Run this script once to add aliases to your ~/.bash_aliases file or ~/.zsh_aliases file if that exists.
+# Run this script once to add aliases to your ~/.bash_aliases file, ~/.zshrc, or ~/.zsh_aliases file if that exists.
 
 if [ -f ~/.bash_aliases ]; then
     if grep -q -a 'smapt' ~/.bash_aliases; then
@@ -15,14 +15,21 @@ if [ -f ~/.bash_aliases ]; then
 fi
 
 if [ -f ~/.zsh_aliases ]; then
-    if grep -q -a 'smapt' ~/.zsh_aliases 2>&1; then
+    if grep -q -a 'smapt' ~/.zsh_aliases; then
+        echo "smapt aliases already added; remove them before running again!"
+        exit 0
+    fi
+fi
+
+if [ -f ~/.zshrc ]; then
+    if grep -q -a 'smapt' ~/.zshrc; then
         echo "smapt aliases already added; remove them before running again!"
         exit 0
     fi
 fi
 
 addaliases () {
-cat >>~/."$GETUSRSHELL"_aliases <<EOL
+cat >>~/"$ALIASFILE" <<EOL
 
 
 alias smapt='apt'
@@ -74,14 +81,21 @@ EOL
 }
 
 if [ -f ~/.zsh_aliases ]; then
-    GETUSRSHELL="zsh"
+    ALIASFILE=".zsh_aliases"
     addaliases
     if grep -q -a 'smapt' ~/.zsh_aliases; then
         echo "smapt aliases added!"
         exit 0
     fi
+elif [ -f ~/.zshrc ]; then
+    ALIASFILE=".zshrc"
+    addaliases
+    if grep -q -a 'smapt' ~/.zshrc; then
+        echo "smapt aliases added!"
+        exit 0
+    fi
 else
-    GETUSRSHELL="bash"
+    ALIASFILE=".bash_aliases"
     addaliases
     if grep -q -a 'smapt' ~/.bash_aliases; then
         echo "smapt aliases added!"
