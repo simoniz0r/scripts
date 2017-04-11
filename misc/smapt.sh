@@ -40,7 +40,7 @@ alias smapt-Ses='sudo apt edit-sources'
 smapt-help () {
     echo
     echo "smapt - http://www.simonizor.gq/scripts"
-    echo "smarter apt; a set of aliases that shortens apt's arguments"
+    echo "smarter apt; a set of aliases that shorten apt's arguments"
     echo
     echo "smapt-l   - apt list - list packages based on package names"
     echo "smapt-lu  - apt list --upgradeable - list packages that have available upgrades"
