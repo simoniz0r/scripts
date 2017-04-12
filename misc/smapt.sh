@@ -77,7 +77,6 @@ EOL
 
 if [ -f ~/.zshrc ]; then
     RCFILE=".zshrc"
-    addaliases
     if grep -q -a 'smapt_aliases' ~/.zshrc; then
         echo "smapt aliases added to .zshrc!"
     else
