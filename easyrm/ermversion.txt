@@ -1,2 +1,2 @@
-ERMVER="1.1.2"
-X="v1.1.2 - Added argument to restore files to their original directory; '-r'.  Uninstall argument has been changed to '-uninstall'."
+ERMVER="1.1.3"
+X="v1.1.3 - Fixed restore to exit if input is not found."

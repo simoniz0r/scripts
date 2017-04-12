@@ -5,8 +5,8 @@
 # A POSIX variable
 OPTIND=1         # Reset in case getopts has been used previously in the shell.
 
-ERMVER="1.1.2"
-X="v1.1.2 - Added argument to restore files to their original directory; '-r'.  Uninstall argument has been changed to '-uninstall'."
+ERMVER="1.1.3"
+X="v1.1.3 - Fixed restore to exit if input is not found."
 # ^^ Remember to update these every release; do not move their line position (eliminate version.txt eventually)!
 SCRIPTNAME="$0"
 ARG="$1"
@@ -139,6 +139,10 @@ main () {
             -r*|--r*)
                 RESTORE="$(grep -a "$2" ~/.easyrmtmp/movedfiles.conf)"
                 RESTNUM="$(echo "$RESTORE" | wc -l)"
+                if ! grep -q -a "$2" ~/.easyrmtmp/movedfiles.conf; then
+                    echo "File not found in '~/.easyrmtmp'!"
+                    exit 0
+                fi
                 if [[ "$RESTNUM" != "1" ]]; then
                     echo "$RESTNUM results found; refine your input."
                     exit 0
