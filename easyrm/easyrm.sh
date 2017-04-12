@@ -23,7 +23,6 @@ helpfunc () {
     echo "-r : Restore a file from '~/.easyrmtmp'; will find closest matching file and restore it to its original location."
     echo "-c : Removes all files and directories from '~/.easyrmtmp'"
     echo "-f : Removes all files and directories from '~/.easyrmtmp' by force; use for errors with '-c'."
-    echo "-uninstall : Removes '~/.easyrmtmp' directory and config file."
 }
 
 easyrm () {
@@ -221,18 +220,6 @@ main () {
                     fi
                 else
                     echo "Files and directories in '~/.easyrmtmp' were not deleted!"
-                fi
-                ;;
-            -uninstall*|--uninstall*)
-                echo "All files in '~/.easyrmtmp' will be permanently deleted and config file will be removed!"
-                read -p "Continue? Y/N" -n 1 -r
-                echo
-                if [[ $REPLY =~ ^[Yy]$ ]]; then
-                    rm -rf ~/.config/easyrm/
-                    rm -rf ~/.easyrmtmp/
-                    echo "Finished!"
-                else
-                    echo "'~/.easyrmtmp' was not deleted and config file remains!"
                 fi
                 ;;
             -u*|--u*)
