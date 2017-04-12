@@ -5,8 +5,8 @@
 # A POSIX variable
 OPTIND=1         # Reset in case getopts has been used previously in the shell.
 
-ERMVER="1.1.3"
-X="v1.1.3 - Fixed restore to exit if input is not found."
+ERMVER="1.1.4"
+X="v1.1.4 - Disable file check after move to fix bug when using '~/'."
 # ^^ Remember to update these every release; do not move their line position (eliminate version.txt eventually)!
 SCRIPTNAME="$0"
 ARG="$1"
@@ -35,10 +35,10 @@ easyrm () {
     echo
     if [[ $REPLY =~ ^[Yy]$ ]]; then
         mv $ARG ~/.easyrmtmp/
-        if [ ! -f ~/.easyrmtmp/$ARG ] && [ ! -f ~/.easyrmtmp/$ORIG ]; then
-            echo "Move failed!"
-            exit 0
-        fi
+        # if [ ! -f ~/.easyrmtmp/$ARG ] && [ ! -f ~/.easyrmtmp/$ORIG ]; then
+        #     echo "Move failed!"
+        #     exit 0
+        # fi
         echo "$ARG" >> ~/.easyrmtmp/movedfiles.conf
         echo "$ARG has been moved to '~/.easyrmtmp'!"
     else
