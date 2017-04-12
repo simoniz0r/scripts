@@ -1,2 +1,2 @@
-ERMVER="1.1.1"
-X="v1.1.1 - Output if no files are in ~/.easyrmtmp on '-l'"
+ERMVER="1.1.2"
+X="v1.1.2 - Added argument to restore files to their original directory; '-r'.  Uninstall argument has been changed to '-uninstall'."

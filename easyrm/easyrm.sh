@@ -5,10 +5,11 @@
 # A POSIX variable
 OPTIND=1         # Reset in case getopts has been used previously in the shell.
 
-ERMVER="1.1.1"
-X="v1.1.1 - Output if no files are in ~/.easyrmtmp on '-l'"
-# ^^ Remember to update these and ermversion.txt every release!
+ERMVER="1.1.2"
+X="v1.1.2 - Added argument to restore files to their original directory; '-r'.  Uninstall argument has been changed to '-uninstall'."
+# ^^ Remember to update these every release; do not move their line position (eliminate version.txt eventually)!
 SCRIPTNAME="$0"
+ARG="$1"
 
 helpfunc () {
     echo "easyrm.sh - http://www.simonizor.gq/scripts"
@@ -19,28 +20,43 @@ helpfunc () {
     echo "-h : Shows this help output"
     echo "-u : Check for new version of easyrm.sh."
     echo "-l : Shows list of files in '~/.easyrmtmp'"
+    echo "-r : Restore a file from '~/.easyrmtmp'; will find closest matching file and restore it to its original location."
     echo "-c : Removes all files and directories from '~/.easyrmtmp'"
     echo "-f : Removes all files and directories from '~/.easyrmtmp' by force; use for errors with '-c'."
-    echo "-r : Removes '~/.easyrmtmp' directory and config file."
+    echo "-uninstall : Removes '~/.easyrmtmp' directory and config file."
 }
 
 easyrm () {
-    echo "$1 will be moved to '~/.easyrmtmp'..."
+    if [ ! -f "$ARG" ]; then
+        echo "$ARG does not exist!"
+        exit 0
+    fi
+    echo "$ARG will be moved to '~/.easyrmtmp'..."
     read -p "Continue? Y/N" -n 1 -r
     echo
     if [[ $REPLY =~ ^[Yy]$ ]]; then
-        mv $1 ~/.easyrmtmp/
-        echo "$1 has been moved to '~/.easyrmtmp'!"
+        mv $ARG ~/.easyrmtmp/
+        if [ ! -f ~/.easyrmtmp/$ARG ] && [ ! -f ~/.easyrmtmp/$ORIG ]; then
+            echo "Move failed!"
+            exit 0
+        fi
+        echo "$ARG" >> ~/.easyrmtmp/movedfiles.conf
+        echo "$ARG has been moved to '~/.easyrmtmp'!"
     else
-        echo "$1 was not moved!"
+        echo "$ARG was not moved!"
     fi
 }
 
 updatescript () {
 cat >/tmp/updatescript.sh <<EOL
 runupdate () {
+    wget -O /tmp/easyrm.sh "https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/easyrm/easyrm.sh"
+    if [ ! -f /tmp/easyrm.sh ]; then
+        echo "Download failed; try again later!"
+        exit 0
+    fi
     rm -f $SCRIPTNAME
-    wget -O $SCRIPTNAME "https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/easyrm/easyrm.sh"
+    mv /tmp/easyrm.sh $SCRIPTNAME
     chmod +x $SCRIPTNAME
     if [ -f $SCRIPTNAME ]; then
         echo "Update finished!"
@@ -62,14 +78,14 @@ EOL
 
 updatecheck () {
     echo "Checking for new version..."
-    UPNOTES=$(curl -v --silent https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/easyrm/ermversion.txt 2>&1 | grep X= | tr -d 'X="')
-    VERTEST=$(curl -v --silent https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/easyrm/ermversion.txt 2>&1 | grep ERMVER= | tr -d 'ERMVER="')
+    UPNOTES="$(wget -q "https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/easyrm/easyrm.sh" -O - | sed -n '9p' | tr -d 'X="')"
+    VERTEST="$(wget -q "https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/easyrm/easyrm.sh" -O - | sed -n '8p' | tr -d 'ERMV="')"
     if [[ $ERMVER < $VERTEST ]]; then
         echo "Installed version: $ERMVER -- Current version: $VERTEST"
         echo "A new version is available!"
-        echo $UPNOTES
+        echo "$UPNOTES"
         read -p "Would you like to update? Y/N " -n 1 -r
-        if [[ $REPLY =~ ^[Yy]$ ]]; then
+        if [[ "$REPLY" =~ ^[Yy]$ ]]; then
             echo
             echo "Creating update script..."
             updatescript
@@ -83,7 +99,7 @@ updatecheck () {
         fi
     else
         echo "Installed version: $ERMVER -- Current version: $VERTEST"
-        echo $UPNOTES
+        echo "$UPNOTES"
         echo "easyrm.sh is up to date."
     fi
 }
@@ -97,17 +113,18 @@ programisinstalled () {
 }
 
 main () {
-    if [[ "$1" == /* ]]; then
-        easyrm "$1"
-    elif [[ "$1" == ./* ]]; then
-        easyrm "$1"
-    elif [[ "$1" == ~/* ]]; then
-        easyrm "$1"
-    elif [[ "$1" == -* ]]; then
-        case "$1" in
+    if [[ "$ARG" == /* ]]; then
+        easyrm "$ARG"
+    elif [[ "$ARG" == ./* ]]; then
+        ORIG="${ARG:2}"
+        ARG="$PWD/${ARG:2}"
+        easyrm "$ARG"
+    elif [[ "$ARG" == ~/* ]]; then
+        easyrm "$ARG"
+    elif [[ "$ARG" == -* ]]; then
+        case "$ARG" in
             -l*|--l*)
-                NUMBER=$(ls -l ~/.easyrmtmp | wc -l)
-                REALNUM=$(($NUMBER-1))
+                REALNUM="$(cat ~/.easyrmtmp/movedfiles.conf | wc -l)"
                 if [ "$REALNUM" = "0" ]; then
                     echo "No files in ~/.easyrmtmp"
                     exit 0
@@ -117,11 +134,37 @@ main () {
                 else
                     echo "$REALNUM files and/or directories."
                 fi
-                dir ~/.easyrmtmp
+                cat ~/.easyrmtmp/movedfiles.conf
+                ;;
+            -r*|--r*)
+                RESTORE="$(grep -a "$2" ~/.easyrmtmp/movedfiles.conf)"
+                RESTNUM="$(echo "$RESTORE" | wc -l)"
+                if [[ "$RESTNUM" != "1" ]]; then
+                    echo "$RESTNUM results found; refine your input."
+                    exit 0
+                fi
+                if [ -f "$RESTORE" ]; then
+                    echo "$RESTORE already exists; remove this file before attempting to restore from ~/.easyrmtmp"
+                    exit 0
+                fi
+                read -p "Restore $2 to $RESTORE? Y/N" -n 1 -r
+                echo
+                if [[ $REPLY =~ ^[Yy]$ ]]; then
+                    mv ~/.easyrmtmp/"$2"* $RESTORE
+                else
+                    echo "$2 was not restored!"
+                    exit 0
+                fi
+                if [ ! -f "$RESTORE" ]; then
+                    echo "Restore failed!"
+                    exit 0
+                fi
+                sed -i s:"$RESTORE"::g ~/.easyrmtmp/movedfiles.conf
+                sed -i '/^$/d' ~/.easyrmtmp/movedfiles.conf
+                echo "$RESTORE has been restored!"
                 ;;
             -c*|--c*)
-                NUMBER=$(ls -l ~/.easyrmtmp | wc -l)
-                REALNUM=$(($NUMBER-1))
+                REALNUM="$(cat ~/.easyrmtmp/movedfiles.conf | wc -l)"
                 if [ "$REALNUM" = "0" ]; then
                     echo "No files in ~/.easyrmtmp; exiting..."
                     exit 0
@@ -131,11 +174,14 @@ main () {
                 else
                     echo "The following files and/or directories in '~/.easyrmtmp' will be permanently deleted:"
                 fi
-                dir ~/.easyrmtmp
+                cat ~/.easyrmtmp/movedfiles.conf
                 read -p "Continue? Y/N" -n 1 -r
                 echo
                 if [[ $REPLY =~ ^[Yy]$ ]]; then
-                    rm -r ~/.easyrmtmp/*
+                    cd ~/.easyrmtmp
+                    ls | grep -v 'movedfiles.conf' | xargs rm -r
+                    echo "" > ~/.easyrmtmp/movedfiles.conf
+                    sed -i '/^$/d' ~/.easyrmtmp/movedfiles.conf
                     if [ "$REALNUM" = "1" ]; then
                         echo "$REALNUM file or directory has been permanently deleted!"
                     else
@@ -146,8 +192,7 @@ main () {
                 fi
                 ;;
             -f*|--f*)
-                NUMBER=$(ls -l ~/.easyrmtmp | wc -l)
-                REALNUM=$(($NUMBER-1))
+                REALNUM="$(cat ~/.easyrmtmp/movedfiles.conf | wc -l)"
                 if [ "$REALNUM" = "0" ]; then
                     echo "No files in ~/.easyrmtmp; exiting..."
                     exit 0
@@ -161,7 +206,10 @@ main () {
                 read -p "Continue? Y/N" -n 1 -r
                 echo
                 if [[ $REPLY =~ ^[Yy]$ ]]; then
-                    rm -rf ~/.easyrmtmp/*
+                    cd ~/.easyrmtmp
+                    ls | grep -v 'movedfiles.conf' | xargs rm -rf
+                    echo "" > ~/.easyrmtmp/movedfiles.conf
+                    sed -i '/^$/d' ~/.easyrmtmp/movedfiles.conf
                     if [ "$REALNUM" = "1" ]; then
                         echo "$REALNUM file or directory has been permanently deleted by force!"
                     else
@@ -171,24 +219,24 @@ main () {
                     echo "Files and directories in '~/.easyrmtmp' were not deleted!"
                 fi
                 ;;
-            -r*|--r*)
+            -uninstall*|--uninstall*)
                 echo "All files in '~/.easyrmtmp' will be permanently deleted and config file will be removed!"
                 read -p "Continue? Y/N" -n 1 -r
                 echo
                 if [[ $REPLY =~ ^[Yy]$ ]]; then
-                    rm -r ~/.config/easyrm/
-                    rm -r ~/.easyrmtmp/
+                    rm -rf ~/.config/easyrm/
+                    rm -rf ~/.easyrmtmp/
                     echo "Finished!"
                 else
                     echo "'~/.easyrmtmp' was not deleted and config file remains!"
                 fi
                 ;;
-            -u*|--*)
-                programisinstalled "curl"
+            -u*|--u*)
+                programisinstalled "wget"
                 if [ "$return" = "1" ]; then
                     updatecheck
                 else
-                    echo "$PROGRAM is not installed; cannot check for update!"
+                    echo "wget is not installed; cannot check for update!"
                     exit 1
                 fi
                 ;;
@@ -196,21 +244,21 @@ main () {
                 helpfunc
                 exit 0
         esac
-    elif [ -z "$1" ];then
+    elif [ -z "$ARG" ];then
         helpfunc
     else
-        ARG="${1::-z}./$1"
+        ORIG="$ARG"
+        ARG="${ARG::-z}$PWD/$ARG"
         easyrm "$ARG"
     fi
 }
 
-if [ ! -f ~/.config/easyrm/easyrm.conf ]; then
-    mkdir ~/.config/easyrm/
-    echo "'~/.easyrmtmp' has been created." > ~/.config/easyrm/easyrm.conf
+if [ ! -d ~/.easyrmtmp ]; then
     echo "Directory '~/.easyrmtmp' does not exist..."
     echo "Creating '~/.easyrmtmp' directory for temporary storage of removed files/directories..."
     mkdir ~/.easyrmtmp
+    touch ~/.easyrmtmp/movedfiles.conf
     echo "Please run easyrm again"
     echo
 fi
-main "$1"
+main "$ARG" "$2"
