@@ -5,8 +5,8 @@
 # A POSIX variable
 OPTIND=1         # Reset in case getopts has been used previously in the shell.
 
-ERMVER="1.1.5"
-X="v1.1.5 - Fixed to work with directories; had to add a check to see if dir exists where it was only checking if file exists."
+ERMVER="1.1.6"
+X="v1.1.6 - Changed '-f' to read from 'movedfiles.conf' like '-c' does."
 # ^^ Remember to update these every release; do not move their line position (eliminate version.txt eventually)!
 SCRIPTNAME="$0"
 ARG="$1"
@@ -205,7 +205,7 @@ main () {
                 else
                     echo "The following files and/or directories in '~/.easyrmtmp' will be permanently deleted by force:"
                 fi
-                dir ~/.easyrmtmp
+                cat ~/.easyrmtmp/movedfiles.conf
                 read -p "Continue? Y/N" -n 1 -r
                 echo
                 if [[ $REPLY =~ ^[Yy]$ ]]; then
