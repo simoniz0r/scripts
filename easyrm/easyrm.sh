@@ -5,8 +5,8 @@
 # A POSIX variable
 OPTIND=1         # Reset in case getopts has been used previously in the shell.
 
-ERMVER="1.1.6"
-X="v1.1.6 - Changed '-f' to read from 'movedfiles.conf' like '-c' does."
+ERMVER="1.1.7"
+X="v1.1.7 - Removed Y/N prompt when moving files to '~/.easyrmtmp' because they can easily be restored now.  Added '-d' argument to delete specific files from '~/.easyrmtmp' instead of clearing the whole directory."
 # ^^ Remember to update these every release; do not move their line position (eliminate version.txt eventually)!
 SCRIPTNAME="$0"
 ARG="$1"
@@ -21,6 +21,7 @@ helpfunc () {
     echo "-u : Check for new version of easyrm.sh."
     echo "-l : Shows list of files in '~/.easyrmtmp'"
     echo "-r : Restore a file from '~/.easyrmtmp'; will find closest matching file and restore it to its original location."
+    echo "-d : Deletes a specifc file from '~/.easyrmtmp' instead of clearing the whole folder"
     echo "-c : Removes all files and directories from '~/.easyrmtmp'"
     echo "-f : Removes all files and directories from '~/.easyrmtmp' by force; use for errors with '-c'."
 }
@@ -30,20 +31,20 @@ easyrm () {
         echo "$ARG does not exist!"
         exit 0
     fi
-    echo "$ARG will be moved to '~/.easyrmtmp'..."
-    read -p "Continue? Y/N" -n 1 -r
-    echo
-    if [[ $REPLY =~ ^[Yy]$ ]]; then
-        mv $ARG ~/.easyrmtmp/
+   # echo "$ARG will be moved to '~/.easyrmtmp'..."
+   # read -p "Continue? Y/N" -n 1 -r
+   # echo
+   # if [[ $REPLY =~ ^[Yy]$ ]]; then
+    mv $ARG ~/.easyrmtmp/ || { echo "Move failed!" ; exit 0 ; }
         # if [ ! -f ~/.easyrmtmp/$ARG ] && [ ! -f ~/.easyrmtmp/$ORIG ]; then
         #     echo "Move failed!"
         #     exit 0
         # fi
-        echo "$ARG" >> ~/.easyrmtmp/movedfiles.conf
-        echo "$ARG has been moved to '~/.easyrmtmp'!"
-    else
-        echo "$ARG was not moved!"
-    fi
+    echo "$ARG" >> ~/.easyrmtmp/movedfiles.conf
+    echo "$ARG has been moved to '~/.easyrmtmp'!"
+   # else
+   #     echo "$ARG was not moved!"
+   # fi
 }
 
 updatescript () {
@@ -165,6 +166,29 @@ main () {
                 sed -i s:"$RESTORE"::g ~/.easyrmtmp/movedfiles.conf
                 sed -i '/^$/d' ~/.easyrmtmp/movedfiles.conf
                 echo "$RESTORE has been restored!"
+                ;;
+            -d*|--d*)
+                DELFILE="$(grep -a "$2" ~/.easyrmtmp/movedfiles.conf)"
+                DELNUM="$(echo "$DELFILE" | wc -l)"
+                if ! grep -q -a "$2" ~/.easyrmtmp/movedfiles.conf; then
+                    echo "File not found in '~/.easyrmtmp'!"
+                    exit 0
+                fi
+                if [[ "$DELNUM" != "1" ]]; then
+                    echo "$DELNUM results found; refine your input."
+                    exit 0
+                fi
+                read -p "Perminantly delete $2 (original location $DELFILE)? Y/N" -n 1 -r
+                echo
+                if [[ $REPLY =~ ^[Yy]$ ]]; then
+                    rm -r ~/.easyrmtmp/"$2"*
+                else
+                    echo "$2 (original location $DELFILE) was not deleted!"
+                    exit 0
+                fi
+                sed -i s:"$DELFILE"::g ~/.easyrmtmp/movedfiles.conf
+                sed -i '/^$/d' ~/.easyrmtmp/movedfiles.conf
+                echo "$2 (original location $DELFILE) has been deleted!"
                 ;;
             -c*|--c*)
                 REALNUM="$(cat ~/.easyrmtmp/movedfiles.conf | wc -l)"

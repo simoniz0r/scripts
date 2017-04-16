@@ -1,2 +1,2 @@
-ERMVER="1.1.6"
-X="v1.1.6 - Changed '-f' to read from 'movedfiles.conf' like '-c' does."
+ERMVER="1.1.7"
+X="v1.1.7 - Removed Y/N prompt when moving files to '~/.easyrmtmp' because they can easily be restored now.  Added '-d' argument to delete specific files from '~/.easyrmtmp' instead of clearing the whole directory."
