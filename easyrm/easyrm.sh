@@ -22,7 +22,7 @@ helpfunc () {
     echo "-l : Shows list of files in '~/.easyrmtmp'"
     echo "-r : Restore a file from '~/.easyrmtmp'; will find closest matching file/folder and restore it to its original location."
     echo "     Ex: './easyrm.sh -r filename'"
-    echo "-d : Deletes a specifc file from '~/.easyrmtmp' instead of clearing the whole folder; will find closest matching file/folder name."
+    echo "-d : Deletes a specifc file from '~/.easyrmtmp'; will find closest matching file/folder."
     echo "     Ex: './easyrm.sh -d filename'"
     echo "-c : Removes all files and folders from '~/.easyrmtmp'"
 }
