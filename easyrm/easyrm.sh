@@ -13,7 +13,7 @@ ARG="$1"
 
 helpfunc () {
     echo "easyrm.sh - http://www.simonizor.gq/scripts"
-    echo "A script that uses 'mv' and 'rm' to move files to '~/.easyrmtmp' instead of deleting them by default."
+    echo "A script that uses 'mv' to move files to '~/.easyrmtmp' instead of deleting them by default."
     echo "Usage: 'easyrm.sh /path/to/file' or 'easyrm.sh /path/to/folder/'"
     echo "Arguments:"
     echo "-h : Shows this help output"
