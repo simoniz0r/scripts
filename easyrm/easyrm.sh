@@ -198,9 +198,9 @@ main () {
                     exit 0
                 fi
                 if [ "$REALNUM" = "1" ]; then
-                    echo "The following file or folder in '~/.easyrmtmp' will be permanently deleted:"
+                    echo "The following file or folder in '~/.easyrmtmp' will be permanently deleted (listed by original location):"
                 else
-                    echo "The following files and/or folders in '~/.easyrmtmp' will be permanently deleted:"
+                    echo "The following files and/or folders in '~/.easyrmtmp' will be permanently deleted (listed by original location):"
                 fi
                 cat ~/.easyrmtmp/movedfiles.conf
                 read -p "Continue? Y/N" -n 1 -r
