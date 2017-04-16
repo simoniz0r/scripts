@@ -5,8 +5,8 @@
 # A POSIX variable
 OPTIND=1         # Reset in case getopts has been used previously in the shell.
 
-ERMVER="1.1.9"
-X="v1.1.9 - Removed '-f' argument; '-c' now uses 'rm -rf' by default as I could see no real reason not to have this be default behavior."
+ERMVER="1.2.0"
+X="v1.2.0 - Cleaned up the help function."
 # ^^ Remember to update these every release; do not move their line position (eliminate version.txt eventually)!
 SCRIPTNAME="$0"
 ARG="$1"
