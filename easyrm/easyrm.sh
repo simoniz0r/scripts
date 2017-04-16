@@ -5,8 +5,8 @@
 # A POSIX variable
 OPTIND=1         # Reset in case getopts has been used previously in the shell.
 
-ERMVER="1.1.7"
-X="v1.1.7 - Removed Y/N prompt when moving files to '~/.easyrmtmp' because they can easily be restored now.  Added '-d' argument to delete specific files from '~/.easyrmtmp' instead of clearing the whole directory."
+ERMVER="1.1.8"
+X="v1.1.8 - Fixed restore to work properly with folders."
 # ^^ Remember to update these every release; do not move their line position (eliminate version.txt eventually)!
 SCRIPTNAME="$0"
 ARG="$1"
@@ -14,15 +14,15 @@ ARG="$1"
 helpfunc () {
     echo "easyrm.sh - http://www.simonizor.gq/scripts"
     echo "A script that uses 'mv' and 'rm' to move files to '~/.easyrmtmp' instead of deleting them by default."
-    echo "Usage: 'easyrm.sh /path/to/file' or 'easyrm.sh /path/to/directory/'"
+    echo "Usage: 'easyrm.sh /path/to/file' or 'easyrm.sh /path/to/folder/'"
     echo "Arguments:"
     echo "-h : Shows this help output"
     echo "-u : Check for new version of easyrm.sh."
     echo "-l : Shows list of files in '~/.easyrmtmp'"
     echo "-r : Restore a file from '~/.easyrmtmp'; will find closest matching file and restore it to its original location."
     echo "-d : Deletes a specifc file from '~/.easyrmtmp' instead of clearing the whole folder"
-    echo "-c : Removes all files and directories from '~/.easyrmtmp'"
-    echo "-f : Removes all files and directories from '~/.easyrmtmp' by force; use for errors with '-c'."
+    echo "-c : Removes all files and folders from '~/.easyrmtmp'"
+    echo "-f : Removes all files and folders from '~/.easyrmtmp' by force; use for errors with '-c'."
 }
 
 easyrm () {
@@ -129,11 +129,11 @@ main () {
                     exit 0
                 fi
                 if [ "$REALNUM" = "1" ]; then
-                    echo "$REALNUM file or directory."
-                    echo "File/directory is listed with its original location:"
+                    echo "$REALNUM file or folder."
+                    echo "File/folder is listed with its original location:"
                 else
-                    echo "$REALNUM files and/or directories."
-                    echo "Files/directories are listed with their original location:"
+                    echo "$REALNUM files and/or folders."
+                    echo "Files/folders are listed with their original location:"
                 fi
                 cat ~/.easyrmtmp/movedfiles.conf
                 ;;
@@ -160,7 +160,7 @@ main () {
                     echo "$2 was not restored!"
                     exit 0
                 fi
-                if [ ! -f "$RESTORE" ]; then
+                if [ ! -f "$RESTORE" ] && [ ! -d "$RESTORE" ]; then
                     echo "Restore failed!"
                     exit 0
                 fi
@@ -198,9 +198,9 @@ main () {
                     exit 0
                 fi
                 if [ "$REALNUM" = "1" ]; then
-                    echo "The following file or directory in '~/.easyrmtmp' will be permanently deleted:"
+                    echo "The following file or folder in '~/.easyrmtmp' will be permanently deleted:"
                 else
-                    echo "The following files and/or directories in '~/.easyrmtmp' will be permanently deleted:"
+                    echo "The following files and/or folders in '~/.easyrmtmp' will be permanently deleted:"
                 fi
                 cat ~/.easyrmtmp/movedfiles.conf
                 read -p "Continue? Y/N" -n 1 -r
@@ -211,12 +211,12 @@ main () {
                     echo "" > ~/.easyrmtmp/movedfiles.conf
                     sed -i '/^$/d' ~/.easyrmtmp/movedfiles.conf
                     if [ "$REALNUM" = "1" ]; then
-                        echo "$REALNUM file or directory has been permanently deleted!"
+                        echo "$REALNUM file or folder has been permanently deleted!"
                     else
-                        echo "$REALNUM files and/or directories have been permanently deleted!"
+                        echo "$REALNUM files and/or folders have been permanently deleted!"
                     fi
                 else
-                    echo "Files and directories in '~/.easyrmtmp' were not deleted!"
+                    echo "Files and folders in '~/.easyrmtmp' were not deleted!"
                 fi
                 ;;
             -f*|--f*)
@@ -226,9 +226,9 @@ main () {
                     exit 0
                 fi
                 if [ "$REALNUM" = "1" ]; then
-                    echo "The following file or directory in '~/.easyrmtmp' will be permanently deleted by force:"
+                    echo "The following file or folder in '~/.easyrmtmp' will be permanently deleted by force:"
                 else
-                    echo "The following files and/or directories in '~/.easyrmtmp' will be permanently deleted by force:"
+                    echo "The following files and/or folders in '~/.easyrmtmp' will be permanently deleted by force:"
                 fi
                 cat ~/.easyrmtmp/movedfiles.conf
                 read -p "Continue? Y/N" -n 1 -r
@@ -239,12 +239,12 @@ main () {
                     echo "" > ~/.easyrmtmp/movedfiles.conf
                     sed -i '/^$/d' ~/.easyrmtmp/movedfiles.conf
                     if [ "$REALNUM" = "1" ]; then
-                        echo "$REALNUM file or directory has been permanently deleted by force!"
+                        echo "$REALNUM file or folder has been permanently deleted by force!"
                     else
-                        echo "$REALNUM files and/or directories have been permanently deleted by force!"
+                        echo "$REALNUM files and/or folders have been permanently deleted by force!"
                     fi
                 else
-                    echo "Files and directories in '~/.easyrmtmp' were not deleted!"
+                    echo "Files and folders in '~/.easyrmtmp' were not deleted!"
                 fi
                 ;;
             -u*|--u*)
@@ -271,7 +271,7 @@ main () {
 
 if [ ! -d ~/.easyrmtmp ]; then
     echo "Directory '~/.easyrmtmp' does not exist..."
-    echo "Creating '~/.easyrmtmp' directory for temporary storage of removed files/directories..."
+    echo "Creating '~/.easyrmtmp' folder for temporary storage of removed files/folders..."
     mkdir ~/.easyrmtmp
     touch ~/.easyrmtmp/movedfiles.conf
     echo "Please run easyrm again"

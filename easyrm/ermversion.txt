@@ -1,2 +1,2 @@
-ERMVER="1.1.7"
-X="v1.1.7 - Removed Y/N prompt when moving files to '~/.easyrmtmp' because they can easily be restored now.  Added '-d' argument to delete specific files from '~/.easyrmtmp' instead of clearing the whole directory."
+ERMVER="1.1.8"
+X="v1.1.8 - Fixed restore to work properly with folders."
