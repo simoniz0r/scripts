@@ -13,14 +13,17 @@ ARG="$1"
 
 helpfunc () {
     echo "easyrm.sh - http://www.simonizor.gq/scripts"
-    echo "A script that uses 'mv' to move files to '~/.easyrmtmp' instead of deleting them by default."
-    echo "Usage: 'easyrm.sh /path/to/file' or 'easyrm.sh /path/to/folder/'"
+    echo "A script that uses 'mv' to move files to '~/.easyrmtmp' instead of deleting them."
+    echo
+    echo "Usage: './easyrm.sh /path/to/file', './easyrm.sh /path/to/folder/', or ./easyrm.sh -h"
     echo "Arguments:"
     echo "-h : Shows this help output"
     echo "-u : Check for new version of easyrm.sh."
     echo "-l : Shows list of files in '~/.easyrmtmp'"
     echo "-r : Restore a file from '~/.easyrmtmp'; will find closest matching file/folder and restore it to its original location."
+    echo "     Ex: './easyrm.sh -r filename'"
     echo "-d : Deletes a specifc file from '~/.easyrmtmp' instead of clearing the whole folder; will find closest matching file/folder name."
+    echo "     Ex: './easyrm.sh -d filename'"
     echo "-c : Removes all files and folders from '~/.easyrmtmp'"
 }
 
