@@ -15,15 +15,15 @@ cat >~/.smapt_aliases <<EOL
 alias apt-help='smapt'
 alias apt-l='apt list'
 alias apt-lu='apt list --upgradeable'
+alias apt-se='apt search'
+alias apt-sh='apt show'
+alias apt-sha='apt show -a'
 alias apt-m='apt-mark'
 alias apt-msa='apt-mark showauto'
 alias apt-msm='apt-mark showauto'
 alias apt-msu="comm -23 <(apt-mark showmanual | sort -u) <(gzip -dc /var/log/installer/initial-status.gz | sed -n 's/^Package: //p' | sort -u)"
 alias apt-msd="comm -23 <(apt-mark showauto | sort -u) <(gzip -dc /var/log/installer/initial-status.gz | sed -n 's/^Package: //p' | sort -u)"
 alias apt-plw="comm -23 <(apt-mark showmanual | sort -u) <(gzip -dc /var/log/installer/initial-status.gz | sed -n 's/^Package: //p' | sort -u) | tee "
-alias apt-se='apt search'
-alias apt-sh='apt show'
-alias apt-sha='apt show -a'
 alias apt-Si='sudo apt install'
 alias apt-Siy='sudo apt install -y'
 alias apt-Sui='sudo apt update && sudo apt install'
@@ -51,15 +51,15 @@ smapt () {
     echo "smapt   - Show this help output (alias: apt-help)"
     echo "apt-l   - apt list - list packages based on package names"
     echo "apt-lu  - apt list --upgradeable - list packages that have available upgrades"
+    echo "apt-se  - apt search - search in package descriptions"
+    echo "apt-sh  - apt show - show package details"
+    echo "apt-sha - apt show -a - show all package details"
     echo "apt-m   - apt-mark - simple command line interface for marking packages as manually or automatically installed"
     echo "apt-msa - apt-mark showauto - Print the list of automatically installed packages"
     echo "apt-msm - apt-mark showmanual - Print the list of manually installed packages"
     echo "apt-msu - apt-mark showmanual - Print the list of user installed packages"
     echo "apt-msd - apt-mark showauto - Print the list of user packages that were installed as dependencies"
     echo "apt-plw - apt-mark showmanual - Write user installed package list to specified file"
-    echo "apt-se  - apt search - search in package descriptions"
-    echo "apt-sh  - apt show - show package details"
-    echo "apt-sha - apt show -a - show all package details"
     echo "apt-Si  - sudo apt install - install packages"
     echo "apt-Sui - sudo apt update && sudo apt install - update packages list and install packages"
     echo "apt-Sr  - sudo apt remove - remove packages"
