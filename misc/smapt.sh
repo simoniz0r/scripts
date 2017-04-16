@@ -15,6 +15,11 @@ cat >~/.smapt_aliases <<EOL
 alias smapt='smapt-help'
 alias smapt-l='apt list'
 alias smapt-lu='apt list --upgradeable'
+alias smapt-m='apt-mark'
+alias smapt-msa='apt-mark showauto'
+alias smapt-msm='apt-mark showauto'
+alias smapt-msu="comm -23 <(apt-mark showmanual | sort -u) <(gzip -dc /var/log/installer/initial-status.gz | sed -n 's/^Package: //p' | sort -u)"
+alias smapt-plw="comm -23 <(apt-mark showmanual | sort -u) <(gzip -dc /var/log/installer/initial-status.gz | sed -n 's/^Package: //p' | sort -u) | tee $2"
 alias smapt-se='apt search'
 alias smapt-sh='apt show'
 alias smapt-sha='apt show -a'
@@ -44,6 +49,11 @@ smapt-help () {
     echo
     echo "smapt-l   - apt list - list packages based on package names"
     echo "smapt-lu  - apt list --upgradeable - list packages that have available upgrades"
+    echo "smapt-m   - apt-mark - simple command line interface for marking packages as manually or automatically installed"
+    echo "smapt-msa - apt-mark showauto - Print the list of automatically installed packages"
+    echo "smapt-msm - apt-mark showmanual - Print the list of manually installed packages"
+    echo "smapt-msu - apt-mark showmanual with other pipes - Print the list of user installed packages"
+    echo "smapt-plw - apt-mark showmanual with other pipes - Write user installed package list to specified file"
     echo "smapt-se  - apt search - search in package descriptions"
     echo "smapt-sh  - apt show - show package details"
     echo "smapt-sha - apt show -a - show all package details"
