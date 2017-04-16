@@ -15,7 +15,7 @@ helpfunc () {
     echo "easyrm.sh - http://www.simonizor.gq/scripts"
     echo "A script that uses 'mv' to move files to '~/.easyrmtmp' instead of deleting them."
     echo
-    echo "Usage: './easyrm.sh /path/to/file', './easyrm.sh /path/to/folder/', or ./easyrm.sh -h"
+    echo "Usage: './easyrm.sh /path/to/file', './easyrm.sh /path/to/folder/', or './easyrm.sh -h'"
     echo "Arguments:"
     echo "-h : Shows this help output"
     echo "-u : Check for new version of easyrm.sh."
