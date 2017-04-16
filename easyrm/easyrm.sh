@@ -130,8 +130,10 @@ main () {
                 fi
                 if [ "$REALNUM" = "1" ]; then
                     echo "$REALNUM file or directory."
+                    echo "File/directory is listed with its original location:"
                 else
                     echo "$REALNUM files and/or directories."
+                    echo "Files/directories are listed with their original location:"
                 fi
                 cat ~/.easyrmtmp/movedfiles.conf
                 ;;
