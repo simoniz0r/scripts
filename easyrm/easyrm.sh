@@ -5,8 +5,8 @@
 # A POSIX variable
 OPTIND=1         # Reset in case getopts has been used previously in the shell.
 
-ERMVER="1.1.8"
-X="v1.1.8 - Fixed restore to work properly with folders."
+ERMVER="1.1.9"
+X="v1.1.9 - Removed '-f' argument; '-c' now uses 'rm -rf' by default as I could see no real reason not to have this be default behavior."
 # ^^ Remember to update these every release; do not move their line position (eliminate version.txt eventually)!
 SCRIPTNAME="$0"
 ARG="$1"
@@ -22,7 +22,6 @@ helpfunc () {
     echo "-r : Restore a file from '~/.easyrmtmp'; will find closest matching file and restore it to its original location."
     echo "-d : Deletes a specifc file from '~/.easyrmtmp' instead of clearing the whole folder"
     echo "-c : Removes all files and folders from '~/.easyrmtmp'"
-    echo "-f : Removes all files and folders from '~/.easyrmtmp' by force; use for errors with '-c'."
 }
 
 easyrm () {
@@ -182,7 +181,7 @@ main () {
                 read -p "Perminantly delete $2 (original location $DELFILE)? Y/N" -n 1 -r
                 echo
                 if [[ $REPLY =~ ^[Yy]$ ]]; then
-                    rm -r ~/.easyrmtmp/"$2"*
+                    rm -rf ~/.easyrmtmp/"$2"*
                 else
                     echo "$2 (original location $DELFILE) was not deleted!"
                     exit 0
@@ -207,41 +206,13 @@ main () {
                 echo
                 if [[ $REPLY =~ ^[Yy]$ ]]; then
                     cd ~/.easyrmtmp
-                    ls | grep -v 'movedfiles.conf' | xargs rm -r
+                    ls | grep -v 'movedfiles.conf' | xargs rm -rf
                     echo "" > ~/.easyrmtmp/movedfiles.conf
                     sed -i '/^$/d' ~/.easyrmtmp/movedfiles.conf
                     if [ "$REALNUM" = "1" ]; then
                         echo "$REALNUM file or folder has been permanently deleted!"
                     else
                         echo "$REALNUM files and/or folders have been permanently deleted!"
-                    fi
-                else
-                    echo "Files and folders in '~/.easyrmtmp' were not deleted!"
-                fi
-                ;;
-            -f*|--f*)
-                REALNUM="$(cat ~/.easyrmtmp/movedfiles.conf | wc -l)"
-                if [ "$REALNUM" = "0" ]; then
-                    echo "No files in ~/.easyrmtmp; exiting..."
-                    exit 0
-                fi
-                if [ "$REALNUM" = "1" ]; then
-                    echo "The following file or folder in '~/.easyrmtmp' will be permanently deleted by force:"
-                else
-                    echo "The following files and/or folders in '~/.easyrmtmp' will be permanently deleted by force:"
-                fi
-                cat ~/.easyrmtmp/movedfiles.conf
-                read -p "Continue? Y/N" -n 1 -r
-                echo
-                if [[ $REPLY =~ ^[Yy]$ ]]; then
-                    cd ~/.easyrmtmp
-                    ls | grep -v 'movedfiles.conf' | xargs rm -rf
-                    echo "" > ~/.easyrmtmp/movedfiles.conf
-                    sed -i '/^$/d' ~/.easyrmtmp/movedfiles.conf
-                    if [ "$REALNUM" = "1" ]; then
-                        echo "$REALNUM file or folder has been permanently deleted by force!"
-                    else
-                        echo "$REALNUM files and/or folders have been permanently deleted by force!"
                     fi
                 else
                     echo "Files and folders in '~/.easyrmtmp' were not deleted!"

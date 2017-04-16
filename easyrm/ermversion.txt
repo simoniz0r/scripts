@@ -1,2 +1,2 @@
-ERMVER="1.1.8"
-X="v1.1.8 - Fixed restore to work properly with folders."
+ERMVER="1.1.9"
+X="v1.1.9 - Removed '-f' argument; '-c' now uses 'rm -rf' by default as I could see no real reason not to have this be default behavior."
