@@ -71,11 +71,11 @@ smapt () {
     echo "apt-Sfu - sudo apt full-upgrade - fully upgrade the system by removing/installing/upgrading packages"
     echo "apt-Sar - sudo apt-add-repository - apt-add-repository is a script for adding apt sources.list entries"
     echo "apt-Ses - sudo apt edit-sources - edit the source information file"
-    echo
-    echo "smapt-uninstall - Remove ~/.smapt_aliases and restart $SHELL"
     echo 
     echo "Appedning 'y' will add '-y' to any of the relevant arguments."
     echo "Ex: 'apt-Siy packagename' runs 'sudo apt install -y packagename'"
+    echo
+    echo "smapt-uninstall - Remove ~/.smapt_aliases and restart $SHELL"
     echo
 }
 EOL
