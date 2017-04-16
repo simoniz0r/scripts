@@ -48,6 +48,7 @@ smapt () {
     echo "smapt - http://www.simonizor.gq/scripts"
     echo "smarter apt; a set of aliases that shorten apt's arguments"
     echo
+    echo "smapt   - alias apt-help - Show this help output"
     echo "apt-l   - apt list - list packages based on package names"
     echo "apt-lu  - apt list --upgradeable - list packages that have available upgrades"
     echo "apt-m   - apt-mark - simple command line interface for marking packages as manually or automatically installed"
