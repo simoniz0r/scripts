@@ -12,7 +12,7 @@
 
 addaliases () {
 cat >~/.smapt_aliases <<EOL
-alias apt-h='apt-help'
+alias apt-help='smapt'
 alias apt-l='apt list'
 alias apt-lu='apt list --upgradeable'
 alias apt-m='apt-mark'
@@ -43,7 +43,7 @@ alias apt-Sar='sudo apt-add-repository'
 alias apt-Sary='sudo apt-add-repository -y'
 alias apt-Ses='sudo apt edit-sources'
 
-apt-help () {
+smapt () {
     echo
     echo "smapt - http://www.simonizor.gq/scripts"
     echo "smarter apt; a set of aliases that shorten apt's arguments"
