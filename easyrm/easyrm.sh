@@ -19,8 +19,8 @@ helpfunc () {
     echo "-h : Shows this help output"
     echo "-u : Check for new version of easyrm.sh."
     echo "-l : Shows list of files in '~/.easyrmtmp'"
-    echo "-r : Restore a file from '~/.easyrmtmp'; will find closest matching file and restore it to its original location."
-    echo "-d : Deletes a specifc file from '~/.easyrmtmp' instead of clearing the whole folder"
+    echo "-r : Restore a file from '~/.easyrmtmp'; will find closest matching file/folder and restore it to its original location."
+    echo "-d : Deletes a specifc file from '~/.easyrmtmp' instead of clearing the whole folder; will find closest matching file/folder name."
     echo "-c : Removes all files and folders from '~/.easyrmtmp'"
 }
 
