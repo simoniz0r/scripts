@@ -68,7 +68,7 @@ smapt () {
     echo "apt-Sug - sudo apt upgrade - upgrade the system by installing/upgrading packages"
     echo "apt-Suu - sudo apt update && sudo apt upgrade - run apt update and then apt upgrade"
     echo "apt-Sfu - sudo apt full-upgrade - fully upgrade the system by removing/installing/upgrading packages"
-    echo "apt-Sar - sudo apt-add-repository - apt-add-repository is a script for adding apt sources.list entries."
+    echo "apt-Sar - sudo apt-add-repository - apt-add-repository is a script for adding apt sources.list entries"
     echo "apt-Ses - sudo apt edit-sources - edit the source information file"
     echo 
     echo "Appedning 'y' will add '-y' to any of the relevant arguments."
