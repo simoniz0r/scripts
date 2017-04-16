@@ -15,7 +15,6 @@ helpfunc () {
     echo "easyrm.sh - http://www.simonizor.gq/scripts"
     echo "A script that uses 'mv' and 'rm' to move files to '~/.easyrmtmp' instead of deleting them by default."
     echo "Usage: 'easyrm.sh /path/to/file' or 'easyrm.sh /path/to/directory/'"
-    echo "Note: Directories must have the trailing '/' or you will receive an error."
     echo "Arguments:"
     echo "-h : Shows this help output"
     echo "-u : Check for new version of easyrm.sh."
