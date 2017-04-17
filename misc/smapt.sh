@@ -44,7 +44,8 @@ alias apt-Sfuy='sudo apt full-upgrade -y'
 alias apt-Sar='sudo apt-add-repository'
 alias apt-Sary='sudo apt-add-repository -y'
 alias apt-Ses='sudo apt edit-sources'
-alias smapt-uninstall='rm ~/.smapt_aliases && $SHELL'
+alias smapt-update="rm -f ~/.smapt_aliases && wget -O ~/.smapt_aliases "https://github.com/simoniz0r/UsefulScripts/raw/master/misc/.smapt_aliases" && $SHELL"
+alias smapt-uninstall="rm -f ~/.smapt_aliases && $SHELL"
 
 smapt () {
     echo
@@ -77,6 +78,7 @@ smapt () {
     echo "Appedning 'y' will add '-y' to any of the relevant arguments."
     echo "Ex: 'apt-Siy packagename' runs 'sudo apt install -y packagename'"
     echo
+    echo "smapt-update    - Update ~/.smapt_aliases from the github repo using 'wget'"
     echo "smapt-uninstall - Remove ~/.smapt_aliases and restart $SHELL"
     echo
 }
