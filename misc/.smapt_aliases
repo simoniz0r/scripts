@@ -1,5 +1,6 @@
 alias apt-help='smapt'
 alias apt-l='apt list'
+alias apt-la='apt list -a'
 alias apt-lu='apt list --upgradeable'
 alias apt-se='apt search'
 alias apt-sh='apt show'
@@ -38,6 +39,7 @@ smapt () {
     echo
     echo "smapt   - Show this help output (alias: apt-help)"
     echo "apt-l   - apt list - list packages based on package names"
+    echo "apt-la  - apt list -a - list all versions of packages based on package names"
     echo "apt-lu  - apt list --upgradeable - list packages that have available upgrades"
     echo "apt-se  - apt search - search in package descriptions"
     echo "apt-sh  - apt show - show package details"
