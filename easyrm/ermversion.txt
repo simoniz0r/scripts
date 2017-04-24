@@ -1,2 +1,2 @@
-ERMVER="1.2.0"
-X="v1.2.0 - Cleaned up the help function."
+ERMVER="1.2.1"
+X="v1.2.1 - Check for duplicate files in '~/.easyrmtmp' before moving files there to avoid errors when attempting to remove or restore those files."

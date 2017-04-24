@@ -5,8 +5,8 @@
 # A POSIX variable
 OPTIND=1         # Reset in case getopts has been used previously in the shell.
 
-ERMVER="1.2.0"
-X="v1.2.0 - Cleaned up the help function."
+ERMVER="1.2.1"
+X="v1.2.1 - Check for duplicate files in '~/.easyrmtmp' before moving files there to avoid errors when attempting to remove or restore those files."
 # ^^ Remember to update these every release; do not move their line position (eliminate version.txt eventually)!
 SCRIPTNAME="$0"
 ARG="$1"
@@ -32,20 +32,13 @@ easyrm () {
         echo "$ARG does not exist!"
         exit 0
     fi
-   # echo "$ARG will be moved to '~/.easyrmtmp'..."
-   # read -p "Continue? Y/N" -n 1 -r
-   # echo
-   # if [[ $REPLY =~ ^[Yy]$ ]]; then
+    if grep -q -a "$ARG" ~/.easyrmtmp/movedfiles.conf; then
+        echo "$ARG already exists in '~/.easyrmtmp'; remove this file in '~/.easyrmtmp' before proceeding."
+        exit 0
+    fi
     mv $ARG ~/.easyrmtmp/ || { echo "Move failed!" ; exit 0 ; }
-        # if [ ! -f ~/.easyrmtmp/$ARG ] && [ ! -f ~/.easyrmtmp/$ORIG ]; then
-        #     echo "Move failed!"
-        #     exit 0
-        # fi
     echo "$ARG" >> ~/.easyrmtmp/movedfiles.conf
     echo "$ARG has been moved to '~/.easyrmtmp'!"
-   # else
-   #     echo "$ARG was not moved!"
-   # fi
 }
 
 updatescript () {
