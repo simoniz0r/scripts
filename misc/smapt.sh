@@ -32,7 +32,9 @@ alias apt-Siy='sudo apt install -y'
 alias apt-Sui='sudo apt update && sudo apt install'
 alias apt-Suiy='sudo apt update && sudo apt install -y'
 alias apt-Sr='sudo apt remove'
+alias apt-Srp='sudo apt remove --purge'
 alias apt-Sry='sudo apt remove -y'
+alias apt-Srpy='sudo apt remove -y --purge'
 alias apt-Sa='sudo apt autoremove'
 alias apt-Say='sudo apt autoremove -y'
 alias apt-Sud='sudo apt update && apt list --upgradeable'
@@ -69,6 +71,7 @@ smapt () {
     echo "apt-Si  - sudo apt install - install packages"
     echo "apt-Sui - sudo apt update && sudo apt install - update packages list and install packages"
     echo "apt-Sr  - sudo apt remove - remove packages"
+    echo "apt-Srp - sudo apt remove --purge - remove packages and files related to them (configs, etc)"
     echo "apt-Sa  - sudo apt autoremove - Remove automatically all unused packages"
     echo "apt-Sud - sudo apt update - update list of available packages"
     echo "apt-Sug - sudo apt upgrade - upgrade the system by installing/upgrading packages"
