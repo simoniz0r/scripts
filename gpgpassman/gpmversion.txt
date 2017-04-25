@@ -1,6 +1,2 @@
-GPMVER="1.2.9"
-X="v1.2.9 - Added check for 'wget' before running updatecheck."
-
-PLANS:
-
-Figure out a more elegant way to generate passwords and have them show in the GUI
+GPMVER="1.3.0"
+X="v1.3.0 - Use 'zenity' for password input during decription to avoid errors with gpg-agent."
