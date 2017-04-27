@@ -1,2 +1,2 @@
-ERMVER="1.2.1"
-X="v1.2.1 - Check for duplicate files in '~/.easyrmtmp' before moving files there to avoid errors when attempting to remove or restore those files."
+ERMVER="1.2.2"
+X="v1.2.2 - Added quotes around $ARG in easyrm function to prevent splitting with filenames containing spaces."

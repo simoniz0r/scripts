@@ -5,8 +5,8 @@
 # A POSIX variable
 OPTIND=1         # Reset in case getopts has been used previously in the shell.
 
-ERMVER="1.2.1"
-X="v1.2.1 - Check for duplicate files in '~/.easyrmtmp' before moving files there to avoid errors when attempting to remove or restore those files."
+ERMVER="1.2.2"
+X="v1.2.2 - Added quotes around $ARG in easyrm function to prevent splitting with filenames containing spaces."
 # ^^ Remember to update these every release; do not move their line position (eliminate version.txt eventually)!
 SCRIPTNAME="$0"
 ARG="$1"
@@ -36,7 +36,7 @@ easyrm () {
         echo "$ARG already exists in '~/.easyrmtmp'; remove this file in '~/.easyrmtmp' before proceeding."
         exit 0
     fi
-    mv $ARG ~/.easyrmtmp/ || { echo "Move failed!" ; exit 0 ; }
+    mv "$ARG" ~/.easyrmtmp/ || { echo "Move failed!" ; exit 0 ; }
     echo "$ARG" >> ~/.easyrmtmp/movedfiles.conf
     echo "$ARG has been moved to '~/.easyrmtmp'!"
 }
