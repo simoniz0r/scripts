@@ -1,13 +1,13 @@
 #!/bin/bash
 # A script that uses 'gpg' to encrypt and decrypt passwords stored in '~/.gpgpassman'.
-# Dependencies: 'gpg', 'xclip', 'curl' and 'wget' (optional; for auto-updating gpgpassman), 'apg' (optional; for generationg passwords), 'zenity' (optional; for GUI)
+# Dependencies: 'gpg', 'xclip', 'wget' (optional; for auto-updating gpgpassman), 'apg' (optional; for generationg passwords), 'zenity' (optional; for GUI)
 # If you have 'zenity' installed, executing 'gpgpassman gui' will show a full GUI for all of the scripts options.
 # Also with 'zenity', you can execuite 'gpgpassman dec' for direct access to decrypting passwords; can be used with a keybind.
 # Written by simonizor 3/22/2017 - http://www.simonizor.gq/gpgpassman
 
-GPMVER="1.3.0"
-X="v1.3.0 - Use 'zenity' for password input during decription to avoid errors with gpg-agent."
-# ^^Remember to update this and gpmversion.txt every release!
+GPMVER="1.3.1"
+X="v1.3.1 - Check for no password input when decrypting using gui.  Remove 'curl' dependency by using 'wget' for update check."
+# ^^Remember to update this every release and do not move their position!
 SCRIPTNAME="$0"
 GPMDIR="$(< ~/.config/gpgpassman/gpgpassman.conf)"
 GPMINITDIR=~/.gpgpassman
@@ -76,8 +76,8 @@ EOL
 
 updatecheck () {
     echo "Checking for new version..."
-    UPNOTES=$(curl -v --silent https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/gpgpassman/gpmversion.txt 2>&1 | grep X= | tr -d 'X="')
-    VERTEST=$(curl -v --silent https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/gpgpassman/gpmversion.txt 2>&1 | grep GPMVER= | tr -d 'GPMVER="')
+    UPNOTES="$(wget -q "https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/gpgpassman/gpgpassman.sh" -O - | sed -n '9p' | tr -d 'X="')"
+    VERTEST="$(wget -q "https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/gpgpassman/gpgpassman.sh" -O - | sed -n '8p' | tr -d 'GPMVER="')"
     if [[ $GPMVER < $VERTEST ]]; then
         echo "Installed version: $GPMVER -- Current version: $VERTEST"
         echo "A new version is available!"
@@ -348,6 +348,12 @@ main () {
                 if [[ $? -eq 1 ]]; then
                     SERVNAME=""
                     zenitymain
+                    exit 0
+                fi
+                if [ -z "$PASSINPUT" ]; then
+                    zenity --error --text="No password entered!"
+                    SERVNAME=""
+                    main "dec"
                     exit 0
                 fi
                 echo -n "$(gpg -d --passphrase $PASSINPUT $SERVNAME)" | xclip -selection c -i
