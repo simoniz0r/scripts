@@ -1,2 +1,2 @@
-ERMVER="1.2.2"
-X="v1.2.2 - Added quotes around $ARG in easyrm function to prevent splitting with filenames containing spaces."
+ERMVER="1.2.3"
+X="v1.2.3 - Fixed '-d' so it will always remove matching files."
