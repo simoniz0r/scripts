@@ -1,2 +1,2 @@
-ERMVER="1.2.3"
-X="v1.2.3 - Fixed '-d' so it will always remove matching files."
+ERMVER="1.2.4"
+X="v1.2.4 - Reverted last change; didn't work with files starting with '.'."

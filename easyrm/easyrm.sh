@@ -5,8 +5,8 @@
 # A POSIX variable
 OPTIND=1         # Reset in case getopts has been used previously in the shell.
 
-ERMVER="1.2.3"
-X="v1.2.3 - Fixed '-d' so it will always remove matching files."
+ERMVER="1.2.4"
+X="v1.2.4 - Reverted last change; didn't work with files starting with '.'."
 # ^^ Remember to update these every release; do not move their line position (eliminate version.txt eventually)!
 SCRIPTNAME="$0"
 ARG="$1"
@@ -177,7 +177,7 @@ main () {
                 read -p "Perminantly delete $2 (original location $DELFILE)? Y/N" -n 1 -r
                 echo
                 if [[ $REPLY =~ ^[Yy]$ ]]; then
-                    rm -rf ~/.easyrmtmp/*"$2"*
+                    rm -rf ~/.easyrmtmp/"$2"*
                 else
                     echo "$2 (original location $DELFILE) was not deleted!"
                     exit 0
