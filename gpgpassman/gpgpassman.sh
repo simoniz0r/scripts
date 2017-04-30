@@ -5,8 +5,8 @@
 # Also with 'zenity', you can execuite 'gpgpassman dec' for direct access to decrypting passwords; can be used with a keybind.
 # Written by simonizor 3/22/2017 - http://www.simonizor.gq/gpgpassman
 
-GPMVER="1.3.1"
-X="v1.3.1 - Check for no password input when decrypting using gui.  Remove 'curl' dependency by using 'wget' for update check."
+GPMVER="1.3.2"
+X="v1.3.2 - Changed password decryption in GUI mode to use gpg-agent as it did previously; it resulted in two password inputs being required if gpg-agent is running properly."
 # ^^Remember to update this every release and do not move their position!
 SCRIPTNAME="$0"
 GPMDIR="$(< ~/.config/gpgpassman/gpgpassman.conf)"
@@ -344,19 +344,7 @@ main () {
                 echo -n "Password cleared from clipboard" | xclip -selection c -i
                 echo "Password cleard from clipboard."
             elif [ "$ZHEADLESS" = "1" ]; then
-                PASSINPUT=$(zenity --entry --hide-text --text="Enter your password for $SERVNAME:")
-                if [[ $? -eq 1 ]]; then
-                    SERVNAME=""
-                    zenitymain
-                    exit 0
-                fi
-                if [ -z "$PASSINPUT" ]; then
-                    zenity --error --text="No password entered!"
-                    SERVNAME=""
-                    main "dec"
-                    exit 0
-                fi
-                echo -n "$(gpg -d --passphrase $PASSINPUT $SERVNAME)" | xclip -selection c -i
+                echo -n "$(gpg -d $SERVNAME)" | xclip -selection c -i
                 if [ "$(xclip -selection c -o)" = "" ]; then
                     zenity --error --text="Wrong password or gpg failure!"
                     SERVNAME=""
