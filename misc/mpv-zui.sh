@@ -18,7 +18,7 @@ main () {
             exit 0
         fi
     fi
-    MPVARGS=$(zenity --entry --title=mpv-zui --text="Input arguments for mpv" --entry-text="--border=yes --vo=opengl --hwdec=vaapi --cache=no --cache-pause=no --cache-secs=0")
+    MPVARGS=$(zenity --entry --title=mpv-zui --text="Input the arguments that you would like to run mpv with:" --entry-text="--border=yes --vo=opengl --hwdec=vaapi --cache=no --cache-pause=no --cache-secs=0")
 #    MPVARGS=$(zenity --list --multiple --editable --text="Select arguments to run mpv with" --title="mpv-zui" --column="Arguments" "${DASH}vo=opengl" "${DASH}hwdec=vaapi") # List commonly used arguments for selection, maybe have it be editable with a couple of blank entries that can be custom arguments
     if [[ $? -eq 1 ]]; then
         exit 0
