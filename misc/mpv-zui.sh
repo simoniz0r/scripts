@@ -20,7 +20,6 @@ mpvfile () {
 }
 
 mpvargs () {
-# This doesn't work because zenity; figure out how to fix it to make more convenient:    MPVARGS=$(zenity --list --multiple --editable --text="Select arguments to run mpv with" --title="mpv-zui" --column="Arguments" "--vo=opengl" "--hwdec=vaapi") # List commonly used arguments for selection, maybe have it be editable with a couple of blank entries that can be custom arguments
     ARGFILE="$(< ~/.config/mpv-zui/args.conf)"
     MPVARGS=$(zenity --entry --title=mpv-zui --cancel-label="List options" --text="Input the arguments that you would like to run mpv with:" --entry-text="$ARGFILE")
         if [[ $? -eq 1 ]]; then
