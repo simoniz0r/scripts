@@ -56,7 +56,7 @@ if [ "$return" = "1" ]; then
             mkdir ~/.config/mpv-zui
         fi
         if [ ! -f "~/.config/mpv-zui/args.conf" ]; then
-            echo "--border=yes --vo=opengl --hwdec=vaapi --cache=no --cache-pause=no --cache-secs=0" > ~/.config/mpv-zui/args.conf
+            echo "--border=no --vo=opengl --hwdec=vaapi" > ~/.config/mpv-zui/args.conf
         fi
         mpvfile
     else
