@@ -6,11 +6,11 @@
 # Description: A simple script that launches a zenity GUI for opening files or urls in mpv.  Also has some useful arguments added that can be easily customized.
 
 mpvfile () {
-    MPVFILE=$(zenity --entry --cancel-label="Exit mpv-zui" --title=mpv-zui --entry-text="Input a file or click OK to browse for a local file" --text="Input the path to a local file or input a remote url.")
+    MPVFILE=$(zenity --entry --cancel-label="Exit mpv-zui" --title=mpv-zui --entry-text="/home/$USER/" --text="Input the path to a local file or input a remote url.\nClick OK without changing the text in the entry field to browse for a file.")
     if [[ $? -eq 1 ]]; then
         exit 0
     fi
-    if [ "$MPVFILE" = "Input a file or click OK to browse for a local file" ]; then
+    if [ "$MPVFILE" = "/home/$USER/" ]; then
         MPVFILE=$(zenity --file-selection --filename="/home/$USER/")
         if [[ $? -eq 1 ]]; then
             exit 0
