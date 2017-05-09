@@ -21,13 +21,18 @@ mpvfile () {
 
 mpvargs () {
 # This doesn't work because zenity; figure out how to fix it to make more convenient:    MPVARGS=$(zenity --list --multiple --editable --text="Select arguments to run mpv with" --title="mpv-zui" --column="Arguments" "--vo=opengl" "--hwdec=vaapi") # List commonly used arguments for selection, maybe have it be editable with a couple of blank entries that can be custom arguments
-    MPVARGS=$(zenity --entry --title=mpv-zui --cancel-label="List options" --text="Input the arguments that you would like to run mpv with:" --entry-text="--border=yes --vo=opengl --hwdec=vaapi --cache=no --cache-pause=no --cache-secs=0")
+    ARGFILE="$(< ~/.config/mpv-zui/args.conf)"
+    MPVARGS=$(zenity --entry --title=mpv-zui --cancel-label="List options" --text="Input the arguments that you would like to run mpv with:" --entry-text="$ARGFILE")
         if [[ $? -eq 1 ]]; then
             mpv --list-options | zenity --text-info --cancel-label="Exit mpv-zui" --ok-label="Back" --width=710 --height=600 && mpvargs
         if [[ $? -eq 1 ]]; then
             exit 0
         fi
     fi
+    if [ ! -d "~/.config/mpv-zui" ]; then
+        mkdir ~/.config/mpv-zui
+    fi
+    echo "$MPVARGS" > ~/.config/mpv-zui/args.conf
     mpvrun
 }
 
@@ -47,6 +52,12 @@ programisinstalled "zenity"
 if [ "$return" = "1" ]; then
     programisinstalled "mpv"
     if [ "$return" = "1" ]; then
+        if [ ! -d "~/.config/mpv-zui" ]; then
+            mkdir ~/.config/mpv-zui
+        fi
+        if [ ! -f "~/.config/mpv-zui/args.conf" ]; then
+            echo "--border=yes --vo=opengl --hwdec=vaapi --cache=no --cache-pause=no --cache-secs=0" > ~/.config/mpv-zui/args.conf
+        fi
         mpvfile
     else
         echo "mpv is not installed!"
