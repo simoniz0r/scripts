@@ -4,6 +4,7 @@
 # URL: http://www.simonizor.gq/scripts
 # Dependencies: mpv, zenity
 # Description: A simple script that launches a zenity GUI for opening files or urls in mpv.  Also has some useful arguments added that can be easily customized.
+# TODO: Create icon, .desktop file, and installer.  Move to own folder instead of misc.  Move to Linux Apps on website instead of scripts.
 
 mpvfile () {
     MPVFILE=$(zenity --entry --cancel-label="Exit mpv-zui" --title=mpv-zui --entry-text="" --text="Input the path to a local file or input a remote url.\nLeave the entry field blank to open the file selection window.")
@@ -23,11 +24,12 @@ mpvargs () {
     ARGFILE="$(< ~/.config/mpv-zui/args.conf)"
     MPVARGS=$(zenity --entry --title=mpv-zui --cancel-label="List options" --text="Input the arguments that you would like to run mpv with:" --entry-text="$ARGFILE")
         if [[ $? -eq 1 ]]; then
-            mpv --list-options | zenity --text-info --cancel-label="Exit mpv-zui" --ok-label="Back" --width=710 --height=600 && mpvargs
-        if [[ $? -eq 1 ]]; then
-            exit 0
+            mpv --list-options | zenity --text-info --cancel-label="Exit mpv-zui" --ok-label="Back" --width=710 --height=600
+            if [[ $? -eq 1 ]]; then
+                exit 0
+            fi
+            mpvargs
         fi
-    fi
     if [ ! -d ~/.config/mpv-zui ]; then
         mkdir ~/.config/mpv-zui
     fi
