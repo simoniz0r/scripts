@@ -28,7 +28,7 @@ mpvargs () {
             exit 0
         fi
     fi
-    if [ ! -d "~/.config/mpv-zui" ]; then
+    if [ ! -d ~/.config/mpv-zui ]; then
         mkdir ~/.config/mpv-zui
     fi
     echo "$MPVARGS" > ~/.config/mpv-zui/args.conf
@@ -51,10 +51,10 @@ programisinstalled "zenity"
 if [ "$return" = "1" ]; then
     programisinstalled "mpv"
     if [ "$return" = "1" ]; then
-        if [ ! -d "~/.config/mpv-zui" ]; then
+        if [ ! -d ~/.config/mpv-zui ]; then
             mkdir ~/.config/mpv-zui
         fi
-        if [ ! -f "~/.config/mpv-zui/args.conf" ]; then
+        if [ ! -f ~/.config/mpv-zui/args.conf ]; then
             echo "--border=no --vo=opengl --hwdec=vaapi" > ~/.config/mpv-zui/args.conf
         fi
         mpvfile
