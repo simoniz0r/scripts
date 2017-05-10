@@ -41,7 +41,7 @@ mpvargs () {
 }
 
 mpvrun () {
-    mpv $MPVARGS "$MPVFILE"
+    mpv $MPVARGS "$MPVFILE" || { zenity --error --title="mpv-zui" --text="Playback failed!" ; mpvfile ; }
     MPVARGS=""
     MPVFILE=""
     mpvfile
