@@ -7,15 +7,19 @@
 # TODO: Create icon, .desktop file, and installer.  Move to own folder instead of misc.  Move to Linux Apps on website instead of scripts.
 
 mpvfile () {
-    MPVFILE=$(zenity --entry --cancel-label="Exit mpv-zui" --title=mpv-zui --entry-text="" --text="Input the path to a local file or input a remote url.\nLeave the entry field blank to open the file selection window.")
-    if [[ $? -eq 1 ]]; then
-        exit 0
-    fi
-    if [ -z "$MPVFILE" ]; then
-        MPVFILE=$(zenity --file-selection --filename="/home/$USER/")
+    if [ -z $1 ]; then
+        MPVFILE=$(zenity --entry --cancel-label="Exit mpv-zui" --title=mpv-zui --entry-text="" --text="Input the path to a local file or input a remote url.\nLeave the entry field blank to open the file selection window.")
         if [[ $? -eq 1 ]]; then
-            mpvfile
+            exit 0
         fi
+        if [ -z "$MPVFILE" ]; then
+            MPVFILE=$(zenity --file-selection --filename="/home/$USER/")
+            if [[ $? -eq 1 ]]; then
+                mpvfile
+            fi
+        fi
+    else
+        MPVFILE="$1"
     fi
     mpvargs
 }
@@ -59,7 +63,7 @@ if [ "$return" = "1" ]; then
         if [ ! -f ~/.config/mpv-zui/args.conf ]; then
             echo "--border=no --vo=opengl --hwdec=vaapi" > ~/.config/mpv-zui/args.conf
         fi
-        mpvfile
+        mpvfile "$@"
     else
         echo "mpv is not installed!"
     fi
