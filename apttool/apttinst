@@ -67,11 +67,16 @@ main () {
             fi
             exit 0
             ;;
-        *)
+        help)
             echo "Usage:"
             echo "'sudo ./apttinst install' for installation process"
             echo "'sudo ./apttinst uninstall' for uninstallation process"
             exit 0
+            ;;
+        *)
+            read -p "What would you like to do? install/uninstall "
+            echo
+            main "$REPLY"
     esac
         
 }
