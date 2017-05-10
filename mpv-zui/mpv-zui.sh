@@ -4,7 +4,6 @@
 # URL: http://www.simonizor.gq/scripts
 # Dependencies: mpv, zenity
 # Description: A simple script that launches a zenity GUI for opening files or urls in mpv.  Also has some useful arguments added that can be easily customized.
-# TODO: Create icon, .desktop file, and installer.  Move to own folder instead of misc.  Move to Linux Apps on website instead of scripts.
 
 mpvfile () {
     if [ -z $1 ]; then
