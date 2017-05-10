@@ -3,6 +3,6 @@ Type=Application
 Encoding=UTF-8
 Name=mpv-zui
 Comment=An application that can run apt options in a zenity GUI or in your terminal
-Exec=/usr/bin/mpv-zui gui
+Exec=/usr/bin/mpv-zui
 Icon=/usr/share/icons/mpv-zui.png
 Terminal=false
