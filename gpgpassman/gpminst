@@ -10,11 +10,11 @@ main () {
                 echo "gpgpassman was not installed."
                 exit 0
             fi
-            wget -O /tmp/gpgpassman https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/gpgpassman/gpgpassman.sh
+            wget -O /tmp/gpgpassman https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/gpgpassman/gpgpassman.sh  || { echo "Download failed!" ; exit 0 ; }
             if [ -f "/tmp/gpgpassman" ]; then
-                wget -O /tmp/gpgpassman.png https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/gpgpassman/gpgpassman.png
+                wget -O /tmp/gpgpassman.png https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/gpgpassman/gpgpassman.png  || { echo "Download failed!" ; exit 0 ; }
                 if [ -f "/tmp/gpgpassman.png" ]; then
-                    wget -O /tmp/gpgpassman.desktop https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/gpgpassman/gpgpassman.desktop
+                    wget -O /tmp/gpgpassman.desktop https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/gpgpassman/gpgpassman.desktop  || { echo "Download failed!" ; exit 0 ; }
                         if [ -f "/tmp/gpgpassman.desktop" ]; then
                             echo "Moving gpgpassman to /usr/bin/gpgpassman"
                             mv /tmp/gpgpassman /usr/bin/gpgpassman
