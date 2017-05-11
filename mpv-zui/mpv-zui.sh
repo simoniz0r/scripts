@@ -27,9 +27,16 @@ mpvargs () {
     ARGFILE="$(< ~/.config/mpv-zui/args.conf)"
     MPVARGS=$(zenity --entry --title=mpv-zui --cancel-label="List options" --text="Input the arguments that you would like to run mpv with:" --entry-text="$ARGFILE")
         if [[ $? -eq 1 ]]; then
-            mpv --list-options | zenity --text-info --cancel-label="Exit mpv-zui" --ok-label="Back" --width=710 --height=600
+            mpv --list-options | zenity --text-info --cancel-label="Search mpv options" --ok-label="Back" --width=710 --height=600
             if [[ $? -eq 1 ]]; then
-                exit 0
+                LISTOPTS=$(zenity --entry --title=mpv-zui --text="Search for mpv options:")
+                if [[ $? -eq 1 ]]; then
+                    mpvargs
+                fi
+                { mpv --list-options | grep "$LISTOPTS" ; } | zenity --text-info --ok-label="Back" --width=710 --height=600
+                if [[ $? -eq 1 ]]; then
+                    mpvargs
+                fi
             fi
             mpvargs
         fi
