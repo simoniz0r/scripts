@@ -7,7 +7,7 @@
 
 mpvfile () {
     if [ -z $1 ]; then
-        MPVFILE="$(zenity --entry --cancel-label="Exit mpv-zui" --title=mpv-zui --entry-text="" --text="Input the path to a local file or input a remote url.\nLeave the entry field blank to open the file selection window.")"
+        MPVFILE="$(zenity --entry --cancel-label="Exit mpv-zui" --title=mpv-zui --entry-text="" --text="Input the path to local file(s) or input remote url(s).\nLeave the entry field blank to open the file selection window.")"
         if [[ $? -eq 1 ]]; then
             exit 0
         fi
@@ -18,7 +18,7 @@ mpvfile () {
             fi
         fi
     else
-        MPVFILE="$@"
+        MPVFILE="$(zenity --entry --cancel-label="Exit mpv-zui" --title=mpv-zui --entry-text="$@" --text="Input the path to local file(s) or input remote url(s).\nLeave the entry field blank to open the file selection window.")"
     fi
     mpvargs
 }
