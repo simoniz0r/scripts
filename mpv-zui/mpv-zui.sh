@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 # Title: mpv-zui
 # Author: simonizor
 # URL: http://www.simonizor.gq/scripts
@@ -7,18 +7,18 @@
 
 mpvfile () {
     if [ -z $1 ]; then
-        MPVFILE=$(zenity --entry --cancel-label="Exit mpv-zui" --title=mpv-zui --entry-text="" --text="Input the path to a local file or input a remote url.\nLeave the entry field blank to open the file selection window.")
+        MPVFILE="$(zenity --entry --cancel-label="Exit mpv-zui" --title=mpv-zui --entry-text="" --text="Input the path to a local file or input a remote url.\nLeave the entry field blank to open the file selection window.")"
         if [[ $? -eq 1 ]]; then
             exit 0
         fi
         if [ -z "$MPVFILE" ]; then
-            MPVFILE=$(zenity --file-selection --filename="/home/$USER/")
+            MPVFILE="$(zenity --file-selection --multiple --separator=" " --filename="/home/$USER/")"
             if [[ $? -eq 1 ]]; then
                 mpvfile
             fi
         fi
     else
-        MPVFILE="$1"
+        MPVFILE="$@"
     fi
     mpvargs
 }
@@ -41,7 +41,7 @@ mpvargs () {
 }
 
 mpvrun () {
-    mpv $MPVARGS "$MPVFILE" || { zenity --error --title="mpv-zui" --text="Playback failed!" ; mpvfile ; }
+    mpv $MPVARGS $MPVFILE || { zenity --error --title="mpv-zui" --text="mpv closed unexpectedly!" ; mpvfile ; }
     MPVARGS=""
     MPVFILE=""
     mpvfile
