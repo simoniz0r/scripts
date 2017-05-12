@@ -19,6 +19,9 @@ mpvfile () {
         fi
     else
         MPVFILE="$(zenity --entry --cancel-label="Exit mpv-zui" --title=mpv-zui --entry-text="$@" --text="Input the path to local file(s) or input remote url(s).\nLeave the entry field blank to open the file selection window.")"
+        if [[ $? -eq 1 ]]; then
+            exit 0
+        fi
     fi
     mpvargs
 }
