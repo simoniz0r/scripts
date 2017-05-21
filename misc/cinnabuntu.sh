@@ -1,7 +1,7 @@
 #!/bin/bash
 # Installs cinnamon-desktop-environment on Ubuntu 16.04 or later
 # To run this script remotely:
-# bash -c "$(wget https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/misc/cinnabuntu.sh -O -)"
+# bash -c "$(wget https://rawgit.com/simoniz0r/UsefulScripts/master/misc/cinnabuntu.sh -O -)"
 
 read -p "This script will install the meta package 'cinnamon-desktop-environment'.  Would you like to continue? Y/N "
 if [[ $REPLY =~ ^[Yy]$ ]]; then

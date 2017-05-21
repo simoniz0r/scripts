@@ -8,9 +8,9 @@
 # Running this script will create '~/.smapt_aliases' which will be loaded through your ~/.bashrc or ~/.zshrc; running it again will replace '~/.smapt_aliases'
 # Remote install:
 # via wget:
-# bash -c "$(wget https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/misc/smapt.sh -O -)" && $SHELL
+# bash -c "$(wget https://rawgit.com/simoniz0r/UsefulScripts/master/misc/smapt.sh -O -)" && $SHELL
 # via curl:
-# bash -c "$(curl -fsSL https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/misc/smapt.sh)" && $SHELL
+# bash -c "$(curl -fsSL https://rawgit.com/simoniz0r/UsefulScripts/master/misc/smapt.sh)" && $SHELL
 
 addaliases () {
 cat >~/.smapt_aliases <<EOL
