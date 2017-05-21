@@ -4,7 +4,7 @@
 # URL: http://www.simonizor.gq/scripts
 # Dependencies: apt for Ubuntu and Ubuntu flavors
 # Description: A simple script that adds aliases to make apt easier to use by shortening the arguments, run them as root easily, and append '-y'
-# Example: 'apt-Suuy' runs 'sudo apt update && sudo apt upgrade -y'
+# Example: 'apt-uuy' runs 'apt update && apt upgrade -y'
 # Running this script will create '~/.smapt_aliases' which will be loaded through your ~/.bashrc or ~/.zshrc; running it again will replace '~/.smapt_aliases'
 # Remote install:
 # via wget:
@@ -14,6 +14,7 @@
 
 addaliases () {
 cat >~/.smapt_aliases <<EOL
+alias sudo='sudo '
 alias apt-help='smapt'
 alias apt-l='apt list'
 alias apt-la='apt list -a'
@@ -27,28 +28,28 @@ alias apt-msm='apt-mark showmanual'
 alias apt-msu="comm -23 <(apt-mark showmanual | sort -u) <(gzip -dc /var/log/installer/initial-status.gz | sed -n 's/^Package: //p' | sort -u)"
 alias apt-msd="comm -23 <(apt-mark showauto | sort -u) <(gzip -dc /var/log/installer/initial-status.gz | sed -n 's/^Package: //p' | sort -u)"
 alias apt-plw="comm -23 <(apt-mark showmanual | sort -u) <(gzip -dc /var/log/installer/initial-status.gz | sed -n 's/^Package: //p' | sort -u) | tee "
-alias apt-Si='sudo apt install'
-alias apt-Sif='sudo apt install -f'
-alias apt-Siy='sudo apt install -y'
-alias apt-Sify='sudo apt install -y -f'
-alias apt-Sui='sudo apt update && sudo apt install'
-alias apt-Suiy='sudo apt update && sudo apt install -y'
-alias apt-Sr='sudo apt remove'
-alias apt-Srp='sudo apt remove --purge'
-alias apt-Sry='sudo apt remove -y'
-alias apt-Srpy='sudo apt remove -y --purge'
-alias apt-Sa='sudo apt autoremove'
-alias apt-Say='sudo apt autoremove -y'
-alias apt-Sud='sudo apt update && apt list --upgradeable'
-alias apt-Sug='sudo apt upgrade'
-alias apt-Sugy='sudo apt upgrade -y'
-alias apt-Suu='sudo apt update && sudo apt upgrade'
-alias apt-Suuy='sudo apt update && sudo apt upgrade -y'
-alias apt-Sfu='sudo apt full-upgrade'
-alias apt-Sfuy='sudo apt full-upgrade -y'
-alias apt-Sar='sudo apt-add-repository'
-alias apt-Sary='sudo apt-add-repository -y'
-alias apt-Ses='sudo apt edit-sources'
+alias apt-i='apt install'
+alias apt-if='apt install -f'
+alias apt-iy='apt install -y'
+alias apt-ify='apt install -y -f'
+alias apt-ui='apt update && sudo apt install'
+alias apt-uiy='apt update && sudo apt install -y'
+alias apt-r='apt remove'
+alias apt-rp='apt remove --purge'
+alias apt-ry='apt remove -y'
+alias apt-rpy='apt remove -y --purge'
+alias apt-a='apt autoremove'
+alias apt-ay='apt autoremove -y'
+alias apt-u='apt update && apt list --upgradeable'
+alias apt-U='apt upgrade'
+alias apt-Uy='apt upgrade -y'
+alias apt-uU='apt update && sudo apt upgrade'
+alias apt-uUy='apt update && sudo apt upgrade -y'
+alias apt-fu='apt full-upgrade'
+alias apt-fuy='apt full-upgrade -y'
+alias apt-ar='apt-add-repository'
+alias apt-ary='apt-add-repository -y'
+alias apt-es='apt edit-sources'
 alias smapt-update="rm -f ~/.smapt_aliases && wget -O ~/.smapt_aliases "https://github.com/simoniz0r/UsefulScripts/raw/master/misc/.smapt_aliases" && $SHELL"
 alias smapt-uninstall="rm -f ~/.smapt_aliases && $SHELL"
 
@@ -70,21 +71,21 @@ smapt () {
     echo "apt-msu - apt-mark showmanual - Print the list of user installed packages"
     echo "apt-msd - apt-mark showauto - Print the list of user packages that were installed as dependencies"
     echo "apt-plw - apt-mark showmanual - Write user installed package list to specified file"
-    echo "apt-Si  - sudo apt install - install packages"
-    echo "apt-Sif - sudo apt install -f - force dependencies to be installed for failed dpkg install"
-    echo "apt-Sui - sudo apt update && sudo apt install - update packages list and install packages"
-    echo "apt-Sr  - sudo apt remove - remove packages"
-    echo "apt-Srp - sudo apt remove --purge - remove packages and files related to them (configs, etc)"
-    echo "apt-Sa  - sudo apt autoremove - Remove automatically all unused packages"
-    echo "apt-Sud - sudo apt update - update list of available packages"
-    echo "apt-Sug - sudo apt upgrade - upgrade the system by installing/upgrading packages"
-    echo "apt-Suu - sudo apt update && sudo apt upgrade - run apt update and then apt upgrade"
-    echo "apt-Sfu - sudo apt full-upgrade - fully upgrade the system by removing/installing/upgrading packages"
-    echo "apt-Sar - sudo apt-add-repository - apt-add-repository is a script for adding apt sources.list entries"
-    echo "apt-Ses - sudo apt edit-sources - edit the source information file"
+    echo "apt-i  - apt install - install packages"
+    echo "apt-if - apt install -f - force dependencies to be installed for failed dpkg install"
+    echo "apt-ui - apt update && apt install - update packages list and install packages"
+    echo "apt-r  - apt remove - remove packages"
+    echo "apt-rp - apt remove --purge - remove packages and files related to them (configs, etc)"
+    echo "apt-a  - apt autoremove - Remove automatically all unused packages"
+    echo "apt-ud - apt update - update list of available packages"
+    echo "apt-ug - apt upgrade - upgrade the system by installing/upgrading packages"
+    echo "apt-uu - apt update && apt upgrade - run apt update and then apt upgrade"
+    echo "apt-fu - apt full-upgrade - fully upgrade the system by removing/installing/upgrading packages"
+    echo "apt-ar - apt-add-repository - apt-add-repository is a script for adding apt sources.list entries"
+    echo "apt-es - apt edit-sources - edit the source information file"
     echo 
     echo "Appedning 'y' will add '-y' to any of the relevant arguments."
-    echo "Ex: 'apt-Siy packagename' runs 'sudo apt install -y packagename'"
+    echo "Ex: 'apt-iy packagename' runs 'apt install -y packagename'"
     echo
     echo "smapt-update    - Update ~/.smapt_aliases from the github repo using 'wget'"
     echo "smapt-uninstall - Remove ~/.smapt_aliases and restart $SHELL"
