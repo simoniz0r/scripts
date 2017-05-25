@@ -32,19 +32,19 @@ alias apt-i='apt install'
 alias apt-if='apt install -f'
 alias apt-iy='apt install -y'
 alias apt-ify='apt install -y -f'
-alias apt-ui='apt update && sudo apt install'
-alias apt-uiy='apt update && sudo apt install -y'
+alias apt-udi='apt update && sudo apt install'
+alias apt-udiy='apt update && sudo apt install -y'
 alias apt-r='apt remove'
 alias apt-rp='apt remove --purge'
 alias apt-ry='apt remove -y'
 alias apt-rpy='apt remove -y --purge'
 alias apt-ar='apt autoremove'
 alias apt-ary='apt autoremove -y'
-alias apt-u='apt update && apt list --upgradeable'
-alias apt-U='apt upgrade'
-alias apt-Uy='apt upgrade -y'
-alias apt-uU='apt update && sudo apt upgrade'
-alias apt-uUy='apt update && sudo apt upgrade -y'
+alias apt-ud='apt update && apt list --upgradeable'
+alias apt-ug='apt upgrade'
+alias apt-ugy='apt upgrade -y'
+alias apt-uu='apt update && sudo apt upgrade'
+alias apt-uuy='apt update && sudo apt upgrade -y'
 alias apt-fu='apt full-upgrade'
 alias apt-fuy='apt full-upgrade -y'
 alias apt-are='apt-add-repository'
@@ -76,12 +76,12 @@ smapt () {
     echo "apt-ui - apt update && apt install - update packages list and install packages"
     echo "apt-r  - apt remove - remove packages"
     echo "apt-rp - apt remove --purge - remove packages and files related to them (configs, etc)"
-    echo "apt-a  - apt autoremove - Remove automatically all unused packages"
+    echo "apt-ar  - apt autoremove - Remove automatically all unused packages"
     echo "apt-ud - apt update - update list of available packages"
     echo "apt-ug - apt upgrade - upgrade the system by installing/upgrading packages"
     echo "apt-uu - apt update && apt upgrade - run apt update and then apt upgrade"
     echo "apt-fu - apt full-upgrade - fully upgrade the system by removing/installing/upgrading packages"
-    echo "apt-ar - apt-add-repository - apt-add-repository is a script for adding apt sources.list entries"
+    echo "apt-are - apt-add-repository - apt-add-repository is a script for adding apt sources.list entries"
     echo "apt-es - apt edit-sources - edit the source information file"
     echo 
     echo "Appedning 'y' will add '-y' to any of the relevant arguments."
