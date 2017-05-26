@@ -1,2 +1,2 @@
-ERMVER="1.2.4"
-X="v1.2.4 - Reverted last change; didn't work with files starting with '.'."
+ERMVER="1.2.5"
+X="v1.2.5 - Changed 'grep -q -a' to 'grep -q' so case is not ignored."

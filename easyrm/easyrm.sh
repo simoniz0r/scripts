@@ -2,11 +2,10 @@
 # A bash script that uses 'mv' to move files to '~/.easyrmtmp' and provides arguments to clear out '~/.easyrmtmp'; meant to replace using 'rm' on files and folders in case you aren't sure about deleting them.
 # Created by simonizor 3/11/2017
 
-# A POSIX variable
-OPTIND=1         # Reset in case getopts has been used previously in the shell.
+# Update script to use || 's instead of ifs in most places
 
-ERMVER="1.2.4"
-X="v1.2.4 - Reverted last change; didn't work with files starting with '.'."
+ERMVER="1.2.5"
+X="v1.2.5 - Changed 'grep -q -a' to 'grep -q' so case is not ignored."
 # ^^ Remember to update these every release; do not move their line position (eliminate version.txt eventually)!
 SCRIPTNAME="$0"
 ARG="$1"
@@ -30,11 +29,11 @@ helpfunc () {
 easyrm () {
     if [ ! -f "$ARG" ] && [ ! -d "$ARG" ]; then
         echo "$ARG does not exist!"
-        exit 0
+        exit 1
     fi
-    if grep -q -a "$ARG" ~/.easyrmtmp/movedfiles.conf; then
+    if grep -q "$ARG" ~/.easyrmtmp/movedfiles.conf; then
         echo "$ARG already exists in '~/.easyrmtmp'; remove this file in '~/.easyrmtmp' before proceeding."
-        exit 0
+        exit 1
     fi
     mv "$ARG" ~/.easyrmtmp/ || { echo "Move failed!" ; exit 0 ; }
     echo "$ARG" >> ~/.easyrmtmp/movedfiles.conf
@@ -135,17 +134,17 @@ main () {
             -r*|--r*)
                 RESTORE="$(grep -a "$2" ~/.easyrmtmp/movedfiles.conf)"
                 RESTNUM="$(echo "$RESTORE" | wc -l)"
-                if ! grep -q -a "$2" ~/.easyrmtmp/movedfiles.conf; then
+                if ! grep -q "$2" ~/.easyrmtmp/movedfiles.conf; then
                     echo "File not found in '~/.easyrmtmp'!"
-                    exit 0
+                    exit 1
                 fi
                 if [[ "$RESTNUM" != "1" ]]; then
                     echo "$RESTNUM results found; refine your input."
-                    exit 0
+                    exit 1
                 fi
                 if [ -f "$RESTORE" ]; then
                     echo "$RESTORE already exists; remove this file before attempting to restore from ~/.easyrmtmp"
-                    exit 0
+                    exit 1
                 fi
                 read -p "Restore $2 to $RESTORE? Y/N" -n 1 -r
                 echo
@@ -157,7 +156,7 @@ main () {
                 fi
                 if [ ! -f "$RESTORE" ] && [ ! -d "$RESTORE" ]; then
                     echo "Restore failed!"
-                    exit 0
+                    exit 1
                 fi
                 sed -i s:"$RESTORE"::g ~/.easyrmtmp/movedfiles.conf
                 sed -i '/^$/d' ~/.easyrmtmp/movedfiles.conf
@@ -166,18 +165,18 @@ main () {
             -d*|--d*)
                 DELFILE="$(grep -a "$2" ~/.easyrmtmp/movedfiles.conf)"
                 DELNUM="$(echo "$DELFILE" | wc -l)"
-                if ! grep -q -a "$2" ~/.easyrmtmp/movedfiles.conf; then
+                if ! grep -q "$2" ~/.easyrmtmp/movedfiles.conf; then
                     echo "File not found in '~/.easyrmtmp'!"
-                    exit 0
+                    exit 1
                 fi
                 if [[ "$DELNUM" != "1" ]]; then
                     echo "$DELNUM results found; refine your input."
-                    exit 0
+                    exit 1
                 fi
                 read -p "Perminantly delete $2 (original location $DELFILE)? Y/N" -n 1 -r
                 echo
                 if [[ $REPLY =~ ^[Yy]$ ]]; then
-                    rm -rf ~/.easyrmtmp/"$2"*
+                    rm -r ~/.easyrmtmp/"$2"* || { echo "$2 not found in '~/.easyrmtmp'!" ; exit 1 ; }
                 else
                     echo "$2 (original location $DELFILE) was not deleted!"
                     exit 0
@@ -190,7 +189,7 @@ main () {
                 REALNUM="$(cat ~/.easyrmtmp/movedfiles.conf | wc -l)"
                 if [ "$REALNUM" = "0" ]; then
                     echo "No files in ~/.easyrmtmp; exiting..."
-                    exit 0
+                    exit 1
                 fi
                 if [ "$REALNUM" = "1" ]; then
                     echo "The following file or folder in '~/.easyrmtmp' will be permanently deleted (listed by original location):"
