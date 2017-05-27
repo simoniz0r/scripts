@@ -25,6 +25,10 @@ wttr (){
                 LOCATION="$location"
             fi
             printf '\e[?25l'
+            echo
+            echo
+            echo
+            echo # remove these or add more to adjust spacing
             curl "wttr.in/$LOCATION?0?Q"
             sleep 300
             tput reset
