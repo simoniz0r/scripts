@@ -64,7 +64,7 @@ xdgfetchmain () {
             XDGBROWSER="$(xdg-mime query default x-scheme-handler/http)" || XDGBROWSER="Not set!        "
             if grep -q 'Pale Moon' <<< $XDGBROWSER; then
                 echo "${bold}Browser: ${norm}Pale Moon"
-            elif grep -q 'Firefox' <<< $XDGBROWSER; then
+            elif grep -q 'firefox' <<< $XDGBROWSER; then
                 echo "${bold}Browser: ${norm}Firefox"
             elif grep -q 'google' <<< $XDGBROWSER; then
                 echo "${bold}Browser: ${norm}Google Chrome"
