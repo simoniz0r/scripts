@@ -4,7 +4,7 @@
 
 # Update script to use || 's instead of ifs in most places
 
-ERMVER="1.2.5"
+ERMVER="v1.2.5"
 X="v1.2.5 - Changed 'grep -q -a' to 'grep -q' so case is not ignored."
 # ^^ Remember to update these every release; do not move their line position (eliminate version.txt eventually)!
 SCRIPTNAME="$0"
