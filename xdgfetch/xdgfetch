@@ -73,7 +73,6 @@ xdgfetchmain () {
             else
                 echo "${bold}Browser: ${norm}${XDGBROWSER::-8}"
             fi
-            echo
             ;;
         -m*|--m*)
             XDGMAILTO="$(xdg-mime query default x-scheme-handler/mailto)" || XDGMAILTO="Not set!        "
@@ -84,7 +83,6 @@ xdgfetchmain () {
             else
                 echo "${bold}Email:   ${norm}${XDGMAILTO::-8}"
             fi
-            echo
             ;;
         -a*|--a*)
             XDGAUDIO="$(xdg-mime query default audio/flac)" || XDGAUDIO="Not set!        "
@@ -103,7 +101,6 @@ xdgfetchmain () {
             else
                 echo "${bold}Audio:   ${norm}${XDGAUDIO::-8}"
             fi
-            echo
             ;;
         -v*|--v*)
             XDGVIDEO="$(xdg-mime query default video/mp4)" || XDGVIDEO="Not set!        "
@@ -116,7 +113,6 @@ xdgfetchmain () {
             else
                 echo "${bold}Video:   ${norm}${XDGVIDEO::-8}"
             fi
-            echo
             ;;
         -i*|--i*)
             XDGIMAGE="$(xdg-mime query default image/png)" || XDGIMAGE="Not set!        "
@@ -131,7 +127,6 @@ xdgfetchmain () {
             else
                 echo "${bold}Image:   ${norm}${XDGIMAGE::-8}"
             fi
-            echo
             ;;
         -t*|--t*)
             XDGTEXT="$(xdg-mime query default text/plain)"  || XDGTEXT="Not set!        "
@@ -148,7 +143,6 @@ xdgfetchmain () {
             else
                 echo "${bold}Text:    ${norm}${XDGTEXT::-8}"
             fi
-            echo
             ;;
         *)
             echo "${bold}Default xdg applications:${norm}"
