@@ -1,0 +1,238 @@
+#!/bin/bash
+# A script that uses 'xdg-mime' to fetch the default apps on the system.
+# Dependencies: 'xdg-mime'
+# Written by simonizor 5/27/2017 - http://www.simonizor.gq/scripts
+
+bold=$(tput bold; tput setaf 7)
+norm=$(tput sgr0)
+
+programisinstalled () {
+  return=1
+  type "$1" >/dev/null 2>&1 || { return=0; }
+}
+
+xdgfetchmain () {
+    case $1 in
+        -h*|--h*)
+            echo "${bold}xdgfetch usage${norm}:"
+            echo
+            echo "${bold}xdgfetch${norm}   : Shows default xdg-mime applications"
+            echo "${bold}xdgfetch -h${norm}: Shows this help output"
+            echo "${bold}xdgfetch -c${norm}: Changes the color of bold text. Options 1-6."
+            echo "  Ex: 'xdgfetch -c 1'"
+            echo "${bold}xdgfetch -b${norm}: Shows default xdg browser"
+            echo "${bold}xdgfetch -m${norm}: Shows default xdg email app"
+            echo "${bold}xdgfetch -a${norm}: Shows default xdg audio app"
+            echo "${bold}xdgfetch -v${norm}: Shows default xdg video app"
+            echo "${bold}xdgfetch -i${norm}: Shows default xdg image viewer"
+            echo "${bold}xdgfetch -t${norm}: Shows default xdg text editor"
+            echo
+            ;;
+        -c*|--c*)
+            case $2 in
+                1)
+                    bold=$(tput bold; tput setaf 1)
+                    xdgfetchmain
+                    ;;
+                2)
+                    bold=$(tput bold; tput setaf 2)
+                    xdgfetchmain
+                    ;;
+                3)
+                    bold=$(tput bold; tput setaf 3)
+                    xdgfetchmain
+                    ;;
+                4)
+                    bold=$(tput bold; tput setaf 4)
+                    xdgfetchmain
+                    ;;
+                5)
+                    bold=$(tput bold; tput setaf 5)
+                    xdgfetchmain
+                    ;;
+                6)
+                    bold=$(tput bold; tput setaf 6)
+                    xdgfetchmain
+                    ;;
+                *)
+                    bold=$(tput bold; tput setaf 7)
+                    xdgfetchmain
+                    ;;
+            esac
+            ;;
+        -b*|--b*)
+            XDGBROWSER="$(xdg-mime query default x-scheme-handler/http)" || XDGBROWSER="Not set!        "
+            if grep -q 'Pale Moon' <<< $XDGBROWSER; then
+                echo "${bold}Browser: ${norm}Pale Moon"
+            elif grep -q 'Firefox' <<< $XDGBROWSER; then
+                echo "${bold}Browser: ${norm}Firefox"
+            elif grep -q 'google' <<< $XDGBROWSER; then
+                echo "${bold}Browser: ${norm}Google Chrome"
+            elif grep -q 'chromium' <<< $XDGBROWSER; then
+                echo "${bold}Browser: ${norm}Chromium"
+            else
+                echo "${bold}Browser: ${norm}${XDGBROWSER::-8}"
+            fi
+            echo
+            ;;
+        -m*|--m*)
+            XDGMAILTO="$(xdg-mime query default x-scheme-handler/mailto)" || XDGMAILTO="Not set!        "
+            if grep -q 'thunderbird' <<< $XDGMAILTO; then
+                echo "${bold}Email:   ${norm}Thunderbird"
+            elif grep -q 'kmail' <<< $XDGMAILTO; then
+                echo "${bold}Email:   ${norm}KMail"
+            else
+                echo "${bold}Email:   ${norm}${XDGMAILTO::-8}"
+            fi
+            echo
+            ;;
+        -a*|--a*)
+            XDGAUDIO="$(xdg-mime query default audio/flac)" || XDGAUDIO="Not set!        "
+            if grep -q 'audacious' <<< $XDGAUDIO; then
+                echo "${bold}Audio:   ${norm}Audacious"
+            elif grep -q 'mpv' <<< $XDGAUDIO; then
+                echo "${bold}Audio:   ${norm}mpv"
+            elif grep -q 'vlc' <<< $XDGAUDIO; then
+                echo "${bold}Audio:   ${norm}VLC"
+            elif grep -q 'rythmbox' <<< $XDGAUDIO; then
+                echo "${bold}Audio:   ${norm}Rythmbox"
+            elif grep -q 'amarok' <<< $XDGAUDIO; then
+                echo "${bold}Audio:   ${norm}Amarok"
+            elif grep -q 'deadbeef' <<< $XDGAUDIO; then
+                echo "${bold}Audio:   ${norm}DeaDBeeF"
+            else
+                echo "${bold}Audio:   ${norm}${XDGAUDIO::-8}"
+            fi
+            echo
+            ;;
+        -v*|--v*)
+            XDGVIDEO="$(xdg-mime query default video/mp4)" || XDGVIDEO="Not set!        "
+            if grep -q 'mpv' <<< $XDGVIDEO; then
+                echo "${bold}Video:   ${norm}mpv"
+            elif grep -q 'vlc' <<< $XDGVIDEO; then
+                echo "${bold}Video:   ${norm}VLC"
+            elif grep -q 'mplayer' <<< $XDGVIDEO; then
+                echo "${bold}Video:   ${norm}Mplayer"
+            else
+                echo "${bold}Video:   ${norm}${XDGVIDEO::-8}"
+            fi
+            echo
+            ;;
+        -i*|--i*)
+            XDGIMAGE="$(xdg-mime query default image/png)" || XDGIMAGE="Not set!        "
+            if grep -q 'gwenview' <<< $XDGIMAGE; then
+                echo "${bold}Image:   ${norm}Gwenview"
+            elif grep -q 'gimp' <<< $XDGIMAGE; then
+                echo "${bold}Image:   ${norm}GIMP"
+            elif grep -q 'krita' <<< $XDGIMAGE; then
+                echo "${bold}Image:   ${norm}Krita"
+            elif grep -q 'mtpaint' <<< $XDGIMAGE; then
+                echo "${bold}Image:   ${norm}mtpaint"
+            else
+                echo "${bold}Image:   ${norm}${XDGIMAGE::-8}"
+            fi
+            echo
+            ;;
+        -t*|--t*)
+            XDGTEXT="$(xdg-mime query default text/plain)"  || XDGTEXT="Not set!        "
+            if grep -q 'code' <<< $XDGTEXT; then
+                echo "${bold}Text:    ${norm}VSCode"
+            elif grep -q 'atom' <<< $XDGTEXT; then
+                echo "${bold}Text:    ${norm}Atom"
+            elif grep -q 'kwrite' <<< $XDGTEXT; then
+                echo "${bold}Text:    ${norm}KWrite"
+            elif grep -q 'gedit' <<< $XDGTEXT; then
+                echo "${bold}Text:    ${norm}Gedit"
+            elif grep -q 'mousepad' <<< $XDGTEXT; then
+                echo "${bold}Text:    ${norm}Mousepad"
+            else
+                echo "${bold}Text:    ${norm}${XDGTEXT::-8}"
+            fi
+            echo
+            ;;
+        *)
+            echo "${bold}Default xdg applications:${norm}"
+            XDGBROWSER="$(xdg-mime query default x-scheme-handler/http)" || XDGBROWSER="Not set!        "
+            echo
+            if grep -q 'Pale Moon' <<< $XDGBROWSER; then
+                echo "${bold}Browser: ${norm}Pale Moon"
+            elif grep -q 'Firefox' <<< $XDGBROWSER; then
+                echo "${bold}Browser: ${norm}Firefox"
+            elif grep -q 'google' <<< $XDGBROWSER; then
+                echo "${bold}Browser: ${norm}Google Chrome"
+            elif grep -q 'chromium' <<< $XDGBROWSER; then
+                echo "${bold}Browser: ${norm}Chromium"
+            else
+                echo "${bold}Browser: ${norm}${XDGBROWSER::-8}"
+            fi
+            XDGMAILTO="$(xdg-mime query default x-scheme-handler/mailto)" || XDGMAILTO="Not set!        "
+            if grep -q 'thunderbird' <<< $XDGMAILTO; then
+                echo "${bold}Email:   ${norm}Thunderbird"
+            elif grep -q 'kmail' <<< $XDGMAILTO; then
+                echo "${bold}Email:   ${norm}KMail"
+            else
+                echo "${bold}Email:   ${norm}${XDGMAILTO::-8}"
+            fi
+            XDGAUDIO="$(xdg-mime query default audio/flac)" || XDGAUDIO="Not set!        "
+            if grep -q 'audacious' <<< $XDGAUDIO; then
+                echo "${bold}Audio:   ${norm}Audacious"
+            elif grep -q 'mpv' <<< $XDGAUDIO; then
+                echo "${bold}Audio:   ${norm}mpv"
+            elif grep -q 'vlc' <<< $XDGAUDIO; then
+                echo "${bold}Audio:   ${norm}VLC"
+            elif grep -q 'rythmbox' <<< $XDGAUDIO; then
+                echo "${bold}Audio:   ${norm}Rythmbox"
+            elif grep -q 'amarok' <<< $XDGAUDIO; then
+                echo "${bold}Audio:   ${norm}Amarok"
+            elif grep -q 'deadbeef' <<< $XDGAUDIO; then
+                echo "${bold}Audio:   ${norm}DeaDBeeF"
+            else
+                echo "${bold}Audio:   ${norm}${XDGAUDIO::-8}"
+            fi
+            XDGVIDEO="$(xdg-mime query default video/mp4)" || XDGVIDEO="Not set!        "
+            if grep -q 'mpv' <<< $XDGVIDEO; then
+                echo "${bold}Video:   ${norm}mpv"
+            elif grep -q 'vlc' <<< $XDGVIDEO; then
+                echo "${bold}Video:   ${norm}VLC"
+            elif grep -q 'mplayer' <<< $XDGVIDEO; then
+                echo "${bold}Video:   ${norm}Mplayer"
+            else
+                echo "${bold}Video:   ${norm}${XDGVIDEO::-8}"
+            fi
+            XDGIMAGE="$(xdg-mime query default image/png)" || XDGIMAGE="Not set!        "
+            if grep -q 'gwenview' <<< $XDGIMAGE; then
+                echo "${bold}Image:   ${norm}Gwenview"
+            elif grep -q 'gimp' <<< $XDGIMAGE; then
+                echo "${bold}Image:   ${norm}GIMP"
+            elif grep -q 'krita' <<< $XDGIMAGE; then
+                echo "${bold}Image:   ${norm}Krita"
+            elif grep -q 'mtpaint' <<< $XDGIMAGE; then
+                echo "${bold}Image:   ${norm}mtpaint"
+            else
+                echo "${bold}Image:   ${norm}${XDGIMAGE::-8}"
+            fi
+            XDGTEXT="$(xdg-mime query default text/plain)" || XDGTEXT="Not set!        "
+            if grep -q 'code' <<< $XDGTEXT; then
+                echo "${bold}Text:    ${norm}VSCode"
+            elif grep -q 'atom' <<< $XDGTEXT; then
+                echo "${bold}Text:    ${norm}Atom"
+            elif grep -q 'kwrite' <<< $XDGTEXT; then
+                echo "${bold}Text:    ${norm}KWrite"
+            elif grep -q 'gedit' <<< $XDGTEXT; then
+                echo "${bold}Text:    ${norm}Gedit"
+            elif grep -q 'mousepad' <<< $XDGTEXT; then
+                echo "${bold}Text:    ${norm}Mousepad"
+            else
+                echo "${bold}Text:    ${norm}${XDGTEXT::-8}"
+            fi
+            echo
+    esac
+}
+
+programisinstalled "xdg-mime"
+if [ "$return" = "1" ]; then
+    xdgfetchmain "$@"
+else
+    echo "xdg-mime not installed!"
+    exit 0
+fi
