@@ -4,8 +4,8 @@
 
 # Update script to use || 's instead of ifs in most places
 
-ERMVER="v1.2.5"
-X="v1.2.5 - Changed 'grep -q -a' to 'grep -q' so case is not ignored."
+ERMVER="v1.2.6"
+X="v1.2.6 - Fixed updatecheck."
 # ^^ Remember to update these every release; do not move their line position (eliminate version.txt eventually)!
 SCRIPTNAME="$0"
 ARG="$1"
@@ -71,8 +71,8 @@ EOL
 
 updatecheck () {
     echo "Checking for new version..."
-    UPNOTES="$(wget -q "https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/easyrm/easyrm.sh" -O - | sed -n '9p' | tr -d 'X="')"
-    VERTEST="$(wget -q "https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/easyrm/easyrm.sh" -O - | sed -n '8p' | tr -d 'ERMV="')"
+    UPNOTES="$(wget -q "https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/easyrm/easyrm.sh" -O - | sed -n '8p' | tr -d 'X="')"
+    VERTEST="$(wget -q "https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/easyrm/easyrm.sh" -O - | sed -n '7p' | tr -d 'ERMV="')"
     if [[ $ERMVER < $VERTEST ]]; then
         echo "Installed version: $ERMVER -- Current version: $VERTEST"
         echo "A new version is available!"
