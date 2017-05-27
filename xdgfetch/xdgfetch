@@ -176,6 +176,8 @@ xdgfetchmain () {
             XDGAUDIO="$(xdg-mime query default audio/flac)" || XDGAUDIO="Not set!        "
             if grep -q 'audacious' <<< $XDGAUDIO; then
                 echo "${bold}Audio:   ${norm}Audacious"
+            elif grep -q 'audacity' <<< $XDGAUDIO; then
+                echo "${bold}Audio:   ${norm}Audacity"
             elif grep -q 'mpv' <<< $XDGAUDIO; then
                 echo "${bold}Audio:   ${norm}mpv"
             elif grep -q 'vlc' <<< $XDGAUDIO; then
