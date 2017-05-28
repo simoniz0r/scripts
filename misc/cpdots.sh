@@ -166,5 +166,5 @@ if [ ! -d "$DIR" ]; then
     mkdir $DIR
     echo "$DIR has been created."
 fi
-git --version || { echo "git is not installed; exiting..." ; exit 1 ; }
+git --version >/dev/null 2>&1 || { echo "git is not installed; exiting..." ; exit 1 ; }
 cpdotsmain "$@"
