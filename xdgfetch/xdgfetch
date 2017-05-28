@@ -19,7 +19,7 @@ xdgfetchmain () {
             echo "${bold}xdgfetch${norm}   : Shows default xdg-mime applications"
             echo "${bold}xdgfetch -h${norm}: Shows this help output"
             echo "${bold}xdgfetch -c${norm}: Changes the color of bold text. Options 1-6."
-            echo "  Ex: 'xdgfetch -c 1'"
+            echo "  Ex: 'xdgfetch -c 1', 'xdgfetch -c 1 -b'"
             echo "${bold}xdgfetch -b${norm}: Shows default xdg browser"
             echo "${bold}xdgfetch -m${norm}: Shows default xdg email app"
             echo "${bold}xdgfetch -a${norm}: Shows default xdg audio app"
@@ -32,31 +32,31 @@ xdgfetchmain () {
             case $2 in
                 1)
                     bold=$(tput bold; tput setaf 1)
-                    xdgfetchmain
+                    xdgfetchmain "$3"
                     ;;
                 2)
                     bold=$(tput bold; tput setaf 2)
-                    xdgfetchmain
+                    xdgfetchmain "$3"
                     ;;
                 3)
                     bold=$(tput bold; tput setaf 3)
-                    xdgfetchmain
+                    xdgfetchmain "$3"
                     ;;
                 4)
                     bold=$(tput bold; tput setaf 4)
-                    xdgfetchmain
+                    xdgfetchmain "$3"
                     ;;
                 5)
                     bold=$(tput bold; tput setaf 5)
-                    xdgfetchmain
+                    xdgfetchmain "$3"
                     ;;
                 6)
                     bold=$(tput bold; tput setaf 6)
-                    xdgfetchmain
+                    xdgfetchmain "$3"
                     ;;
                 *)
                     bold=$(tput bold; tput setaf 7)
-                    xdgfetchmain
+                    xdgfetchmain "$3"
                     ;;
             esac
             ;;
