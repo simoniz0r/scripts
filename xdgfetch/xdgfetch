@@ -1,6 +1,6 @@
 #!/bin/bash
 # A script that uses 'xdg-mime' to fetch the default apps on the system.
-# Dependencies: 'xdg-mime'
+# Dependencies: 'xdg-mime', 'xdg-settings'
 # Written by simonizor 5/27/2017 - http://www.simonizor.gq/scripts
 
 bold=$(tput bold; tput setaf 7)
@@ -61,8 +61,8 @@ xdgfetchmain () {
             esac
             ;;
         -b*|--b*)
-            XDGBROWSER="$(xdg-mime query default x-scheme-handler/http)" || XDGBROWSER="Not set!        "
-            if grep -q 'Pale Moon' <<< $XDGBROWSER; then
+            XDGBROWSER="$(xdg-settings get default-web-browser)" || XDGBROWSER="Not set!        "
+            if grep -q 'Pale' <<< $XDGBROWSER || grep -q 'pale' <<< $XDGBROWSER; then
                 echo "${bold}Browser: ${norm}Pale Moon"
             elif grep -q 'firefox' <<< $XDGBROWSER; then
                 echo "${bold}Browser: ${norm}Firefox"
@@ -146,9 +146,9 @@ xdgfetchmain () {
             ;;
         *)
             echo "${bold}Default xdg applications:${norm}"
-            XDGBROWSER="$(xdg-mime query default x-scheme-handler/http)" || XDGBROWSER="Not set!        "
+            XDGBROWSER="$(xdg-settings get default-web-browser)" || XDGBROWSER="Not set!        "
             echo
-            if grep -q 'Pale Moon' <<< $XDGBROWSER; then
+            if grep -q 'Pale' <<< $XDGBROWSER || grep -q 'pale' <<< $XDGBROWSER; then
                 echo "${bold}Browser: ${norm}Pale Moon"
             elif grep -q 'firefox' <<< $XDGBROWSER; then
                 echo "${bold}Browser: ${norm}Firefox"
@@ -227,41 +227,47 @@ xdgfetchmain () {
 
 programisinstalled "xdg-mime"
 if [ "$return" = "1" ]; then
+    programisinstalled "xdg-settings"
+    if [ "$return" = "1" ]; then
     if [ ! -z "$2" ]; then
-        case $3 in
-            1)
-                bold=$(tput bold; tput setaf 1)
-                xdgfetchmain "$1"
-                ;;
-            2)
-                bold=$(tput bold; tput setaf 2)
-                xdgfetchmain "$1"
-                ;;
-            3)
-                bold=$(tput bold; tput setaf 3)
-                xdgfetchmain "$1"
-                ;;
-            4)
-                bold=$(tput bold; tput setaf 4)
-                xdgfetchmain "$1"
-                ;;
-            5)
-                bold=$(tput bold; tput setaf 5)
-                xdgfetchmain "$1"
-                ;;
-            6)
-                bold=$(tput bold; tput setaf 6)
-                xdgfetchmain "$1"
-                ;;
-            *)
-                bold=$(tput bold; tput setaf 7)
-                xdgfetchmain "$@"
-                ;;
-        esac
+            case $3 in
+                1)
+                    bold=$(tput bold; tput setaf 1)
+                    xdgfetchmain "$1"
+                    ;;
+                2)
+                    bold=$(tput bold; tput setaf 2)
+                    xdgfetchmain "$1"
+                    ;;
+                3)
+                    bold=$(tput bold; tput setaf 3)
+                    xdgfetchmain "$1"
+                    ;;
+                4)
+                    bold=$(tput bold; tput setaf 4)
+                    xdgfetchmain "$1"
+                    ;;
+                5)
+                    bold=$(tput bold; tput setaf 5)
+                    xdgfetchmain "$1"
+                    ;;
+                6)
+                    bold=$(tput bold; tput setaf 6)
+                    xdgfetchmain "$1"
+                    ;;
+                *)
+                    bold=$(tput bold; tput setaf 7)
+                    xdgfetchmain "$@"
+                    ;;
+            esac
+        else
+            xdgfetchmain "$@"
+        fi
     else
-        xdgfetchmain "$@"
+        echo "xdg-settings is not installed!"
+        exit 0
     fi
 else
-    echo "xdg-mime not installed!"
+    echo "xdg-mime is not installed!"
     exit 0
 fi
