@@ -53,6 +53,7 @@ cpdotsmain () {
             symlink "$DIR/.zsh_aliases" "/home/$USER/.zsh_aliases"
             symlink "$DIR/.zshrc" "/home/$USER/.zshrc"
             symlink "$DIR/ini" "/home/$USER/.config/mc/ini"
+            symlink "$DIR/packagelist.txt" "/home/$USER/packagelist.txt"
             ;;
         *)
             for file in $dotfiles; do
