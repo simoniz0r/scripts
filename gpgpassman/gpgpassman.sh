@@ -5,8 +5,8 @@
 # Also with 'zenity', you can execuite 'gpgpassman dec' for direct access to decrypting passwords; can be used with a keybind.
 # Written by simonizor 3/22/2017 - http://www.simonizor.gq/gpgpassman
 
-GPMVER="1.3.2"
-X="v1.3.2 - Changed password decryption in GUI mode to use gpg-agent as it did previously; it resulted in two password inputs being required if gpg-agent is running properly."
+GPMVER="1.3.3"
+X="v1.3.3 - Moved gpgpassman to its own github repo."
 # ^^Remember to update this every release and do not move their position!
 SCRIPTNAME="$0"
 GPMDIR="$(< ~/.config/gpgpassman/gpgpassman.conf)"
@@ -20,7 +20,7 @@ updatescript () {
 cat >/tmp/updatescript.sh <<EOL
 runupdate () {
     if [ "$SCRIPTNAME" = "/usr/bin/gpgpassman" ]; then
-        wget -O /tmp/gpgpassman.sh "https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/gpgpassman/gpgpassman.sh"
+        wget -O /tmp/gpgpassman.sh "https://raw.githubusercontent.com/simoniz0r/gpgpassman/master/gpgpassman.sh"
         if [ -f "/tmp/gpgpassman.sh" ]; then
             sudo rm -f /usr/bin/gpgpassman
             sudo mv /tmp/gpgpassman.sh /usr/bin/gpgpassman
@@ -35,7 +35,7 @@ runupdate () {
             fi
         fi
     else
-        wget -O /tmp/gpgpassman.sh "https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/gpgpassman/gpgpassman.sh"
+        wget -O /tmp/gpgpassman.sh "https://raw.githubusercontent.com/simoniz0r/gpgpassman/master/gpgpassman.sh"
         if [ -f "/tmp/gpgpassman.sh" ]; then
             rm -f $SCRIPTNAME
             mv /tmp/gpgpassman.sh $SCRIPTNAME
@@ -76,8 +76,8 @@ EOL
 
 updatecheck () {
     echo "Checking for new version..."
-    UPNOTES="$(wget -q "https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/gpgpassman/gpgpassman.sh" -O - | sed -n '9p' | tr -d 'X="')"
-    VERTEST="$(wget -q "https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/gpgpassman/gpgpassman.sh" -O - | sed -n '8p' | tr -d 'GPMVER="')"
+    UPNOTES="$(wget -q "https://raw.githubusercontent.com/simoniz0r/gpgpassman/master/gpgpassman.sh" -O - | sed -n '9p' | tr -d 'X="')"
+    VERTEST="$(wget -q "https://raw.githubusercontent.com/simoniz0r/gpgpassman/master/gpgpassman.sh" -O - | sed -n '8p' | tr -d 'GPMVER="')"
     if [[ $GPMVER < $VERTEST ]]; then
         echo "Installed version: $GPMVER -- Current version: $VERTEST"
         echo "A new version is available!"

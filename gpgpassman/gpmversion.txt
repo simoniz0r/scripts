@@ -1,2 +1,0 @@
-GPMVER="1.3.2"
-X="v1.3.2 - Changed password decryption in GUI mode to use gpg-agent as it did previously; it resulted in two password inputs being required if gpg-agent is running properly."
