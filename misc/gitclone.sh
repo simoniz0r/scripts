@@ -1,7 +1,7 @@
 #!/bin/bash
 # Clones all of simoniz0r's repos
 # Remote exec:
-# bash -c "$(wget --quiet https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/misc/cinnabuntu.sh -O -)"
+# bash -c "$(wget --quiet https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/misc/gitclone.sh -O -)"
 
 dircheck () {
     if [ -d "$1" ]; then
