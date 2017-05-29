@@ -30,7 +30,7 @@ symlink () {
 
 cpdotsmain () {
     case $1 in
-        -git*|--git*)
+        -g*|--g*)
             cd $DIR
             cd ..
             rm -rf $DIR
@@ -42,11 +42,11 @@ cpdotsmain () {
             ;;
         -h*|--h*)
             echo "cpdots usage:"
-            echo "cpdots     : Copies dotfiles from their orignial locations to $DIR"            
-            echo "cpdots -h  : Shows this help output"
-            echo "cpdots -l  : Lists managed dotfiles"
-            echo "cpdots -s  : Symlinks dotfiles from $DIR to their original locations"
-            echo "cpdots -git: Downloads files from repos listed in dotrepos.conf to $DIR using git clone"
+            echo "cpdots   : Copies dotfiles from their orignial locations to $DIR"            
+            echo "cpdots -h: Shows this help output"
+            echo "cpdots -l: Lists managed dotfiles"
+            echo "cpdots -s: Symlinks dotfiles from $DIR to their original locations"
+            echo "cpdots -g: Downloads files from repos listed in dotrepos.conf to $DIR using git clone"
             ;;
         -s*|--s*)
             echo "Symlinking dotfiles from $DIR to their original locations..."
