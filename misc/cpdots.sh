@@ -1,6 +1,6 @@
 #!/bin/bash
 # A script copies dotfiles and downloads them fron github
-# Dependencies: 'wget'
+# Dependencies: 'git'
 # Written by simonizor 5/27/2017 - http://www.simonizor.gq/scripts
 
 DIR="/home/$USER/github/dotfiles"
