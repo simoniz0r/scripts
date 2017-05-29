@@ -26,6 +26,6 @@ fi
 gitcheck "dotfiles"
 gitcheck "discorddownloader"
 gitcheck "UsefulScripts"
-gitcheck "Index"
+gitcheck "index"
 gitcheck "kde-gaps"
 gitcheck "WindowsStuff"
