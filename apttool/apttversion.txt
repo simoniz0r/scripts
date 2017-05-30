@@ -1,6 +1,2 @@
-APTTVER="1.1.9"
-X="v1.1.9 - Added check for 'wget' before running updatecheck."
-
-PLANS:
-
-Add functionality from aptmarklist to write packages to file and install them from file.
+APTTVER="1.2.0"
+X="v1.2.0 - Moved to separate github repo."

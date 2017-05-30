@@ -2,8 +2,8 @@
 # A simple script that can run apt options to save keystrokes.
 # Also has a GUI using 'zenity'; just install 'zenity' to check it out.
 
-APTTVER="1.1.9"
-X="v1.1.9 - Added check for 'wget' before running updatecheck."
+APTTVER="1.2.0"
+X="v1.2.0 - Moved to separate github repo."
 # ^^ Remember to update these and apttversion.txt every release!
 SCRIPTNAME="$0"
 
