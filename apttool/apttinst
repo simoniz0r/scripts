@@ -10,11 +10,11 @@ main () {
                 echo "apttool was not installed."
                 exit 0
             fi
-            wget -O /tmp/apttool https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/apttool/apttool.sh || { echo "Download failed!" ; exit 0 ; }
+            wget -O /tmp/apttool https://raw.githubusercontent.com/simoniz0r/apttool/master/apttool.sh || { echo "Download failed!" ; exit 0 ; }
             if [ -f "/tmp/apttool" ]; then
-                wget -O /tmp/apttool.png https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/apttool/apttool.png || { echo "Download failed!" ; exit 0 ; }
+                wget -O /tmp/apttool.png https://raw.githubusercontent.com/simoniz0r/apttool/master/apttool.png || { echo "Download failed!" ; exit 0 ; }
                 if [ -f "/tmp/apttool.png" ]; then
-                    wget -O /tmp/apttool.desktop https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/apttool/apttool.desktop || { echo "Download failed!" ; exit 0 ; }
+                    wget -O /tmp/apttool.desktop https://raw.githubusercontent.com/simoniz0r/apttool/master/apttool.desktop || { echo "Download failed!" ; exit 0 ; }
                         if [ -f "/tmp/apttool.desktop" ]; then
                             echo "Moving apttool to /usr/bin/apttool"
                             mv /tmp/apttool /usr/bin/apttool
