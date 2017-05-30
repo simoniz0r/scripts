@@ -1,1 +1,1 @@
-# [apttool](http://www.simonizor.gq/apttool)
+# [apttool](http://www.simonizor.gq/linuxapps)
