@@ -62,165 +62,235 @@ xdgfetchmain () {
             ;;
         -b*|--b*)
             XDGBROWSER="$(xdg-settings get default-web-browser)" || XDGBROWSER="Not set!        "
-            if grep -q 'Pale' <<< $XDGBROWSER || grep -q 'pale' <<< $XDGBROWSER; then
-                echo "${bold}Browser: ${norm}Pale Moon"
-            elif grep -q 'firefox' <<< $XDGBROWSER; then
-                echo "${bold}Browser: ${norm}Firefox"
-            elif grep -q 'google' <<< $XDGBROWSER; then
-                echo "${bold}Browser: ${norm}Google Chrome"
-            elif grep -q 'chromium' <<< $XDGBROWSER; then
-                echo "${bold}Browser: ${norm}Chromium"
-            else
-                echo "${bold}Browser: ${norm}${XDGBROWSER::-8}"
-            fi
+            case $XDGBROWSER in
+                *Pale*|*pale*)
+                    echo "${bold}Browser: ${norm}Pale Moon"
+                    ;;
+                *firefox*)
+                    echo "${bold}Browser: ${norm}Firefox"
+                    ;;
+                *google*)
+                    echo "${bold}Browser: ${norm}Google Chrome"
+                    ;;
+                *chromium*)
+                    echo "${bold}Browser: ${norm}Chromium"
+                    ;;
+                *)
+                    echo "${bold}Browser: ${norm}${XDGBROWSER::-8}"
+                    ;;
+            esac
             ;;
         -m*|--m*)
             XDGMAILTO="$(xdg-mime query default x-scheme-handler/mailto)" || XDGMAILTO="Not set!        "
-            if grep -q 'thunderbird' <<< $XDGMAILTO; then
-                echo "${bold}Email:   ${norm}Thunderbird"
-            elif grep -q 'kmail' <<< $XDGMAILTO; then
-                echo "${bold}Email:   ${norm}KMail"
-            else
-                echo "${bold}Email:   ${norm}${XDGMAILTO::-8}"
-            fi
+            case $XDGMAILTO in
+                *thunderbird*|*Thunderbird*)
+                    echo "${bold}Email:   ${norm}Thunderbird"
+                    ;;
+                *kmail*)
+                    echo "${bold}Email:   ${norm}KMail"
+                    ;;
+                *)
+                    echo "${bold}Email:   ${norm}${XDGMAILTO::-8}"
+                    ;;
+            esac
             ;;
         -a*|--a*)
             XDGAUDIO="$(xdg-mime query default audio/flac)" || XDGAUDIO="Not set!        "
-            if grep -q 'audacious' <<< $XDGAUDIO; then
-                echo "${bold}Audio:   ${norm}Audacious"
-            elif grep -q 'mpv' <<< $XDGAUDIO; then
-                echo "${bold}Audio:   ${norm}mpv"
-            elif grep -q 'vlc' <<< $XDGAUDIO; then
-                echo "${bold}Audio:   ${norm}VLC"
-            elif grep -q 'rythmbox' <<< $XDGAUDIO; then
-                echo "${bold}Audio:   ${norm}Rythmbox"
-            elif grep -q 'amarok' <<< $XDGAUDIO; then
-                echo "${bold}Audio:   ${norm}Amarok"
-            elif grep -q 'deadbeef' <<< $XDGAUDIO; then
-                echo "${bold}Audio:   ${norm}DeaDBeeF"
-            else
-                echo "${bold}Audio:   ${norm}${XDGAUDIO::-8}"
-            fi
+            case $XDGAUDIO in
+                *audacious*|*Audacious*)
+                    echo "${bold}Audio:   ${norm}Audacious"
+                    ;;
+                *mpv*)
+                    echo "${bold}Audio:   ${norm}mpv"
+                    ;;
+                *vlc*|*VLC*)
+                    echo "${bold}Audio:   ${norm}VLC"
+                    ;;
+                *amarok*|*Amarok*)
+                    echo "${bold}Audio:   ${norm}Amarok"
+                    ;;
+                *deadbeef*)
+                    echo "${bold}Audio:   ${norm}DeaDBeeF"
+                    ;;
+                *)
+                    echo "${bold}Audio:   ${norm}${XDGAUDIO::-8}"
+                    ;;
+            esac
             ;;
         -v*|--v*)
             XDGVIDEO="$(xdg-mime query default video/mp4)" || XDGVIDEO="Not set!        "
-            if grep -q 'mpv' <<< $XDGVIDEO; then
-                echo "${bold}Video:   ${norm}mpv"
-            elif grep -q 'vlc' <<< $XDGVIDEO; then
-                echo "${bold}Video:   ${norm}VLC"
-            elif grep -q 'mplayer' <<< $XDGVIDEO; then
-                echo "${bold}Video:   ${norm}Mplayer"
-            else
-                echo "${bold}Video:   ${norm}${XDGVIDEO::-8}"
-            fi
+            case $XDGVIDEO in
+                *mpv*)
+                    echo "${bold}Video:   ${norm}mpv"
+                    ;;
+                *vlc*|*VLC*)
+                    echo "${bold}Video:   ${norm}VLC"
+                    ;;
+                *mplayer*)
+                    echo "${bold}Video:   ${norm}Mplayer"
+                    ;;
+                *)
+                    echo "${bold}Video:   ${norm}${XDGVIDEO::-8}"
+                    ;;
+            esac
             ;;
         -i*|--i*)
             XDGIMAGE="$(xdg-mime query default image/png)" || XDGIMAGE="Not set!        "
-            if grep -q 'gwenview' <<< $XDGIMAGE; then
-                echo "${bold}Image:   ${norm}Gwenview"
-            elif grep -q 'gimp' <<< $XDGIMAGE; then
-                echo "${bold}Image:   ${norm}GIMP"
-            elif grep -q 'krita' <<< $XDGIMAGE; then
-                echo "${bold}Image:   ${norm}Krita"
-            elif grep -q 'mtpaint' <<< $XDGIMAGE; then
-                echo "${bold}Image:   ${norm}mtpaint"
-            else
-                echo "${bold}Image:   ${norm}${XDGIMAGE::-8}"
-            fi
+            case $XDGIMAGE in
+                *gwenview*|*Gwenview*)
+                    echo "${bold}Image:   ${norm}Gwenview"
+                    ;;
+                *gimp*|*Gimp*|*GIMP*)
+                    echo "${bold}Image:   ${norm}GIMP"
+                    ;;
+                *krita*|*Krita*)
+                    echo "${bold}Image:   ${norm}Krita"
+                    ;;
+                *mtpaint*)
+                    echo "${bold}Image:   ${norm}mtpaint"
+                    ;;
+                *)
+                    echo "${bold}Image:   ${norm}${XDGIMAGE::-8}"
+                    ;;
+            esac
             ;;
         -t*|--t*)
             XDGTEXT="$(xdg-mime query default text/plain)"  || XDGTEXT="Not set!        "
-            if grep -q 'code' <<< $XDGTEXT; then
-                echo "${bold}Text:    ${norm}VSCode"
-            elif grep -q 'atom' <<< $XDGTEXT; then
-                echo "${bold}Text:    ${norm}Atom"
-            elif grep -q 'kwrite' <<< $XDGTEXT; then
-                echo "${bold}Text:    ${norm}KWrite"
-            elif grep -q 'gedit' <<< $XDGTEXT; then
-                echo "${bold}Text:    ${norm}Gedit"
-            elif grep -q 'mousepad' <<< $XDGTEXT; then
-                echo "${bold}Text:    ${norm}Mousepad"
-            else
-                echo "${bold}Text:    ${norm}${XDGTEXT::-8}"
-            fi
+            case $XDGTEXT in
+                *code*)
+                    echo "${bold}Text:    ${norm}VSCode"
+                    ;;
+                *atom*|*Atom*)
+                    echo "${bold}Text:    ${norm}Atom"
+                    ;;
+                *gedit*|*Gedit*)
+                    echo "${bold}Text:    ${norm}gedit"
+                    ;;
+                *mousepad*|*Mousepad*)
+                    echo "${bold}Text:    ${norm}Mousepad"
+                    ;;
+                *notepadqq*|*Notepadqq*)
+                    echo "${bold}Text:    ${norm}notepadqq"
+                    ;;
+                *geany*|*Geany*)
+                    echo "${bold}Text:    ${norm}Geany"
+                    ;;
+                *)
+                    echo "${bold}Text:    ${norm}${XDGTEXT::-8}"
+                    ;;
+            esac
             ;;
         *)
             echo "${bold}Default xdg applications:${norm}"
             XDGBROWSER="$(xdg-settings get default-web-browser)" || XDGBROWSER="Not set!        "
             echo
-            if grep -q 'Pale' <<< $XDGBROWSER || grep -q 'pale' <<< $XDGBROWSER; then
-                echo "${bold}Browser: ${norm}Pale Moon"
-            elif grep -q 'firefox' <<< $XDGBROWSER; then
-                echo "${bold}Browser: ${norm}Firefox"
-            elif grep -q 'google' <<< $XDGBROWSER; then
-                echo "${bold}Browser: ${norm}Google Chrome"
-            elif grep -q 'chromium' <<< $XDGBROWSER; then
-                echo "${bold}Browser: ${norm}Chromium"
-            else
-                echo "${bold}Browser: ${norm}${XDGBROWSER::-8}"
-            fi
+            case $XDGBROWSER in
+                *Pale*|*pale*)
+                    echo "${bold}Browser: ${norm}Pale Moon"
+                    ;;
+                *firefox*)
+                    echo "${bold}Browser: ${norm}Firefox"
+                    ;;
+                *google*)
+                    echo "${bold}Browser: ${norm}Google Chrome"
+                    ;;
+                *chromium*)
+                    echo "${bold}Browser: ${norm}Chromium"
+                    ;;
+                *)
+                    echo "${bold}Browser: ${norm}${XDGBROWSER::-8}"
+                    ;;
+            esac
             XDGMAILTO="$(xdg-mime query default x-scheme-handler/mailto)" || XDGMAILTO="Not set!        "
-            if grep -q 'thunderbird' <<< $XDGMAILTO; then
-                echo "${bold}Email:   ${norm}Thunderbird"
-            elif grep -q 'kmail' <<< $XDGMAILTO; then
-                echo "${bold}Email:   ${norm}KMail"
-            else
-                echo "${bold}Email:   ${norm}${XDGMAILTO::-8}"
-            fi
+            case $XDGMAILTO in
+                *thunderbird*|*Thunderbird*)
+                    echo "${bold}Email:   ${norm}Thunderbird"
+                    ;;
+                *kmail*)
+                    echo "${bold}Email:   ${norm}KMail"
+                    ;;
+                *)
+                    echo "${bold}Email:   ${norm}${XDGMAILTO::-8}"
+                    ;;
+            esac
             XDGAUDIO="$(xdg-mime query default audio/flac)" || XDGAUDIO="Not set!        "
-            if grep -q 'audacious' <<< $XDGAUDIO; then
-                echo "${bold}Audio:   ${norm}Audacious"
-            elif grep -q 'audacity' <<< $XDGAUDIO; then
-                echo "${bold}Audio:   ${norm}Audacity"
-            elif grep -q 'mpv' <<< $XDGAUDIO; then
-                echo "${bold}Audio:   ${norm}mpv"
-            elif grep -q 'vlc' <<< $XDGAUDIO; then
-                echo "${bold}Audio:   ${norm}VLC"
-            elif grep -q 'rythmbox' <<< $XDGAUDIO; then
-                echo "${bold}Audio:   ${norm}Rythmbox"
-            elif grep -q 'amarok' <<< $XDGAUDIO; then
-                echo "${bold}Audio:   ${norm}Amarok"
-            elif grep -q 'deadbeef' <<< $XDGAUDIO; then
-                echo "${bold}Audio:   ${norm}DeaDBeeF"
-            else
-                echo "${bold}Audio:   ${norm}${XDGAUDIO::-8}"
-            fi
+            case $XDGAUDIO in
+                *audacious*|*Audacious*)
+                    echo "${bold}Audio:   ${norm}Audacious"
+                    ;;
+                *mpv*)
+                    echo "${bold}Audio:   ${norm}mpv"
+                    ;;
+                *vlc*|*VLC*)
+                    echo "${bold}Audio:   ${norm}VLC"
+                    ;;
+                *amarok*|*Amarok*)
+                    echo "${bold}Audio:   ${norm}Amarok"
+                    ;;
+                *deadbeef*)
+                    echo "${bold}Audio:   ${norm}DeaDBeeF"
+                    ;;
+                *)
+                    echo "${bold}Audio:   ${norm}${XDGAUDIO::-8}"
+                    ;;
+            esac
             XDGVIDEO="$(xdg-mime query default video/mp4)" || XDGVIDEO="Not set!        "
-            if grep -q 'mpv' <<< $XDGVIDEO; then
-                echo "${bold}Video:   ${norm}mpv"
-            elif grep -q 'vlc' <<< $XDGVIDEO; then
-                echo "${bold}Video:   ${norm}VLC"
-            elif grep -q 'mplayer' <<< $XDGVIDEO; then
-                echo "${bold}Video:   ${norm}Mplayer"
-            else
-                echo "${bold}Video:   ${norm}${XDGVIDEO::-8}"
-            fi
+            case $XDGVIDEO in
+                *mpv*)
+                    echo "${bold}Video:   ${norm}mpv"
+                    ;;
+                *vlc*|*VLC*)
+                    echo "${bold}Video:   ${norm}VLC"
+                    ;;
+                *mplayer*)
+                    echo "${bold}Video:   ${norm}Mplayer"
+                    ;;
+                *)
+                    echo "${bold}Video:   ${norm}${XDGVIDEO::-8}"
+                    ;;
+            esac
             XDGIMAGE="$(xdg-mime query default image/png)" || XDGIMAGE="Not set!        "
-            if grep -q 'gwenview' <<< $XDGIMAGE; then
-                echo "${bold}Image:   ${norm}Gwenview"
-            elif grep -q 'gimp' <<< $XDGIMAGE; then
-                echo "${bold}Image:   ${norm}GIMP"
-            elif grep -q 'krita' <<< $XDGIMAGE; then
-                echo "${bold}Image:   ${norm}Krita"
-            elif grep -q 'mtpaint' <<< $XDGIMAGE; then
-                echo "${bold}Image:   ${norm}mtpaint"
-            else
-                echo "${bold}Image:   ${norm}${XDGIMAGE::-8}"
-            fi
+            case $XDGIMAGE in
+                *gwenview*|*Gwenview*)
+                    echo "${bold}Image:   ${norm}Gwenview"
+                    ;;
+                *gimp*|*Gimp*|*GIMP*)
+                    echo "${bold}Image:   ${norm}GIMP"
+                    ;;
+                *krita*|*Krita*)
+                    echo "${bold}Image:   ${norm}Krita"
+                    ;;
+                *mtpaint*)
+                    echo "${bold}Image:   ${norm}mtpaint"
+                    ;;
+                *)
+                    echo "${bold}Image:   ${norm}${XDGIMAGE::-8}"
+                    ;;
+            esac
             XDGTEXT="$(xdg-mime query default text/plain)" || XDGTEXT="Not set!        "
-            if grep -q 'code' <<< $XDGTEXT; then
-                echo "${bold}Text:    ${norm}VSCode"
-            elif grep -q 'atom' <<< $XDGTEXT; then
-                echo "${bold}Text:    ${norm}Atom"
-            elif grep -q 'kwrite' <<< $XDGTEXT; then
-                echo "${bold}Text:    ${norm}KWrite"
-            elif grep -q 'gedit' <<< $XDGTEXT; then
-                echo "${bold}Text:    ${norm}Gedit"
-            elif grep -q 'mousepad' <<< $XDGTEXT; then
-                echo "${bold}Text:    ${norm}Mousepad"
-            else
-                echo "${bold}Text:    ${norm}${XDGTEXT::-8}"
-            fi
+            case $XDGTEXT in
+                *code*)
+                    echo "${bold}Text:    ${norm}VSCode"
+                    ;;
+                *atom*|*Atom*)
+                    echo "${bold}Text:    ${norm}Atom"
+                    ;;
+                *gedit*|*Gedit*)
+                    echo "${bold}Text:    ${norm}gedit"
+                    ;;
+                *mousepad*|*Mousepad*)
+                    echo "${bold}Text:    ${norm}Mousepad"
+                    ;;
+                *notepadqq*|*Notepadqq*)
+                    echo "${bold}Text:    ${norm}notepadqq"
+                    ;;
+                *geany*|*Geany*)
+                    echo "${bold}Text:    ${norm}Geany"
+                    ;;
+                *)
+                    echo "${bold}Text:    ${norm}${XDGTEXT::-8}"
+                    ;;
+            esac
             echo
     esac
 }
