@@ -8,6 +8,7 @@ dotfiles="
 /home/simonizor/.zsh_aliases
 /home/simonizor/.zshrc
 /home/simonizor/.config/mc/ini
+/home/simonizor/.config/mc/mc.keymap
 /home/simonizor/packagelist.txt
 "
 
@@ -53,6 +54,7 @@ cpdotsmain () {
             symlink "$DIR/.zsh_aliases" "/home/$USER/.zsh_aliases"
             symlink "$DIR/.zshrc" "/home/$USER/.zshrc"
             symlink "$DIR/ini" "/home/$USER/.config/mc/ini"
+            symlink "$DIR/ini" "/home/$USER/.config/mc/mc.keymap"
             symlink "$DIR/packagelist.txt" "/home/$USER/packagelist.txt"
             ;;
         *)
