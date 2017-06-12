@@ -8,22 +8,23 @@
 LOCATION="$1"
 FLOCATION="$2"
 
-wttr (){
-    case $1 in
-        f*)
-            if [ -z "$FLOCATION" ]; then
-                FLOCATION="$location"
-            fi
+case $1 in
+    f*)
+        if [ -z "$FLOCATION" ]; then
+            FLOCATION="$location"
+        fi
+        while true; do
             printf '\e[?25l'
             curl "wttr.in/$FLOCATION"
             sleep 300
             tput reset
-            wttr f "$FLOCATION"
-            ;;
-        *)
-            if [ -z "$LOCATION" ]; then
-                LOCATION="$location"
-            fi
+        done
+        ;;
+    *)
+        if [ -z "$LOCATION" ]; then
+            LOCATION="$location"
+        fi
+        while true; do
             printf '\e[?25l'
             echo
             echo
@@ -32,8 +33,6 @@ wttr (){
             curl "wttr.in/$LOCATION?0?Q"
             sleep 300
             tput reset
-            wttr "$LOCATION"
-    esac
-}
-
-wttr "$LOCATION" "$FLOCATION"
+        done
+        ;;
+esac
