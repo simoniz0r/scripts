@@ -105,7 +105,9 @@ todo () {
                     echo "No items in todo.list; yay!"
                 fi
             elif [ "$1" = "all" ]; then
+                echo "All lists in ~/.todo/:"
                 cat ~/.todo/*
+                echo
             else
                 TODOLIST="$(cat ~/.todo/$1.list)"
                 if [ ! -z "$TODOLIST" ]; then
