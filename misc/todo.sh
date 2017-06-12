@@ -111,8 +111,8 @@ todo () {
                 cat ~/.todo/*
                 echo
             else
-                TODOLIST="$(cat ~/.todo/$1.list)"
-                if [ ! -z "$TODOLIST" ]; then
+                if [ -f ~/.todo/$1.list ]; then
+                    TODOLIST="$(cat ~/.todo/$1.list)"
                     echo
                     echo "$1.list:"
                     cat ~/.todo/$1.list
