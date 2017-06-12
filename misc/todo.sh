@@ -33,11 +33,12 @@ todo () {
                 TODOITEM="$(grep -a "$2" ~/.todo/todo.list)"
                 DELNUM="$(echo "$TODOITEM" | wc -l)"
                 if ! grep -q "$2" ~/.todo/todo.list; then
-                    echo "$2 not found in todo list!"
+                    echo "$2 not found in todo.list!"
                     exit 1
                 fi
                 if [[ "$DELNUM" != "1" ]]; then
                     echo "$DELNUM results found; refine your input."
+                    echo "$TODOITEM"
                     exit 1
                 fi
                 sed -i s:"$TODOITEM"::g ~/.todo/todo.list
@@ -55,11 +56,12 @@ todo () {
                 TODOITEM="$(grep -a "$3" ~/.todo/$2.list)"
                 DELNUM="$(echo "$TODOITEM" | wc -l)"
                 if ! grep -q "$3" ~/.todo/$2.list; then
-                    echo "$3 not found in $2 list!"
+                    echo "$3 not found in $2.list!"
                     exit 1
                 fi
                 if [[ "$DELNUM" != "1" ]]; then
                     echo "$DELNUM results found; refine your input."
+                    echo "$TODOITEM"
                     exit 1
                 fi
                 sed -i s:"$TODOITEM"::g ~/.todo/$2.list
