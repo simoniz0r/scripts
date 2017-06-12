@@ -82,7 +82,7 @@ todo () {
             echo
             echo "todo.list usage:"
             echo "todo : Lists items in list"
-            echo "Ex: todo listname"
+            echo "Ex: todo or todo listname or todo all"
             echo
             echo "todo add : Adds item to list"
             echo "Ex: todo add 'Item on todo.list' or todo add custom 'Item on custom.list'"
