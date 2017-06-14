@@ -107,9 +107,12 @@ todo () {
                     echo "No items in todo.list; yay!"
                 fi
             elif [ "$1" = "all" ]; then
-                echo "All lists in ~/.todo/:"
-                cat ~/.todo/*
                 echo
+                for file in $(dir ~/.todo); do
+                echo "$file:"
+                cat ~/.todo/$file
+                echo
+                done
             else
                 if [ -f ~/.todo/$1.list ]; then
                     TODOLIST="$(cat ~/.todo/$1.list)"
