@@ -54,7 +54,7 @@ cpdotsmain () {
             symlink "$DIR/.zsh_aliases" "/home/$USER/.zsh_aliases"
             symlink "$DIR/.zshrc" "/home/$USER/.zshrc"
             symlink "$DIR/ini" "/home/$USER/.config/mc/ini"
-            symlink "$DIR/ini" "/home/$USER/.config/mc/mc.keymap"
+            symlink "$DIR/mc.keymap" "/home/$USER/.config/mc/mc.keymap"
             symlink "$DIR/packagelist.txt" "/home/$USER/packagelist.txt"
             ;;
         *)
