@@ -60,6 +60,7 @@ todo () {
                     cat ~/.todo/todo.list
                     echo
                 else
+                    rm ~/.todo/todo.list
                     echo "No items in todo.list; yay!"
                 fi
             else
@@ -102,13 +103,9 @@ todo () {
             echo
             ;;
         *)
-            if [ ! -f ~/.todo/todo.list ]; then
-                mkdir ~/.todo
-                touch ~/.todo/todo.list
-            fi
             if [ -z "$1" ]; then
-                TODOLIST="$(cat ~/.todo/todo.list)"
-                if [ ! -z "$TODOLIST" ]; then
+                if [ -f ~/.todo/todo.list ]; then
+                    TODOLIST="$(cat ~/.todo/todo.list)"
                     echo
                     echo "todo.list:"
                     cat ~/.todo/todo.list
