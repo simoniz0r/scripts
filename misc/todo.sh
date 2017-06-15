@@ -5,6 +5,11 @@
 todo () {
     case $1 in
         add)
+            if [ ! -z "$4" ]; then
+                echo "Use single or double quotes when adding items."
+                echo "Ex: todo add category 'Item to add'"
+                exit 1
+            fi
             if [ -z "$3" ]; then
                 echo "- $2" >> ~/.todo/todo.list
                 echo
@@ -28,7 +33,12 @@ todo () {
                 cat ~/.todo/$2.list
             fi
             ;;
-        delete)
+        delete|remove)
+            if [ ! -z "$4" ]; then
+                echo "Use single or double quotes when deleting items."
+                echo "Ex: todo delete category 'Item to delete'"
+                exit 1
+            fi
             if [ -z "$3" ]; then
                 TODOITEM="$(grep -a "$2" ~/.todo/todo.list)"
                 DELNUM="$(echo "$TODOITEM" | wc -l)"
