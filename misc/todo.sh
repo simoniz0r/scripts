@@ -9,6 +9,7 @@ todo.sh adds items to todo.list or a custom list if specified.
 Options:
     todo                        # Lists items in todo.list or specified list
     todo add 'Item'             # Adds Item to todo.list or specified list
+    todo edit                   # Opens the default editor to edit todo.list or specified list
     todo delete 'Item'          # Deletes Item from todo.list or specified list
 
 Examples:
@@ -16,6 +17,7 @@ Examples:
     todo custom                 # Lists all items in custom.list
     todo add 'Item'             # Adds Item to todo.list
     todo add custom 'Item'      # Adds Item to custom.list
+    todo edit custom            # Opens the default editor to edit custom.list
     todo delete 'Item'          # Deletes Item from todo.list
     todo delete custom 'Item'   # Deletes Item from custom.list
 "
