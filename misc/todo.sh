@@ -32,12 +32,26 @@ todo () {
                 exit 1
             fi
             if [ -z "$3" ]; then
+                if [ ! -f ~/.todo/todo.list ]; then
+                    touch ~/.todo/todo.list
+                fi
+                if grep -a -q "$2" ~/.todo/todo.list; then
+                    echo "$2 already exists in todo!"
+                    exit 1
+                fi
                 echo "- $2" >> ~/.todo/todo.list
                 echo
                 echo "todo:"
                 cat ~/.todo/todo.list
                 echo
             else
+                if [ ! -f ~/.todo/$2.list ]; then
+                    touch ~/.todo/$2.list
+                fi
+                if grep -a -q "$3" ~/.todo/$2.list; then
+                    echo "$3 already exists in $2!"
+                    exit 1
+                fi
                 echo "- $3" >> ~/.todo/$2.list
                 echo
                 echo "$2:"
