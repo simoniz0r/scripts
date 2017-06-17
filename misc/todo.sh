@@ -34,13 +34,13 @@ todo () {
             if [ -z "$3" ]; then
                 echo "- $2" >> ~/.todo/todo.list
                 echo
-                echo "todo.list:"
+                echo "todo:"
                 cat ~/.todo/todo.list
                 echo
             else
                 echo "- $3" >> ~/.todo/$2.list
                 echo
-                echo "$2.list:"
+                echo "$2:"
                 cat ~/.todo/$2.list
                 echo
             fi
@@ -64,7 +64,7 @@ todo () {
                 TODOITEM="$(grep -a "$2" ~/.todo/todo.list)"
                 DELNUM="$(echo "$TODOITEM" | wc -l)"
                 if ! grep -q "$2" ~/.todo/todo.list; then
-                    echo "$2 not found in todo.list!"
+                    echo "$2 not found in todo!"
                     exit 1
                 fi
                 if [[ "$DELNUM" != "1" ]]; then
@@ -77,18 +77,18 @@ todo () {
                 TODOLIST="$(cat ~/.todo/todo.list)"
                 if [ ! -z "$TODOLIST" ]; then
                     echo
-                    echo "todo.list:"
+                    echo "todo:"
                     cat ~/.todo/todo.list
                     echo
                 else
                     rm ~/.todo/todo.list
-                    echo "No items in todo.list; yay!"
+                    echo "No items in todo; yay!"
                 fi
             else
                 TODOITEM="$(grep -a "$3" ~/.todo/$2.list)"
                 DELNUM="$(echo "$TODOITEM" | wc -l)"
                 if ! grep -q "$3" ~/.todo/$2.list; then
-                    echo "$3 not found in $2.list!"
+                    echo "$3 not found in $2!"
                     exit 1
                 fi
                 if [[ "$DELNUM" != "1" ]]; then
@@ -101,12 +101,12 @@ todo () {
                 TODOLIST="$(cat ~/.todo/$2.list)"
                 if [ ! -z "$TODOLIST" ]; then
                     echo
-                    echo "$2.list:"
+                    echo "$2:"
                     cat ~/.todo/$2.list
                     echo
                 else
                     rm ~/.todo/$2.list
-                    echo "No items in $2.list; yay!"
+                    echo "No items in $2; yay!"
                 fi
             fi
             ;;
@@ -122,7 +122,7 @@ todo () {
                     cat ~/.todo/todo.list
                     echo
                 else
-                    echo "No items in todo.list; yay!"
+                    echo "No items in todo; yay!"
                 fi
             elif [ "$1" = "all" ]; then
                 echo
@@ -136,11 +136,11 @@ todo () {
                 if [ -f ~/.todo/$1.list ]; then
                     TODOLIST="$(cat ~/.todo/$1.list)"
                     echo
-                    echo "$1.list:"
+                    echo "$1:"
                     cat ~/.todo/$1.list
                     echo
                 else
-                    echo "No items in $1.list; yay!"
+                    echo "No items in $1; yay!"
                 fi
             fi
     esac
