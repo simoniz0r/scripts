@@ -2,6 +2,25 @@
 # A simple script that puts todo lists in ~/.todo/
 # Written by simonizor http://simonizor.gq/scripts
 
+helpfunc () {
+printf "Usage: todo [OPTION] [ITEM]
+todo.sh adds items to todo.list or a custom list if specified.
+
+Options:
+    todo                        # Lists items in todo.list or specified list
+    todo add 'Item'             # Adds Item to todo.list or specified list
+    todo delete 'Item'          # Deletes Item from todo.list or specified list
+
+Examples:
+    todo all                    # Lists all items in all todo lists
+    todo custom                 # Lists all items in custom.list
+    todo add 'Item'             # Adds Item to todo.list
+    todo add custom 'Item'      # Adds Item to custom.list
+    todo delete 'Item'          # Deletes Item from todo.list
+    todo delete custom 'Item'   # Deletes Item from custom.list
+"
+}
+
 todo () {
     case $1 in
         add)
@@ -90,24 +109,14 @@ todo () {
             fi
             ;;
         help*)
-            echo
-            echo "todo.list usage:"
-            echo "todo : Lists items in list"
-            echo "Ex: todo or todo listname or todo all"
-            echo
-            echo "todo add : Adds item to list"
-            echo "Ex: todo add 'Item on todo.list' or todo add custom 'Item on custom.list'"
-            echo
-            echo "todo delete : Deletes items from todo.list or specified list"
-            echo "Ex: todo delete 'Item on todo.list' or todo delete custom 'Item on custom.list'"
-            echo
+            helpfunc
             ;;
         *)
             if [ -z "$1" ]; then
                 if [ -f ~/.todo/todo.list ]; then
                     TODOLIST="$(cat ~/.todo/todo.list)"
                     echo
-                    echo "todo.list:"
+                    echo "todo:"
                     cat ~/.todo/todo.list
                     echo
                 else
@@ -116,7 +125,8 @@ todo () {
             elif [ "$1" = "all" ]; then
                 echo
                 for file in $(dir ~/.todo); do
-                echo "$file:"
+                FILENAME=${file:0:-5}
+                echo "$FILENAME:"
                 cat ~/.todo/$file
                 echo
                 done
