@@ -189,6 +189,8 @@ todo () {
                 fi
             elif [ "$1" = "all" ]; then
                 echo
+                echo "All todo lists:"
+                echo
                 for file in $(dir ~/.todo); do
                 FILENAME=${file:0:-5}
                 echo "$FILENAME:"
