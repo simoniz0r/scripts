@@ -188,7 +188,6 @@ todo () {
                     echo "No items in todo; yay!"
                 fi
             elif [ "$1" = "all" ]; then
-                echo
                 echo "All todo lists:"
                 echo
                 for file in $(dir ~/.todo); do
