@@ -117,6 +117,10 @@ main () {
 
 type wget >/dev/null 2>&1 || { echo "wget is not installed!"; exit 1; }
 
+if [ -z "$1" ]; then
+    helpfunc
+    updatecheck
+fi
 for arg in $@; do
 main "$arg"
 done
