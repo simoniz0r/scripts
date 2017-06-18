@@ -24,7 +24,8 @@ runupdate () {
             runupdate
         else
             echo "speedtest.sh was not updated!"
-            exit 0
+            rm -f /tmp/updatescript.sh
+            exit 1
         fi
     fi
 }
