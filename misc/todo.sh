@@ -188,7 +188,7 @@ todo () {
                     echo "No items in todo; yay!"
                 fi
             elif [ "$1" = "all" ]; then
-                echo "All todo lists sorted by modification time:"
+                echo "All todo lists:"
                 echo
                 for file in $(ls ~/.todo); do
                 FILENAME=${file:0:-5}
