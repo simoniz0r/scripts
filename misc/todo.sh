@@ -190,7 +190,7 @@ todo () {
             elif [ "$1" = "all" ]; then
                 echo "All todo lists sorted by modification time:"
                 echo
-                for file in $(ls -t ~/.todo); do
+                for file in $(ls ~/.todo); do
                 FILENAME=${file:0:-5}
                 echo "$FILENAME:"
                 cat ~/.todo/$file
