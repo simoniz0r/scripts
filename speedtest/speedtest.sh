@@ -2,16 +2,17 @@
 # A simple script that uses 'wget -O' to download files to '/dev/null' to test download speeds.
 # Written by simonizor 3/21/2017
 
-STVER="1.0.4"
-X="v1.0.4 - Added option to run all tests './speedtest.sh all'."
+STVER="1.0.5"
+X="v1.0.5 - Cleaned up the script a bit and removed curl dependency."
 # ^^Remember to update this and speedtestversion.txt every release!
 SCRIPTNAME="$0"
 
 updatescript () {
 cat >/tmp/updatescript.sh <<EOL
 runupdate () {
+    wget -O /tmp/speedtest.sh "https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/speedtest/speedtest.sh" || { echo "Download failed!"; exit 1; }
     rm -f $SCRIPTNAME
-    wget -O $SCRIPTNAME "https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/speedtest/speedtest.sh"
+    mv /tmp/speedtest.sh $SCRIPTNAME
     chmod +x $SCRIPTNAME
     if [ -f $SCRIPTNAME ]; then
         echo "Update finished!"
@@ -33,8 +34,8 @@ EOL
 
 updatecheck () {
     echo "Checking for new version..."
-    UPNOTES=$(curl -v --silent https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/speedtest/speedtestversion.txt 2>&1 | grep X= | tr -d 'X="')
-    VERTEST=$(curl -v --silent https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/speedtest/speedtestversion.txt 2>&1 | grep STVER= | tr -d 'STVER="')
+    UPNOTES=$(wget -q "https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/speedtest/speedtest.sh" -O - | sed -n '6p' | tr -d 'X="')
+    VERTEST=$(wget -q "https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/speedtest/speedtest.sh" -O - | sed -n '5p' | tr -d 'STVER="')
     if [[ $STVER < $VERTEST ]]; then
         echo "Installed version: $STVER -- Current version: $VERTEST"
         echo "A new version is available!"
@@ -59,14 +60,6 @@ updatecheck () {
     fi
 }
 
-programisinstalled () {
-  # set to 1 initially
-  return=1
-  # set to 0 if not found
-  type $PROGRAM >/dev/null 2>&1 || { return=0; }
-  # return value
-}
-
 helpfunc () {
     echo "speedtest.sh - http://www.simonizor.gq/scripts"
     echo "A simple script that uses 'wget' to download files to  '/dev/null' to test download speeds."
@@ -78,76 +71,52 @@ helpfunc () {
 }
 
 main () {
-    PROGRAM="wget"
-    programisinstalled
-    if [ $return = "1" ]; then
-        case $1 in
-                5|5m*|5M*)
-                    wget -O /dev/null http://cachefly.cachefly.net/5mb.test
-                    ;;
-                10|10m*|10M*)
-                    wget -O /dev/null http://cachefly.cachefly.net/10mb.test
-                    ;;
-                100|100m*|100M*)
-                    wget -O /dev/null http://cachefly.cachefly.net/100mb.test
-                    ;;
-                200|200m*|200M*)
-                    wget -O /dev/null http://cachefly.cachefly.net/200mb.test
-                    ;;
-                t*|T*)
-                    wget -O /dev/null https://launcher.twitch.tv/TwitchLauncherInstaller.exe
-                    ;;
-                s*|S*)
-                    wget -O /dev/null https://steamcdn-a.akamaihd.net/client/installer/steam.dmg
-                    ;;
-                g*|G*)
-                    wget -O /dev/null https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-                    ;;
-                a*|A*)
-                    echo "5MB"
-                    wget -O /dev/null http://cachefly.cachefly.net/5mb.test
-                    echo "10MB"
-                    wget -O /dev/null http://cachefly.cachefly.net/10mb.test
-                    echo "100MB"
-                    wget -O /dev/null http://cachefly.cachefly.net/100mb.test
-                    echo "200MB"
-                    wget -O /dev/null http://cachefly.cachefly.net/200mb.test
-                    echo "Steam"
-                    wget -O /dev/null https://steamcdn-a.akamaihd.net/client/installer/steam.dmg
-                    echo "Google"
-                    wget -O /dev/null https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-                    echo "Twitch"
-                    wget -O /dev/null https://launcher.twitch.tv/TwitchLauncherInstaller.exe
-                    ;;
-                *)
-                    helpfunc
-                    PROGRAM="curl"
-                    programisinstalled
-                    if [ $return = "1" ]; then
-                        updatecheck
-                    fi
-        esac
-    else
-        echo "wget is not installed!"
-    fi
+    case $1 in
+        5|5m*|5M*)
+            wget -O /dev/null http://cachefly.cachefly.net/5mb.test
+            ;;
+        10|10m*|10M*)
+            wget -O /dev/null http://cachefly.cachefly.net/10mb.test
+            ;;
+        100|100m*|100M*)
+            wget -O /dev/null http://cachefly.cachefly.net/100mb.test
+            ;;
+        200|200m*|200M*)
+            wget -O /dev/null http://cachefly.cachefly.net/200mb.test
+            ;;
+        t*|T*)
+            wget -O /dev/null https://launcher.twitch.tv/TwitchLauncherInstaller.exe
+            ;;
+        s*|S*)
+            wget -O /dev/null https://steamcdn-a.akamaihd.net/client/installer/steam.dmg
+            ;;
+        g*|G*)
+            wget -O /dev/null https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+            ;;
+        a*|A*)
+            echo "5MB"
+            wget -O /dev/null http://cachefly.cachefly.net/5mb.test
+            echo "10MB"
+            wget -O /dev/null http://cachefly.cachefly.net/10mb.test
+            echo "100MB"
+            wget -O /dev/null http://cachefly.cachefly.net/100mb.test
+            echo "200MB"
+            wget -O /dev/null http://cachefly.cachefly.net/200mb.test
+            echo "Steam"
+            wget -O /dev/null https://steamcdn-a.akamaihd.net/client/installer/steam.dmg
+            echo "Google"
+            wget -O /dev/null https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+            echo "Twitch"
+            wget -O /dev/null https://launcher.twitch.tv/TwitchLauncherInstaller.exe
+            ;;
+        *)
+            helpfunc
+            updatecheck
+    esac
 }
 
-main "$1"
-if [ ! -z $2 ]; then
-    main "$2"
-fi
-if [ ! -z $3 ]; then
-    main "$3"
-fi
-if [ ! -z $4 ]; then
-    main "$4"
-fi
-if [ ! -z $5 ]; then
-    main "$5"
-fi
-if [ ! -z $6 ]; then
-    main "$6"
-fi
-if [ ! -z $7 ]; then
-    main "$7"
-fi
+type wget >/dev/null 2>&1 || { echo "wget is not installed!"; exit 1; }
+
+for arg in $@; do
+main "$arg"
+done
