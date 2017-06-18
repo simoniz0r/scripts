@@ -90,7 +90,7 @@ todo () {
                     exit 1
                 fi
                 TODOITEM="${TODOITEM:1}"
-                sed -i s:-"$TODOITEM":X"$TODOITEM":g ~/.todo/todo.list
+                sed -i s:-"$TODOITEM":✘"$TODOITEM":g ~/.todo/todo.list
                 TODOLIST="$(cat ~/.todo/todo.list)"
                 echo
                 echo "todo:"
@@ -109,7 +109,7 @@ todo () {
                     exit 1
                 fi
                 TODOITEM="${TODOITEM:1}"
-                sed -i s:-"$TODOITEM":X"$TODOITEM":g ~/.todo/$2.list
+                sed -i s:-"$TODOITEM":✘"$TODOITEM":g ~/.todo/$2.list
                 TODOLIST="$(cat ~/.todo/$2.list)"
                 echo
                 echo "$2:"
