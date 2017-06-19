@@ -35,6 +35,10 @@ todo () {
                 exit 1
             fi
             if [ -z "$3" ]; then
+                if [ -z "$2" ]; then
+                    echo "Missing item to add to list!"
+                    exit 1
+                fi
                 if [ ! -f ~/.todo/todo.list ]; then
                     touch ~/.todo/todo.list
                 fi
@@ -48,6 +52,10 @@ todo () {
                 cat ~/.todo/todo.list
                 echo
             else
+                if [ -z "$3" ]; then
+                    echo "Missing item to add to list!"
+                    exit 1
+                fi
                 if [ ! -f ~/.todo/$2.list ]; then
                     touch ~/.todo/$2.list
                 fi
@@ -78,6 +86,10 @@ todo () {
                 exit 1
             fi
             if [ -z "$3" ]; then
+                if [ -z "$2" ]; then
+                    echo "Missing item to mark as done!"
+                    exit 1
+                fi
                 TODOITEM="$(grep -a "$2" ~/.todo/todo.list)"
                 DELNUM="$(echo "$TODOITEM" | wc -l)"
                 if ! grep -q "$2" ~/.todo/todo.list; then
@@ -97,6 +109,10 @@ todo () {
                 cat ~/.todo/todo.list
                 echo
             else
+                if [ -z "$3" ]; then
+                    echo "Missing item to mark as done!"
+                    exit 1
+                fi
                 TODOITEM="$(grep -a "$3" ~/.todo/$2.list)"
                 DELNUM="$(echo "$TODOITEM" | wc -l)"
                 if ! grep -q "$3" ~/.todo/$2.list; then
@@ -124,6 +140,10 @@ todo () {
                 exit 1
             fi
             if [ -z "$3" ]; then
+                if [ -z "$2" ]; then
+                    echo "Missing item to delete from list!"
+                    exit 1
+                fi
                 TODOITEM="$(grep -a "$2" ~/.todo/todo.list)"
                 DELNUM="$(echo "$TODOITEM" | wc -l)"
                 if ! grep -q "$2" ~/.todo/todo.list; then
@@ -148,6 +168,10 @@ todo () {
                     echo "No items in todo; yay!"
                 fi
             else
+                if [ -z "$3" ]; then
+                    echo "Missing item to delete from list!"
+                    exit 1
+                fi
                 TODOITEM="$(grep -a "$3" ~/.todo/$2.list)"
                 DELNUM="$(echo "$TODOITEM" | wc -l)"
                 if ! grep -q "$3" ~/.todo/$2.list; then
