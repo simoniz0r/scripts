@@ -105,8 +105,8 @@ todo () {
                 sed -i s:-"$TODOITEM":✘"$TODOITEM":g ~/.todo/todo.list
                 TODOLIST="$(cat ~/.todo/todo.list)"
                 echo
-                echo "todo:"
-                cat ~/.todo/todo.list
+                echo "Marked as done from todo:"
+                echo "✘$TODOITEM"
                 echo
             else
                 if [ -z "$3" ]; then
@@ -128,8 +128,8 @@ todo () {
                 sed -i s:-"$TODOITEM":✘"$TODOITEM":g ~/.todo/$2.list
                 TODOLIST="$(cat ~/.todo/$2.list)"
                 echo
-                echo "$2:"
-                cat ~/.todo/$2.list
+                echo "Marked as done from $2:"
+                echo "✘$TODOITEM"
                 echo
             fi
             ;;
@@ -160,12 +160,15 @@ todo () {
                 TODOLIST="$(cat ~/.todo/todo.list)"
                 if [ ! -z "$TODOLIST" ]; then
                     echo
-                    echo "todo:"
-                    cat ~/.todo/todo.list
+                    echo "Removed from todo:"
+                    echo "$TODOITEM"
                     echo
                 else
                     rm ~/.todo/todo.list
-                    echo "No items in todo; yay!"
+                    echo
+                    echo "Removed from todo:"
+                    echo "$TODOITEM"
+                    echo
                 fi
             else
                 if [ -z "$3" ]; then
@@ -188,12 +191,15 @@ todo () {
                 TODOLIST="$(cat ~/.todo/$2.list)"
                 if [ ! -z "$TODOLIST" ]; then
                     echo
-                    echo "$2:"
-                    cat ~/.todo/$2.list
+                    echo "Removed from $2:"
+                    echo "$TODOITEM"
                     echo
                 else
                     rm ~/.todo/$2.list
-                    echo "No items in $2; yay!"
+                    echo
+                    echo "Removed from $2:"
+                    echo "$TODOITEM"
+                    echo
                 fi
             fi
             ;;
