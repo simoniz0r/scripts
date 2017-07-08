@@ -5,6 +5,7 @@ prepad="$(printf '%-0s')"
 padlength1=19
 padlength2=9
 HEADNUM="10"
+SORT="cat"
 SORTNUM="2,2"
 SORTPERCENT="%cpu"
 
@@ -31,7 +32,7 @@ main () {
         printf '%s' "$MEM"
         printf '%*.*s' 0 $((padlength2 - ${#MEM} )) "$pad"
         printf '%s\n' "$COUNT"
-    done | sort -n -k "$SORTNUM" -r
+    done | $(echo "$SORT")
 }
 
 for arg in "$@"; do
@@ -64,17 +65,21 @@ for arg in "$@"; do
                 cpu)
                     SORTNUM="2,2"
                     SORTPERCENT="%cpu"
+                    SORT="sort -n -k "$SORTNUM" -r"
                     ;;
                 mem)
                     SORTNUM="3,3"
                     SORTPERCENT="%mem"
+                    SORT="sort -n -k "$SORTNUM" -r"
                     ;;
                 name)
                     SORTNUM="1,1"
                     SORTPERCENT="comm"
+                    SORT="sort -n -k "$SORTNUM""
                     ;;
                 count)
                     SORTNUM="4,4"
+                    SORT="sort -n -k "$SORTNUM" -r"
                     ;;
                 *)
                     echo "${arg:3} is not a valid choice!"
