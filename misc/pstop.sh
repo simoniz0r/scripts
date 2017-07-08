@@ -71,6 +71,7 @@ for arg in "$@"; do
                     ;;
                 name)
                     SORTNUM="1,1"
+                    SORTPERCENT="comm"
                     ;;
                 count)
                     SORTNUM="4,4"
