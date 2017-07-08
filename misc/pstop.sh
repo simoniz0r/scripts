@@ -87,6 +87,52 @@ for arg in "$@"; do
                     ;;
             esac
             ;;
+        -h)
+            padlength1=30
+            printf '%s' "$prepad" "Usage: pstop [ARGUMENT(s)]"
+            printf '%s\n' "$prepad" "'pstop' uses 'ps' to get CPU and RAM usage for running processes.  'pstop' outputs a list of running commands in a clean, easy to read format.  It can also be used with the 'watch' command as a process monitor."
+            printf '%s\n' "$prepad" "Arguments:"
+            printf '%s' "$prepad" "pstop -r=n "
+            printf '%*.*s' 0 $((padlength1 - 11 )) "$pad"
+            printf '%s\n' " Change amount of rows to be outputted.  Default is 10 rows."
+            printf '%s' "$prepad" "pstop -s=method "
+            printf '%*.*s' 0 $((padlength1 - 16 )) "$pad"
+            printf '%s\n' " Change sorting method.  Options are 'name','cpu','mem', and 'count'.  Default sorting is 'cpu'."
+            printf '%s' "$prepad" "pstop -p=n "
+            printf '%*.*s' 0 $((padlength1 - 11 )) "$pad"
+            printf '%s\n' " Add padding to beginning of 'pstop' output.  Default is no padding."
+            printf '%s' "$prepad" "pstop -h "
+            printf '%*.*s' 0 $((padlength1 - 9 )) "$pad"
+            printf '%s\n' " Shows help output."
+            printf '%s\n' "$prepad" "Examples:"
+            printf '%s' "$prepad" "pstop -r=20 "
+            printf '%*.*s' 0 $((padlength1 - 11 )) "$pad"
+            printf '%s\n' "Changes amount of rows to be outputted to 20."
+            printf '%s' "$prepad" "pstop -p=20 "
+            printf '%*.*s' 0 $((padlength1 - 11 )) "$pad"
+            printf '%s\n' "Changes padding before output to be 20."
+            printf '%s' "$prepad" "pstop -s=name"
+            printf '%*.*s' 0 $((padlength1 - 12 )) "$pad"
+            printf '%s\n' "Changes sorting method to be sorted by command name."
+            printf '%s' "$prepad" "pstop -s=cpu"
+            printf '%*.*s' 0 $((padlength1 - 11 )) "$pad"
+            printf '%s\n' "Changes sorting method to be sorted by %CPU."
+            printf '%s' "$prepad" "pstop -s=mem"
+            printf '%*.*s' 0 $((padlength1 - 11 )) "$pad"
+            printf '%s\n' "Changes sorting method to be sorted by %MEM."
+            printf '%s' "$prepad" "pstop -s=count"
+            printf '%*.*s' 0 $((padlength1 - 13 )) "$pad"
+            printf '%s\n' "Changes sorting method to be sorted by command count."
+            printf '%s' "$prepad" "pstop -r=15 -p=20 -s=mem"
+            printf '%*.*s' 0 $((padlength1 - 23 )) "$pad"
+            printf '%s\n' "Changes amount of rows to be outputted to 15, padding before output to be 20, and sorting method to be %MEM."
+            printf '%s\n' "$prepad" "Using 'pstop' as a process monitor:"
+            printf '%s' "$prepad" "The 'watch' command can be used to use 'pstop' as a process monitor."
+            printf '%s\n' "$prepad" "Example:"
+            printf '%s' "$prepad" "watch -t /path/to/pstop.sh -r=7 -p=20 -s=cpu"
+            printf '%s\n' "$prepad" "Uses the 'watch' command with the '-t' argument to remove the header output from 'watch'.  Arguments work as explained above."
+            exit 0
+            ;;
     esac
 done
 main
