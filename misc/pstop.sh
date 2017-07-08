@@ -1,16 +1,22 @@
 #!/bin/bash
 
-pad="$(printf '%0.1s' "-"{1..60})"
+pad="$(printf '%0.1s' " "{1..60})"
 prepad="$(printf '%-0s')"
 padlength1=19
 padlength2=9
 HEADNUM="10"
-SORTNUM="3,3"
+SORTNUM="2,2"
 SORTPERCENT="%cpu"
 
 main () {
+    printf '%s' "$prepad" "COMMAND "
+    printf '%*.*s' 0 $((padlength1 - 7 )) "$pad"
+    printf '%s' " %CPU "
+    printf '%*.*s' 0 $((padlength2 - 6 )) "$pad"
+    printf '%s' " %MEM "
+    printf '%*.*s' 0 $((padlength2 - 7 )) "$pad"
+    printf '%s\n' " COUNT"
     PSCOMMS="$(ps -eo comm --sort=-"$SORTPERCENT" --no-headers | tr -d ' ')"
-    printf "${prepad}COMMAND              %%CPU     %%MEM    COUNT\n"
     for command in $(echo "$PSCOMMS" | awk '!seen[$1]++' | head -n "$HEADNUM"); do
         if [ "$command" = "WebContent" ]; then
             command="Web"
@@ -53,23 +59,21 @@ for arg in "$@"; do
                     ;;
             esac
             ;;
-        -w)
-            PADCHAR=" "
-            pad="$(printf '%0.1s' "$PADCHAR"{1..60})"
-            ;;
-        -c=*)
-            PADCHAR="${arg:3}"
-            pad="$(printf '%0.1s' "$PADCHAR"{1..60})"
-            ;;
         -s=*)
             case ${arg:3} in
                 cpu)
-                    SORTNUM="3,3"
+                    SORTNUM="2,2"
                     SORTPERCENT="%cpu"
                     ;;
                 mem)
-                    SORTNUM="5,5"
+                    SORTNUM="3,3"
                     SORTPERCENT="%mem"
+                    ;;
+                name)
+                    SORTNUM="1,1"
+                    ;;
+                count)
+                    SORTNUM="4,4"
                     ;;
                 *)
                     echo "${arg:3} is not a valid choice!"
