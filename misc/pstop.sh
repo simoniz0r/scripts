@@ -65,21 +65,21 @@ for arg in "$@"; do
                 cpu)
                     SORTNUM="2,2"
                     SORTPERCENT="%cpu"
-                    SORT="sort -n -k "$SORTNUM" -r"
+                    SORT="sort -h -k "$SORTNUM" -r"
                     ;;
                 mem)
                     SORTNUM="3,3"
                     SORTPERCENT="%mem"
-                    SORT="sort -n -k "$SORTNUM" -r"
+                    SORT="sort -h -k "$SORTNUM" -r"
                     ;;
                 name)
                     SORTNUM="1,1"
                     SORTPERCENT="comm"
-                    SORT="sort -n -k "$SORTNUM""
+                    SORT="sort -h -k "$SORTNUM""
                     ;;
                 count)
                     SORTNUM="4,4"
-                    SORT="sort -n -k "$SORTNUM" -r"
+                    SORT="sort -h -k "$SORTNUM" -r"
                     ;;
                 *)
                     echo "${arg:3} is not a valid choice!"
