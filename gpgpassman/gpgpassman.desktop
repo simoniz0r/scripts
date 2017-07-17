@@ -1,8 +1,0 @@
-[Desktop Entry]
-Type=Application
-Encoding=UTF-8
-Name=gpgpassman
-Comment=An application that uses gpg to encrypt and decrypt passwords.  Can be run in a GUI with zenity installed or in a terminal.
-Exec=/usr/bin/gpgpassman gui
-Icon=/usr/share/icons/gpgpassman.png
-Terminal=false

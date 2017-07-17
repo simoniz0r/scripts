@@ -1,2 +1,0 @@
-APTTVER="1.2.0"
-X="v1.2.0 - Moved to separate github repo."
