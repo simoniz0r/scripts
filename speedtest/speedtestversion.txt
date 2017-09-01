@@ -1,2 +1,0 @@
-STVER="1.0.4"
-X="v1.0.4 - Added option to run all tests './speedtest.sh all'."

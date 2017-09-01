@@ -2,58 +2,19 @@
 # A simple script that uses 'wget -O' to download files to '/dev/null' to test download speeds.
 # Written by simonizor 3/21/2017
 
-STVER="1.0.5"
-X="v1.0.5 - Cleaned up the script a bit and removed curl dependency."
+STVER="1.0.6"
+X="v1.0.6 - Change repo name"
 # ^^Remember to update this and speedtestversion.txt every release!
 SCRIPTNAME="$0"
 
-updatescript () {
-cat >/tmp/updatescript.sh <<EOL
-runupdate () {
-    wget -O /tmp/speedtest.sh "https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/speedtest/speedtest.sh" || { echo "Download failed!"; exit 1; }
-    rm -f $SCRIPTNAME
-    mv /tmp/speedtest.sh $SCRIPTNAME
-    chmod +x $SCRIPTNAME
-    if [ -f $SCRIPTNAME ]; then
-        echo "Update finished!"
-        rm -f /tmp/updatescript.sh
-        exit 0
-    else
-        read -p "Update Failed! Try again? Y/N " -n 1 -r
-        if [[ $REPLY =~ ^[Yy]$ ]]; then
-            runupdate
-        else
-            echo "speedtest.sh was not updated!"
-            rm -f /tmp/updatescript.sh
-            exit 1
-        fi
-    fi
-}
-runupdate
-EOL
-}
-
 updatecheck () {
     echo "Checking for new version..."
-    UPNOTES=$(wget -q "https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/speedtest/speedtest.sh" -O - | sed -n '6p' | tr -d 'X="')
-    VERTEST=$(wget -q "https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/speedtest/speedtest.sh" -O - | sed -n '5p' | tr -d 'STVER="')
+    UPNOTES=$(wget -q "https://raw.githubusercontent.com/simoniz0r/scripts/master/speedtest/speedtest.sh" -O - | sed -n '6p' | tr -d 'X="')
+    VERTEST=$(wget -q "https://raw.githubusercontent.com/simoniz0r/scripts/master/speedtest/speedtest.sh" -O - | sed -n '5p' | tr -d 'STVER="')
     if [[ $STVER < $VERTEST ]]; then
         echo "Installed version: $STVER -- Current version: $VERTEST"
         echo "A new version is available!"
         echo $UPNOTES
-        read -p "Would you like to update? Y/N " -n 1 -r
-        if [[ $REPLY =~ ^[Yy]$ ]]; then
-            echo
-            echo "Creating update script..."
-            updatescript
-            chmod +x /tmp/updatescript.sh
-            echo "Running update script..."
-            exec /tmp/updatescript.sh
-            exit 0
-        else
-            echo
-            echo "speedtest.sh was not updated."
-        fi
     else
         echo "Installed version: $STVER -- Current version: $VERTEST"
         echo $UPNOTES

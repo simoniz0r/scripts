@@ -4,8 +4,8 @@
 
 # Update script to use || 's instead of ifs in most places
 
-ERMVER="v1.2.6"
-X="v1.2.6 - Fixed updatecheck."
+ERMVER="v1.2.7"
+X="v1.2.7 - Change repo name"
 # ^^ Remember to update these every release; do not move their line position (eliminate version.txt eventually)!
 SCRIPTNAME="$0"
 ARG="$1"
@@ -40,56 +40,14 @@ easyrm () {
     echo "$ARG has been moved to '~/.easyrmtmp'!"
 }
 
-updatescript () {
-cat >/tmp/updatescript.sh <<EOL
-runupdate () {
-    wget -O /tmp/easyrm.sh "https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/easyrm/easyrm.sh"
-    if [ ! -f /tmp/easyrm.sh ]; then
-        echo "Download failed; try again later!"
-        exit 0
-    fi
-    rm -f $SCRIPTNAME
-    mv /tmp/easyrm.sh $SCRIPTNAME
-    chmod +x $SCRIPTNAME
-    if [ -f $SCRIPTNAME ]; then
-        echo "Update finished!"
-        rm -f /tmp/updatescript.sh
-        exit 0
-    else
-        read -p "Update Failed! Try again? Y/N " -n 1 -r
-        if [[ $REPLY =~ ^[Yy]$ ]]; then
-            runupdate
-        else
-            echo "easyrm.sh was not updated!"
-            exit 0
-        fi
-    fi
-}
-runupdate
-EOL
-}
-
 updatecheck () {
     echo "Checking for new version..."
-    UPNOTES="$(wget -q "https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/easyrm/easyrm.sh" -O - | sed -n '8p' | tr -d 'X="')"
-    VERTEST="$(wget -q "https://raw.githubusercontent.com/simoniz0r/UsefulScripts/master/easyrm/easyrm.sh" -O - | sed -n '7p' | tr -d 'ERMV="')"
+    UPNOTES="$(wget -q "https://raw.githubusercontent.com/simoniz0r/scripts/master/easyrm/easyrm.sh" -O - | sed -n '8p' | tr -d 'X="')"
+    VERTEST="$(wget -q "https://raw.githubusercontent.com/simoniz0r/scripts/master/easyrm/easyrm.sh" -O - | sed -n '7p' | tr -d 'ERMV="')"
     if [[ $ERMVER < $VERTEST ]]; then
         echo "Installed version: $ERMVER -- Current version: $VERTEST"
         echo "A new version is available!"
         echo "$UPNOTES"
-        read -p "Would you like to update? Y/N " -n 1 -r
-        if [[ "$REPLY" =~ ^[Yy]$ ]]; then
-            echo
-            echo "Creating update script..."
-            updatescript
-            chmod +x /tmp/updatescript.sh
-            echo "Running update script..."
-            exec /tmp/updatescript.sh
-            exit 0
-        else
-            echo
-            echo "easyrm.sh was not updated."
-        fi
     else
         echo "Installed version: $ERMVER -- Current version: $VERTEST"
         echo "$UPNOTES"
