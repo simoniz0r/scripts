@@ -24,12 +24,11 @@ if [ ! -d "/home/$USER/github" ]; then
     cd /home/$USER/github/
 fi
 gitcheck "dotfiles"
-gitcheck "discorddownloader"
+gitcheck "DiscordToolbox"
 gitcheck "UsefulScripts"
 gitcheck "index"
-gitcheck "kde-gaps"
-gitcheck "WindowsStuff"
-gitcheck "apttool"
 gitcheck "gpgpassman"
+gitcheck "spm"
 gitcheck "xdgfetch"
-gitcheck "mpv-zui"
+gitcheck "yad-mpv"
+gitcheck "yad-twitch-streamlink"
