@@ -25,7 +25,7 @@ if [ ! -d "/home/$USER/github" ]; then
 fi
 gitcheck "dotfiles"
 gitcheck "DiscordToolbox"
-gitcheck "UsefulScripts"
+gitcheck "scripts"
 gitcheck "index"
 gitcheck "gpgpassman"
 gitcheck "spm"
