@@ -1,2 +1,0 @@
-AMVER="1.1.2"
-X="v1.1.2 - Made it clear that 'curl' is needed for updates."
