@@ -10,21 +10,22 @@ SORTNUM="2,2"
 SORTPERCENT="%cpu"
 
 main () {
-    printf '%s' "$prepad" "COMMAND "
+    printf '%s' "$prepad" "$(tput setaf 4)$(tput smso)COMMAND "
     printf '%*.*s' 0 $((padlength1 - 7 )) "$pad"
     printf '%s' " %CPU "
     printf '%*.*s' 0 $((padlength2 - 6 )) "$pad"
     printf '%s' " %MEM "
     printf '%*.*s' 0 $((padlength2 - 7 )) "$pad"
-    printf '%s\n' " COUNT"
-    PSCOMMS="$(ps -eo comm --sort=-"$SORTPERCENT" --no-headers | tr -d ' ')"
+    printf '%s\n' " COUNT$(tput setaf 7)$(tput rmso)"
+    PSCOMMS="$(ps -eo comm --sort=-"$SORTPERCENT" --no-headers | tr ' ' '-')"
     for command in $(echo "$PSCOMMS" | awk '!seen[$1]++' | head -n "$HEADNUM"); do
-        if [ "$command" = "WebContent" ]; then
-            command="Web"
+        if [ "$command" = "Web-Content" ]; then
+            command="Web Content"
         fi
         CPU=" $(ps H -eo %cpu,comm --sort=-"$SORTPERCENT" --no-headers | grep "$command" | awk '{ SUM += $1} END { print SUM }') "
         MEM=" $(ps -eo %mem,comm --sort=-"$SORTPERCENT" --no-headers | grep "$command" | awk '{ SUM += $1} END { print SUM }') "
         COUNT=" $(ps -eo comm --sort=-"$SORTPERCENT" --no-headers | grep "$command" | wc -l)"
+        command="$(echo "$command" | tr -d '[:space:]')"
         printf '%s' "$prepad" "$command "
         printf '%*.*s' 0 $((padlength1 - ${#command} )) "$pad"
         printf '%s' "$CPU"
