@@ -32,10 +32,12 @@ main () {
         command="$(echo "$command" | tr -d '[:space:]')"
         CPU_TEST="$(echo "$CPU" | tr -d '[:space:]' | cut -f1 -d".")"
         MEM_TEST="$(echo "$MEM" | tr -d '[:space:]' | cut -f1 -d".")"
-        if echo "$CPU_TEST" | grep -q '[0-9]' && [ "$CPU_TEST" -ge "8" ] || echo "$MEM_TEST" | grep -q '[0-9]' && [ "$MEM_TEST" -ge "9" ]; then
-                printf '%s' "$prepad" "$(tput setaf 1)$command "
-            else
-                printf '%s' "$prepad" "$command "
+        if echo "$CPU_TEST" | grep -q '.*[0-9]' && [ "$CPU_TEST" -ge "7" ]; then
+            printf '%s' "$prepad" "$(tput setaf 1)$command "
+        elif echo "$MEM_TEST" | grep -q '[0-9]' && [ "$MEM_TEST" -ge "9" ]; then
+            printf '%s' "$prepad" "$(tput setaf 1)$command "
+        else
+            printf '%s' "$prepad" "$command "
         fi
         printf '%*.*s' 0 $((padlength1 - ${#command} )) "$pad"
         printf '%s' "$CPU"
