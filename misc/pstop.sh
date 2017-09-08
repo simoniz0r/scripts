@@ -1,43 +1,65 @@
 #!/bin/bash
+# A script that uses ps to get a grouped list of processes
+# Written by simonizor https://www.simonizor.gq
+# License: GPL v2 Only
 
 pad="$(printf '%0.1s' " "{1..60})"
 prepad="$(printf '%-0s')"
 padlength1=19
 padlength2=9
-HEADNUM="10"
+HEADNUM="25"
 SORT="cat"
-SORTNUM="2,2"
-SORTPERCENT="%cpu"
+SORTNUM="1,1"
+SORTPERCENT="+comm"
+COLOR="4"
 
 main () {
-    printf '%s' "$prepad" "$(tput setaf 4)$(tput smso)COMMAND "
+    printf '%s' "$prepad" "$(tput setaf $COLOR)$(tput smso)COMMAND "
     printf '%*.*s' 0 $((padlength1 - 7 )) "$pad"
     printf '%s' " %CPU "
     printf '%*.*s' 0 $((padlength2 - 6 )) "$pad"
     printf '%s' " %MEM "
     printf '%*.*s' 0 $((padlength2 - 7 )) "$pad"
     printf '%s\n' " COUNT$(tput setaf 7)$(tput rmso)"
-    PSCOMMS="$(ps -eo comm --sort=-"$SORTPERCENT" --no-headers | tr ' ' '-')"
-    for command in $(echo "$PSCOMMS" | awk '!seen[$1]++' | head -n "$HEADNUM"); do
+    PSCOMMS="$(ps -eo comm --sort="$SORTPERCENT" --no-headers | head -n "$HEADNUM" | tr ' ' '-')"
+    for command in $(echo "$PSCOMMS" | awk '!seen[$1]++'); do
         if [ "$command" = "Web-Content" ]; then
             command="Web Content"
         fi
-        CPU=" $(ps H -eo %cpu,comm --sort=-"$SORTPERCENT" --no-headers | grep "$command" | awk '{ SUM += $1} END { print SUM }') "
-        MEM=" $(ps -eo %mem,comm --sort=-"$SORTPERCENT" --no-headers | grep "$command" | awk '{ SUM += $1} END { print SUM }') "
-        COUNT=" $(ps -eo comm --sort=-"$SORTPERCENT" --no-headers | grep "$command" | wc -l)"
+        CPU=" $(ps H -eo %cpu,comm --sort="$SORTPERCENT" --no-headers | grep "$command" | awk '{ SUM += $1} END { print SUM }') "
+        MEM=" $(ps -eo %mem,comm --sort="$SORTPERCENT" --no-headers | grep "$command" | awk '{ SUM += $1} END { print SUM }') "
+        COUNT=" $(ps -eo comm --sort="$SORTPERCENT" --no-headers | grep -w "$command" | wc -l)"
         command="$(echo "$command" | tr -d '[:space:]')"
-        printf '%s' "$prepad" "$command "
+        CPU_TEST="$(echo "$CPU" | tr -d '[:space:]' | cut -f1 -d".")"
+        MEM_TEST="$(echo "$MEM" | tr -d '[:space:]' | cut -f1 -d".")"
+        if echo "$CPU_TEST" | grep -q '[0-9]' && [ "$CPU_TEST" -ge "8" ] || echo "$MEM_TEST" | grep -q '[0-9]' && [ "$MEM_TEST" -ge "9" ]; then
+                printf '%s' "$prepad" "$(tput setaf 1)$command "
+            else
+                printf '%s' "$prepad" "$command "
+        fi
         printf '%*.*s' 0 $((padlength1 - ${#command} )) "$pad"
         printf '%s' "$CPU"
         printf '%*.*s' 0 $((padlength2 - ${#CPU} )) "$pad"
         printf '%s' "$MEM"
         printf '%*.*s' 0 $((padlength2 - ${#MEM} )) "$pad"
-        printf '%s\n' "$COUNT"
+        printf '%s' "$COUNT"
+        printf '%s\n' "$(tput setaf 7)"
     done | $(echo "$SORT")
 }
 
 for arg in "$@"; do
     case $arg in
+        -c=*)
+            case ${arg:3} in
+                1|2|3|4|5|6|7)
+                    COLOR="${arg:3}"
+                    ;;
+                *)
+                    echo "${arg:3} is not a valid color choice!"
+                    exit 1
+                    ;;
+            esac
+            ;;
         -r=*)
             case ${arg:3} in
                 1*|2*|3*|4*|5*|6*|7*|8*|9*)
@@ -65,21 +87,22 @@ for arg in "$@"; do
             case ${arg:3} in
                 cpu)
                     SORTNUM="2,2"
-                    SORTPERCENT="%cpu"
+                    SORTPERCENT="-%cpu"
                     SORT="sort -h -k "$SORTNUM" -r"
                     ;;
                 mem)
                     SORTNUM="3,3"
-                    SORTPERCENT="%mem"
+                    SORTPERCENT="-%mem"
                     SORT="sort -h -k "$SORTNUM" -r"
                     ;;
                 name)
                     SORTNUM="1,1"
-                    SORTPERCENT="comm"
-                    SORT="sort -h -k "$SORTNUM""
+                    SORTPERCENT="+comm"
+                    SORT="cat"
                     ;;
                 count)
                     SORTNUM="4,4"
+                    SORTPERCENT="-%cpu"
                     SORT="sort -h -k "$SORTNUM" -r"
                     ;;
                 *)
@@ -130,7 +153,7 @@ for arg in "$@"; do
             printf '%s\n' "$prepad" "Using 'pstop' as a process monitor:"
             printf '%s' "$prepad" "The 'watch' command can be used to use 'pstop' as a process monitor."
             printf '%s\n' "$prepad" "Example:"
-            printf '%s' "$prepad" "watch -t /path/to/pstop.sh -r=7 -p=20 -s=cpu"
+            printf '%s' "$prepad" "watch -tc /path/to/pstop.sh -r=7 -p=20 -s=cpu"
             printf '%s\n' "$prepad" "Uses the 'watch' command with the '-t' argument to remove the header output from 'watch'.  Arguments work as explained above."
             exit 0
             ;;
