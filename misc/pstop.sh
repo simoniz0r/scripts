@@ -26,13 +26,13 @@ main () {
         if [ "$command" = "Web-Content" ]; then
             command="Web Content"
         fi
-        CPU=" $(ps H -eo %cpu,comm --sort="$SORTPERCENT" --no-headers | grep "$command" | awk '{ SUM += $1} END { print SUM }') "
-        MEM=" $(ps -eo %mem,comm --sort="$SORTPERCENT" --no-headers | grep "$command" | awk '{ SUM += $1} END { print SUM }') "
+        CPU=" $(ps H -eo %cpu,comm --sort="$SORTPERCENT" --no-headers | grep -w "$command" | awk '{ SUM += $1} END { print SUM }') "
+        MEM=" $(ps -emo %mem,comm --sort="$SORTPERCENT" --no-headers | grep -w "$command" | awk '{ SUM += $1} END { print SUM }') "
         COUNT=" $(ps -eo comm --sort="$SORTPERCENT" --no-headers | grep -w "$command" | wc -l)"
         command="$(echo "$command" | tr -d '[:space:]')"
         CPU_TEST="$(echo "$CPU" | tr -d '[:space:]' | cut -f1 -d".")"
         MEM_TEST="$(echo "$MEM" | tr -d '[:space:]' | cut -f1 -d".")"
-        if echo "$CPU_TEST" | grep -q '.*[0-9]' && [ "$CPU_TEST" -ge "7" ]; then
+        if echo "$CPU_TEST" | grep -q '.*[0-9]' && [ "$CPU_TEST" -ge "25" ]; then
             printf '%s' "$prepad" "$(tput setaf 1)$command "
         elif echo "$MEM_TEST" | grep -q '[0-9]' && [ "$MEM_TEST" -ge "9" ]; then
             printf '%s' "$prepad" "$(tput setaf 1)$command "
