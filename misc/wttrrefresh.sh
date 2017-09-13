@@ -16,7 +16,7 @@ case $1 in
         while true; do
             printf '\e[?25l'
             curl "wttr.in/$FLOCATION"
-            sleep 300
+            sleep 900
             tput reset
         done
         ;;
@@ -27,11 +27,9 @@ case $1 in
         while true; do
             printf '\e[?25l'
             echo
-            echo
-            echo
             echo # remove these or add more to adjust spacing
             curl "wttr.in/$LOCATION?0?Q"
-            sleep 300
+            sleep 900
             tput reset
         done
         ;;
