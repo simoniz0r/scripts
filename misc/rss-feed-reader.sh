@@ -5,8 +5,9 @@
 
 RSS_FEEDS="
 https://news.ycombinator.com/rss
-http://feeds.feedburner.com/LinuxJournalSoftware?format=xml
-http://feeds.feedburner.com/LinuxJournal-BreakingNews?format=xml
+http://feeds.feedburner.com/ubuntuportal
+http://feeds2.feedburner.com/webupd8
+http://feeds.feedburner.com/d0od
 "
 
 xmlgetnext () {
@@ -52,7 +53,9 @@ done
 }
 
 for feed in $RSS_FEEDS; do
-    echo "$(tput bold)$(tput setaf 4)-- $feed --$(tput sgr0)"
+    FEED_NAME="$(echo "$feed" | cut -f3- -d"/" | cut -f1 -d"?")"
+    echo "$(tput bold)$(tput setaf 4)-- $FEED_NAME --$(tput sgr0)"
+    echo
     wget --quiet "$feed" -O - | rssparse | cat | sed '/<*..*>/d'
     echo
 done
