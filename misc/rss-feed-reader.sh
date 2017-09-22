@@ -5,7 +5,6 @@
 
 RSS_FEEDS="
 https://news.ycombinator.com/rss
-http://feeds.feedburner.com/ubuntuportal
 http://feeds2.feedburner.com/webupd8
 http://feeds.feedburner.com/d0od
 "
