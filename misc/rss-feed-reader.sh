@@ -4,8 +4,8 @@
 # Modified by simonizor
 
 RSS_FEEDS="
-https://news.ycombinator.com/rss,Hackernews
 http://feeds2.feedburner.com/webupd8,Webupd8
+https://news.ycombinator.com/rss,Hackernews
 http://feeds.feedburner.com/d0od,OMG!Ubuntu
 "
 
@@ -36,7 +36,7 @@ case $TAG in
         ;;
     'description')
         # convert '&lt;' and '&gt;' to '<' and '>'
-        description=$( echo "$VALUE" | sed -e 's/&lt;/</g' -e 's/&gt;/>/g' )
+        description=$( echo "$VALUE" | sed -e 's%/&gt;%}%g' -e 's%/&lt;%}%g' | sed 's%&amp;#8217;%%g' | cut -f2 -d"}" | cut -f1 -d"&" | sed 's%\[%...%g' )
         ;;
     '/item')
         cat<<EOF
