@@ -4,9 +4,9 @@
 # Modified by simonizor
 
 RSS_FEEDS="
-https://news.ycombinator.com/rss
-http://feeds2.feedburner.com/webupd8
-http://feeds.feedburner.com/d0od
+https://news.ycombinator.com/rss,Hackernews
+http://feeds2.feedburner.com/webupd8,Webupd8
+http://feeds.feedburner.com/d0od,OMG!Ubuntu
 "
 
 xmlgetnext () {
@@ -52,9 +52,10 @@ done
 }
 
 for feed in $RSS_FEEDS; do
-    FEED_NAME="$(echo "$feed" | cut -f3- -d"/" | cut -f1 -d"?")"
+    FEED_NAME="$(echo "$feed" | cut -f2- -d"," | cut -f3- -d"/" | cut -f1 -d"?")"
+    FEED_URL="$(echo "$feed" | cut -f1 -d",")"
     echo "$(tput bold)$(tput setaf 4)-- $FEED_NAME --$(tput sgr0)"
     echo
-    wget --quiet "$feed" -O - | rssparse | cat | sed '/<*..*>/d'
+    wget --quiet "$FEED_URL" -O - | rssparse | cat | sed '/<*..*>/d'
     echo
 done
