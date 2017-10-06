@@ -7,6 +7,7 @@ RSS_FEEDS="
 http://feeds2.feedburner.com/webupd8,Webupd8
 https://news.ycombinator.com/rss,Hackernews
 http://feeds.feedburner.com/d0od,OMG!Ubuntu
+http://www.phoronix.com/rss.php
 "
 
 xmlgetnext () {
