@@ -20,10 +20,10 @@ case $TAG in
         description=''
         ;;
     'title')
-        title="$(echo $VALUE | sed 's%&quot;%"%g;s%&amp;%+%g')"
+        title="$(echo $VALUE | sed 's%&quot;%"%g;s%&amp;%\&%g')"
         ;;
     'link')
-        link="$(echo $VALUE | sed 's%&quot;%"%g;s%&amp;%+%g')"
+        link="$(echo $VALUE | sed 's%&amp;%\&%g')"
         ;;
     'pubDate')
         # convert pubDate format for <time datetime="">
@@ -32,7 +32,7 @@ case $TAG in
         ;;
     'description')
         # convert '&lt;' and '&gt;' to '<' and '>'
-        description=$( echo "$VALUE" | sed -e 's%/&gt;%}%g' -e 's%/&lt;%}%g' | sed 's%&amp;#8217;%%g' | cut -f2 -d"}" | cut -f1 -d"&" | sed 's%\[%...%g' )
+        description=$( echo "$VALUE" | sed -e 's%/&gt;%}%g' -e 's%/&lt;%}%g' | sed 's%&amp;#8217;%%g;s%&quot;%"%g;s%&amp;%\&%g' | cut -f2 -d"}" | cut -f1 -d"&" | sed 's%\[%...%g' )
         ;;
     '/item')
         cat<<EOF
