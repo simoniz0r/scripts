@@ -84,4 +84,4 @@ for feed in $RSS_FEEDS; do
     echo
     wget --quiet "$FEED_URL" -O - | rssparse | cat | sed '/<*..*>/d'
     echo
-done
+done | less -R
