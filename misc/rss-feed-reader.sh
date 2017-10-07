@@ -20,10 +20,10 @@ case $TAG in
         description=''
         ;;
     'title')
-        title="$VALUE"
+        title="$(echo $VALUE | sed 's%&quot;%"%g;s%&amp;%+%g')"
         ;;
     'link')
-        link="$VALUE"
+        link="$(echo $VALUE | sed 's%&quot;%"%g;s%&amp;%+%g')"
         ;;
     'pubDate')
         # convert pubDate format for <time datetime="">
