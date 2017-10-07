@@ -3,12 +3,7 @@
 # Base script from: http://www.linuxjournal.com/content/parsing-rss-news-feed-bash-script
 # Modified by simonizor
 
-RSS_FEEDS="
-http://feeds2.feedburner.com/webupd8,Webupd8
-https://news.ycombinator.com/rss,Hackernews
-http://feeds.feedburner.com/d0od,OMG!Ubuntu
-http://www.phoronix.com/rss.php
-"
+
 
 xmlgetnext () {
    local IFS='>'
@@ -52,6 +47,36 @@ EOF
 done
 }
 
+case $1 in
+    -h)
+        RSS_FEEDS="
+        https://news.ycombinator.com/rss,Hackernews
+        "
+        ;;
+    -p)
+        RSS_FEEDS="
+        http://www.phoronix.com/rss.php
+        "
+        ;;
+    -o)
+        RSS_FEEDS="
+        http://feeds.feedburner.com/d0od,OMG!Ubuntu
+        "
+        ;;
+    -w)
+        RSS_FEEDS="
+        http://feeds2.feedburner.com/webupd8,Webupd8
+        "
+        ;;
+    *)
+        RSS_FEEDS="
+        http://feeds2.feedburner.com/webupd8,Webupd8
+        http://feeds.feedburner.com/d0od,OMG!Ubuntu
+        http://www.phoronix.com/rss.php
+        https://news.ycombinator.com/rss,Hackernews
+        "
+        ;;
+esac
 for feed in $RSS_FEEDS; do
     FEED_NAME="$(echo "$feed" | cut -f2- -d"," | cut -f3- -d"/" | cut -f1 -d"?")"
     FEED_URL="$(echo "$feed" | cut -f1 -d",")"
